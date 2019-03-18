@@ -1,0 +1,85 @@
+<?php
+require_once '../info/portfolio.php';
+require_once '../common/functions.php';
+header('Content-Type: application/json; charset=UTF-8');
+// get parameters
+$projectId = $_REQUEST[project];
+$tag = $_REQUEST[tag];
+// create projects array
+$arrayName = "projects";
+$jsonArray = [$arrayName=>[]];
+// query projects based on parameters
+$sqlSelect = "
+  SELECT projects.id, projects.name, projects.description, projects.link
+";
+$sqlFrom = "
+  FROM projects
+";
+$sqlWhere = "
+  WHERE projects.status IS NULL
+";
+$sqlOrder = "
+  ORDER BY date DESC
+";
+if (count($_REQUEST) > 0) {
+    if ($projectId != "") {
+        $sqlWhere .= "
+    AND projects.id = '$projectId'
+";
+    } else if ($tag != "") {
+        $sqlFrom .= "
+    LEFT JOIN project_tags ON projects.id = project_tags.project_id
+";
+        $sqlWhere .= "
+    AND project_tags.name = '$tag'
+";
+    }
+}
+$sqlStatement = $sqlSelect.$sqlFrom.$sqlWhere.$sqlOrder;
+$projects = sqlQuery($sqlStatement);
+// loop project rows
+while ($project = $projects->fetch_object()) {
+    // query project media
+    $selectMedia = "
+      SELECT type, link, caption
+      FROM project_media 
+      WHERE project_id = '$project->id'
+      ORDER BY type DESC
+    ";
+    $photos = sqlQuery($selectMedia);
+    // add photo rows to project object
+    $photoArray = [];
+    while ($photo = $photos->fetch_object()) {
+        // get image size
+        if (file_exists($photoDirLocal.$photo->link)) {
+            $imgSize = getimagesize($photoDirLocal.$photo->link);
+            $photo->width = $imgSize[0];
+            $photo->height = $imgSize[1];
+        }
+        if ($photo->type === 'PHOTO') {
+          // add file path for photos
+          $photo->link = $imgPath.$photo->link;
+        }
+        array_push($photoArray, $photo);
+    }
+    $project->{'images'} = $photoArray;
+    // query project tags
+    $selectTags = "
+      SELECT name
+      FROM project_tags
+      WHERE project_id = '$project->id'
+    ";
+    $tags = sqlQuery($selectTags);
+    // push tag rows to tags array
+    $tagArray = [];
+    while ($tag = $tags->fetch_object()) {
+        array_push($tagArray, $tag->name);
+    }
+    // add tags array to project object
+    $project->{'tags'} = $tagArray;
+    // add project object to array
+    array_push($jsonArray[$arrayName], $project);
+}
+// print array as encoded json
+echo json_encode($jsonArray);
+?>
