@@ -4,7 +4,7 @@ require_once '../common/functions.php';
 header('Content-Type: application/json; charset=UTF-8');
 // get parameters
 $projectId = $_REQUEST[project];
-$tag = $_REQUEST[tag];
+$tagName = $_REQUEST[tag];
 // create projects array
 $arrayName = "projects";
 $jsonArray = [$arrayName=>[]];
@@ -21,19 +21,17 @@ $sqlWhere = "
 $sqlOrder = "
   ORDER BY date DESC
 ";
-if (count($_REQUEST) > 0) {
-    if ($projectId != "") {
+if ($projectId != "") {
         $sqlWhere .= "
     AND projects.id = '$projectId'
-";
-    } else if ($tag != "") {
+        ";
+} else if ($tagName != "") {
         $sqlFrom .= "
     LEFT JOIN project_tags ON projects.id = project_tags.project_id
-";
+        ";
         $sqlWhere .= "
-    AND project_tags.name = '$tag'
-";
-    }
+    AND project_tags.name = '$tagName'
+        ";
 }
 $sqlStatement = $sqlSelect.$sqlFrom.$sqlWhere.$sqlOrder;
 $projects = sqlQuery($sqlStatement);
@@ -41,11 +39,15 @@ $projects = sqlQuery($sqlStatement);
 while ($project = $projects->fetch_object()) {
     // query project media
     $selectMedia = "
-      SELECT type, link, caption
-      FROM project_media 
-      WHERE project_id = '$project->id'
-      ORDER BY type DESC
+  SELECT type, link, caption
+  FROM project_media
+  WHERE project_id = '$project->id'
     ";
+    if ($tagName != "") {
+        $selectMedia .= "
+    AND tag_name = '$tagName'
+        ";
+    }
     $photos = sqlQuery($selectMedia);
     // add photo rows to project object
     $photoArray = [];
@@ -65,9 +67,9 @@ while ($project = $projects->fetch_object()) {
     $project->{'images'} = $photoArray;
     // query project tags
     $selectTags = "
-      SELECT name
-      FROM project_tags
-      WHERE project_id = '$project->id'
+  SELECT name
+  FROM project_tags
+  WHERE project_id = '$project->id'
     ";
     $tags = sqlQuery($selectTags);
     // push tag rows to tags array

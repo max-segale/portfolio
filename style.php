@@ -70,7 +70,7 @@ a {
     color: inherit;
 }
 p {
-    margin: 10px 10px;
+    margin: 10px 5px;
 }
 ul {
     list-style: none;
@@ -90,11 +90,20 @@ ul {
     font-size: 1.25em;
     text-transform: capitalize;
 }
+.heavy {
+    font-weight: 700;
+}
 .margin {
     margin: 10px 5px;
 }
 .u_line {
     text-decoration: underline;
+}
+.btn {
+    border-radius: 5px;
+    padding: 5px 10px;
+    color: white;
+    background-color: <?= $blueColor ?>;
 }
 /*.syntax {
     float: left;
@@ -118,6 +127,7 @@ header .title {
     font-size: 1.5em;
     font-weight: 700;
     margin-right: 5px;
+    cursor: pointer;
 }
 header > nav {
     display: flex;
@@ -125,7 +135,7 @@ header > nav {
     justify-content: space-between;
     align-items: baseline;
     white-space: nowrap;
-    padding: 0 5px;
+    padding: 0 10px;
 }
 header > nav > * {
   
@@ -172,6 +182,7 @@ header > nav ul.menu > li.sub_title span {
         url(<?= $imgPath ?>icon-right-24px-b.svg)
         right center
         no-repeat;
+    cursor: pointer;
 }
 header > nav ul.menu > li.sub_title span.selected {
     text-decoration: underline;
@@ -185,8 +196,9 @@ header > nav ul.menu.open > li.sub_title span.selected {
 }
 header > nav ul.menu > li > div {
     float: left;
-    padding: 0 25px;
+    padding: 0 20px;
     border-radius: 5px;
+    cursor: pointer;
 }
 header > nav ul.menu > li > div.selected {
     color: <?= $textColor ?>;
@@ -200,6 +212,7 @@ header > nav ul.menu > li.sub_menu_box {
     margin: 0;
 }
 header > nav ul.sub_menu {
+    float: left;
     display: none;
     padding: 0 0 10px 20px;
 }
@@ -208,7 +221,11 @@ header > nav ul.sub_menu.open {
 }
 header > nav  ul.sub_menu > li {
     margin: 0 0 10px;
-    padding: 0 5px;
+    padding: 0 10px;
+    cursor: pointer;
+}
+header > nav  ul.sub_menu > li.selected {
+    text-decoration: underline;
 }
 
 /* nav menu icon */
@@ -223,6 +240,7 @@ header > nav .menu_btn {
         url(<?= $imgPath ?>icon-menu-24px.svg)
         center center / contain
         no-repeat;
+    cursor: pointer;
 }
 header > nav .menu_btn.show {
     display: block;
@@ -237,7 +255,7 @@ header > nav .menu_btn.selected {
 
 /* content section */
 .container {
-    padding: 10px 0 0;
+    padding: 5px 0;
 }
 .container .nav_box {
     display: none;
@@ -275,43 +293,52 @@ header > nav .menu_btn.selected {
         center center / cover
         no-repeat;
 }
+.container .nav_box > a > .btn {
+    float: left;
+    margin: 0 5px 20px;
+}
 .container > .heading {
     display: none;
     margin-left: 10px;
 }
+.container > .heading.show {
+    display: block;
+}
 
 /* message form */
 form[name="ask"] input, textarea {
-    font-size: 0.8em;
-    border-radius: 5px;
     display: block;
+    border-radius: 5px;
+    outline: none;
     -webkit-appearance: none;
 }
-form[name="ask"] input[type="text"], textarea {
+form[name="ask"] input[type="email"], textarea {
     width: 100%;
     margin-top: 5px;
     border: 2px solid <?= $boxColor ?>;
     padding: 3px 0 3px 5px;
+    font-size: 0.8em;
     resize: none;
-    outline: none;
     color: <?= $textColor ?>;
     background-color: <?= $boxColor ?>;
 }
-form[name="ask"] input[type="text"]:focus, textarea:focus {
+form[name="ask"] input[type="email"]:focus, textarea:focus {
     border: 2px solid <?= $textColor ?>;
     background-color: <?= $backColor ?>;
 }
 form[name="ask"] input[type="submit"] {
     margin: 5px 10px 10px 0;
-    padding: 5px 20px;
-    color: <?= $backColor ?>;
-    background-color: <?= $blueColor ?>;
+    font-size: 1em;
+    cursor: pointer;
 }
 form[name="ask"] .status {
     font-size: 0.8em;
 }
 
 /* landing menu */
+.categories {
+    padding: 0 5px;
+}
 .categories li {
     padding: 5px;
 }
@@ -327,6 +354,7 @@ form[name="ask"] .status {
     border-radius: 5px;
     border: 2px solid <?= $textColor ?>;
     background-color: <?= $textColor ?>;
+    cursor: pointer;
 }
 .categories li > div > .text {
     max-width: 80%;
@@ -356,7 +384,7 @@ form[name="ask"] .status {
 
 /* project list item */
 .project {
-    padding: 10px 0 20px;
+    padding: 0 0 20px;
 }
 .project iframe.preview {
     width: 100%;
@@ -371,8 +399,7 @@ form[name="ask"] .status {
     padding: 0 5px;
 }
 .project > .info_box > .info {
-    margin: 0 10px;
-    padding: 5px 0;
+    padding: 5px;
 }
 .project > .info_box > .info > .description h3 {
     font-size: 1.2em;
@@ -403,14 +430,11 @@ footer .copyright {
 
 /* begin expanding */
 @media (min-width: <?= $smallWidth ?>) {
-    header > nav {
-        padding: 0 10px;
-    }
     header > nav .slash {
         display: block;
     }
     .container .nav_box {
-        padding: 0 10px;
+        padding: 0 15px;
     }
     .container .nav_box .profile_pic {
         width: 144px;
@@ -419,13 +443,10 @@ footer .copyright {
         margin-left: 20px;
     }
     .container > .heading {
-        margin-left: 15px;
-    }
-    .categories {
-        padding: 0 5px;
+        margin-left: 20px;
     }
     .project > .info_box {
-        padding: 0 10px;
+        padding: 0 15px;
     }
 }
 
@@ -485,7 +506,6 @@ footer .copyright {
             <?= $textColor ?>;
     }
     header > nav ul.sub_menu {
-        float: left;
         padding: 5px;
         border-radius: 5px;
     }

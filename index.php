@@ -42,7 +42,7 @@ $siteDesc = "A portfolio of work from $myName, full stack web developer and grap
       <div class="container">
         <div class="nav_box" id="about">
           <div class="profile_pic"></div>
-          <h2 class="heading margin">About</h2>
+          <h2 class="heading heavy margin">About</h2>
           <p>
             <span>I work as a full-stack web developer and graphic designer.</span>
             <span>I specialize in front-end development and UI/UX design.</span>
@@ -53,15 +53,14 @@ $siteDesc = "A portfolio of work from $myName, full stack web developer and grap
           </p>
           <p>
             <span>I built this site using HTML5, CSS3, JavaScript, PHP, and MySQL.</span>
-            <br>
-            <a href="https://github.com/max-segale/portfolio" target="_blank"> 🛠
-              <span class="u_line">View Source Code</span>
-            </a>
           </p>
+          <a href="https://github.com/max-segale/portfolio" target="_blank">
+            <div class="btn">View on GitHub</div>
+          </a>
         </div>
         <div class="nav_box" id="contact">
           <div class="left">
-            <h2 class="heading margin">Contact</h2>
+            <h2 class="heading heavy margin">Contact</h2>
             <p>Please contact me about any new projects or job opportunities.</p>
             <p>
               <a href="tel:(908)752-0639">📱
@@ -75,17 +74,17 @@ $siteDesc = "A portfolio of work from $myName, full stack web developer and grap
           </div>
           <div class="margin">
             <span>Any questions? Please ask. 💬</span>
-            <form name="ask" action="send-message.php" method="post" enctype="multipart/form-data">
-              <input type="text" name="email" placeholder="Your Email Address" maxlength="100" required>
+            <form name="ask">
+              <input type="email" name="email" placeholder="Your Email Address" maxlength="100" required>
               <textarea name="message" placeholder="Your Question" maxlength="255" rows="3" required></textarea>
               <div class="flex_row">
-                <input type="submit" value="Send">
+                <input class="btn" type="submit" value="Send">
                 <div class="status" id="msg_status"></div>
               </div>
             </form>
           </div>
         </div>
-        <h2 class="heading margin" id="gallery_title">Web Development</h2>
+        <span class="heading heavy margin" id="gallery_title"></span>
         <ul id="gallery_list"></ul>
       </div>
       <footer>

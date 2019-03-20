@@ -227,7 +227,6 @@
         }
         if (pTag) {
             paramObj.tag = pTag;
-            //menuBoxes.subTitle.innerHTML = catTag;
         }
         max.request('GET', 'handle-projects.php', paramObj, function (result) {
             var projectObject = JSON.parse(result.responseText);
@@ -324,10 +323,22 @@
         }
     }
     
+    function sendMessage() {
+        var email = document.forms.ask.elements.email.value,
+            message = document.forms.ask.elements.message.value,
+            paramObj = {from: email, question: message};
+        event.preventDefault();
+        max.request('POST', 'send-message.php', paramObj, function (result) {
+            console.log(result.responseText);
+        });
+        return false;
+    }
+    
     function addNavMenu (showCatItems) {
         // nav menu and project categories module
         var menuOpen = false,
             subMenuOpen = false,
+            subMenuWasOpen = false,
             menuBoxes = {
                 title: document.querySelector('#menu_title'),
                 list:document.querySelector('#menu_list'),
@@ -339,12 +350,11 @@
                 about: document.querySelector('#about'),
                 contact: document.querySelector('#contact')
             },
-            initTitle = menuBoxes.subTitle.innerHTML,
             selectInfo,
-            selectItem;
+            selectItem,
+            selectTag;
         // display nav selection
         function selectNavItem(itemName) {
-            //var titleText = itemName;
             if (selectItem) {
                 max.subClass(selectItem, 'selected');
             }
@@ -353,9 +363,7 @@
                 max.addClass(selectItem, 'selected');
             } else {
                 selectItem = false;
-                //titleText = initTitle;
             }
-            //menuBoxes.subTitle.innerHTML = titleText;
         }
         // display info box selection
         function showInfo(itemName) {
@@ -369,6 +377,7 @@
                 selectInfo = false;
             }
         }
+        // set small screen nav menu open or closed
         function openMenu(isOpen) {
             if (isOpen === true) {
                 menuOpen = true;
@@ -378,18 +387,26 @@
                 menuOpen = false;
                 max.subClass(menuBoxes.list, 'open');
                 max.subClass(menuBoxes.btn, 'selected');
-                toggleSubMenu(true);
             }
         }
         // toggle small screen nav menu
         function toggleMenu() {
             if (menuOpen) {
                 openMenu(false);
+                if (subMenuOpen) {
+                    toggleSubMenu(true);
+                    subMenuWasOpen = true;
+                } else {
+                    subMenuWasOpen = false;
+                }
             } else {
                 openMenu(true);
+                if (subMenuWasOpen) {
+                    toggleSubMenu(false);
+                }
             }
         }
-        //
+        // toggle tags sub menu
         function toggleSubMenu(isClosed) {
             if (subMenuOpen || isClosed === true) {
                 subMenuOpen = false;
@@ -399,7 +416,9 @@
                 subMenuOpen = true;
                 max.addClass(menuBoxes.subList, 'open');
                 max.addClass(menuBoxes.subTitle, 'selected');
-                openMenu(true);
+                if (!menuOpen) {
+                    openMenu(true);
+                }
             }
         }
         // select item, display info selection
@@ -411,7 +430,8 @@
                 selectNavItem();
                 showInfo();
             }
-            openMenu(false);
+            console.log(menuOpen);
+            //openMenu(false);
         }
         // append new item to nav list
         function addNavItem(itemName) {
@@ -422,18 +442,31 @@
             });
         }
         // select tag, close menu, clear gallery, get new projects
-        function clickTagItem(tag) {
+        function clickTagItem(tagObj) {
+            var tagItem = event.target;
+            if (selectTag) {
+                max.subClass(selectTag, 'selected');
+            }
+            max.addClass(tagItem, 'selected');
+            selectTag = tagItem;
+            
             selectNavItem();
             showInfo();
-            openMenu(false);
+            
+            //openMenu(false);
+            
             clearGallery();
-            getProjects(0, tag);
+            
+            gallery.title.innerHTML = tagObj.name;
+            max.addClass(gallery.title, 'show');
+            
+            getProjects(0, tagObj.tag);
         }
         // append new item to sub menu
         function addTagItem(tagObj) {
             var item = max.newEl(menuBoxes.subList, 'li', false, tagObj.tag);
             max.addEvent(item, 'click', function () {
-                clickTagItem(tagObj.tag);
+                clickTagItem(tagObj);
             });
         }
         // append new item to category display
@@ -444,7 +477,7 @@
                 heading = max.newEl(textBox, 'h3', 'heading', catObj.name),
                 summary = max.newEl(textBox, 'span', false, catObj.summary);
             max.addEvent(itemBox, 'click', function () {
-                clickTagItem(catObj.tag);
+                clickTagItem(catObj);
             });
             catObj.images.forEach(function (imgObj) {
                 max.newEl(itemBox, 'div', {
@@ -457,7 +490,20 @@
         }
         // reset nav menu and gallery list
         function resetPage() {
-            console.log('RESET');
+            clearGallery();
+            getInfo(function (items) {
+                max.addClass(gallery.list, 'categories');
+                items.categories.forEach(addCatItem);
+            });
+        }
+        // get portfolio info object
+        function getInfo(afterFn) {
+            max.request('GET', 'handle-nav-items.php', false, function (result) {
+                var items = JSON.parse(result.responseText);
+                if (afterFn) {
+                    afterFn(items);
+                }
+            });
         }
         // use title as reset button
         max.addEvent(menuBoxes.title, 'click', resetPage);
@@ -482,7 +528,7 @@
 
     max.addEvent(window, 'load', function () {
         var paramObj = max.parseQueryStr();
-        gallery.title = document.querySelector('#gallery_list');
+        gallery.title = document.querySelector('#gallery_title');
         gallery.list = document.querySelector('#gallery_list');
         if (paramObj) {
             addNavMenu();
@@ -490,6 +536,7 @@
         } else {
             addNavMenu(true);
         }
+        max.addEvent(document.forms.ask, 'submit', sendMessage);
         //max.addEvent(window, 'scroll', scrollCheck);
         //max.addEvent(window, 'keydown', keyCheck);
     });

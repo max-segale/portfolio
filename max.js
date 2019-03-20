@@ -123,10 +123,6 @@ var max = (function (window, document) {
                 element.detachEvent("on" + evtType, fn);
             }
         },
-        // toggle element class, with older browser support
-        toggleClass: function () {
-            return;
-        },
         // add to element class, with older browser support
         addClass: function (element, theClass) {
             if (element.classList) {
