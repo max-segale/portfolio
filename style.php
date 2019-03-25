@@ -1,12 +1,7 @@
 <?php
 require_once '../info/portfolio.php';
-header('Content-Type: text/css; charset=UTF-8');
 
-///////////////////////////////////////////
-$imgPath = $photoDirURL;
-if (1 === 1) {
-    $imgPath = $photoDirLocal;
-}
+header('Content-Type: text/css; charset=UTF-8');
 
 $minWidth = "320px";
 $smallWidth = "375px";
@@ -309,6 +304,7 @@ header > nav .menu_btn.selected {
 form[name="ask"] input, textarea {
     display: block;
     border-radius: 5px;
+    font-family: <?= $fontFam ?>;
     outline: none;
     -webkit-appearance: none;
 }

@@ -6,6 +6,7 @@
         focusInfoBox = {},
         oldScroll = {},
         nav = null,
+        msgStatus = null,
         gallery = {};
 
     function setImgBoxSize(pNum, imgWidth, imgHeight) {
@@ -209,13 +210,6 @@
         }*/
     }
     
-    // clear content list
-    function clearGallery() {
-        gallery.list.innerHTML = '';
-        max.subClass(gallery.list, 'categories');
-        //openMenu(false);
-    }
-
     function getProjects(pNum, pTag) {
         var paramObj = {};
         // check request variables
@@ -324,12 +318,20 @@
     }
     
     function sendMessage() {
-        var email = document.forms.ask.elements.email.value,
-            message = document.forms.ask.elements.message.value,
+        var theForm = document.forms.ask,
+            email = theForm.elements.email.value,
+            message = theForm.elements.message.value,
             paramObj = {from: email, question: message};
         event.preventDefault();
         max.request('POST', 'send-message.php', paramObj, function (result) {
-            console.log(result.responseText);
+            var returnObj = JSON.parse(result.responseText);
+            msgStatus.innerHTML = returnObj.status;
+            if (returnObj.sent) {
+                theForm.reset();
+            }
+            setTimeout(function () {
+                msgStatus.innerHTML = '';
+            }, 5000);
         });
         return false;
     }
@@ -430,8 +432,6 @@
                 selectNavItem();
                 showInfo();
             }
-            console.log(menuOpen);
-            //openMenu(false);
         }
         // append new item to nav list
         function addNavItem(itemName) {
@@ -441,6 +441,14 @@
                 clickNavItem(itemName);
             });
         }
+        // clear nav selection and gallery
+        function clearGallery() {
+            gallery.title.innerHTML = '';
+            gallery.list.innerHTML = '';
+            max.subClass(gallery.list, 'categories');
+            selectNavItem();
+            showInfo();
+        }
         // select tag, close menu, clear gallery, get new projects
         function clickTagItem(tagObj) {
             var tagItem = event.target;
@@ -449,17 +457,9 @@
             }
             max.addClass(tagItem, 'selected');
             selectTag = tagItem;
-            
-            selectNavItem();
-            showInfo();
-            
-            //openMenu(false);
-            
             clearGallery();
-            
             gallery.title.innerHTML = tagObj.name;
             max.addClass(gallery.title, 'show');
-            
             getProjects(0, tagObj.tag);
         }
         // append new item to sub menu
@@ -490,7 +490,9 @@
         }
         // reset nav menu and gallery list
         function resetPage() {
+            
             clearGallery();
+            
             getInfo(function (items) {
                 max.addClass(gallery.list, 'categories');
                 items.categories.forEach(addCatItem);
@@ -528,6 +530,7 @@
 
     max.addEvent(window, 'load', function () {
         var paramObj = max.parseQueryStr();
+        msgStatus = document.querySelector('#msg_status');
         gallery.title = document.querySelector('#gallery_title');
         gallery.list = document.querySelector('#gallery_list');
         if (paramObj) {
