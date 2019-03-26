@@ -1,21 +1,20 @@
 <?php
 require_once '../info/portfolio.php';
-
+// set content as css
 header('Content-Type: text/css; charset=UTF-8');
-
-$minWidth = "320px";
-$smallWidth = "375px";
-$midWidth = "568px";
-$bigWidth = "724px";
-$fullWidth = "1024px";
-
-$fontFam = "Helvetica Neue, Helvetica, sans-serif";
-
-$backColor = "#FFFFFF";
-$textColor = "#000000";
-$boxColor = "#EEEEEE";
-$midColor = "#999999";
-$blueColor = "#007AFF";
+// set scaling sizes
+$minWidth = '320px';
+$smallWidth = '375px';
+$midWidth = '568px';
+$bigWidth = '724px';
+$fullWidth = '1024px';
+// set default styles
+$fontFam = '"Helvetica Neue", "Helvetica", sans-serif';
+$backColor = '#FFFFFF';
+$textColor = '#000000';
+$boxColor = '#EEEEEE';
+$midColor = '#999999';
+$blueColor = '#007AFF';
 // create preload image list
 $backimages = [
     'icon-menu-24px.svg',
@@ -34,7 +33,6 @@ foreach ($backimages as $image) {
         url($imgPath$image) no-repeat -9999px -9999px,";
 }
 $preImgList = substr($preImgList, 0, -1);
-
 ?>
 /* global styles */
 * {
@@ -100,22 +98,6 @@ ul {
     color: white;
     background-color: <?= $blueColor ?>;
 }
-/*.syntax {
-    float: left;
-    font-size: 0.9em;
-    font-family: "Courier New", "Courier", "Lucida Console", "Monaco", monospace;
-    font-weight: 300;
-    border-radius: 5px;
-    padding: 5px 10px;
-    color: #FFFFFF;
-    background-color: #333233;
-}
-.syntax span:first-child {
-    color: #B372DC;
-}
-.syntax span:last-child {
-    color: #3AB6AB;
-}*/
 
 /* header section */
 header .title {

@@ -1,6 +1,7 @@
 <?php
 require_once '../info/portfolio.php';
 require_once '../common/functions.php';
+// set content as json
 header('Content-Type: application/json; charset=UTF-8');
 // create assoc array
 $jsonArray = [
@@ -59,6 +60,6 @@ foreach($catArray as $cat) {
     // push category object to categories array
     array_push($jsonArray['categories'], $category);
 }
-// print array as encoded json
+// print assoc array as encoded json
 echo json_encode($jsonArray);
 ?>

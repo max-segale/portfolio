@@ -1,6 +1,7 @@
 <?php
 require_once '../info/portfolio.php';
 require_once '../common/functions.php';
+// set content as json
 header('Content-Type: application/json; charset=UTF-8');
 // get parameters
 $projectId = $_REQUEST[project];
@@ -82,6 +83,6 @@ while ($project = $projects->fetch_object()) {
     // add project object to array
     array_push($jsonArray[$arrayName], $project);
 }
-// print array as encoded json
+// print assoc array as encoded json
 echo json_encode($jsonArray);
 ?>
