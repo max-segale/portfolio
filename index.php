@@ -1,5 +1,7 @@
 <?php
+// stop cache
 session_cache_limiter('nocache');
+// basic info
 $myName = "Max Segale";
 $siteDesc = "A portfolio of work from $myName, full stack web developer and graphic designer.";
 ?>
