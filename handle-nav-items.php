@@ -15,16 +15,19 @@ $jsonArray = [
 $catArray = [
     [
         'Web Development',
+        'Web Dev',
         'HTML, CSS, JavaScript, MySQL, PHP, UI/UX Design',
         'web'
     ],
     [
         'Graphic Design',
+        'Designs',
         'Logos, Branding, Graphics',
         'design'
     ],
     [
         'Printmaking',
+        'Prints',
         'Screen Prints, Posters',
         'print'
     ]
@@ -34,13 +37,14 @@ foreach($catArray as $cat) {
     // create category object
     $category = new stdClass();
     $category->{'name'} = $cat[0];
-    $category->{'summary'} = $cat[1];
-    $category->{'tag'} = $cat[2];
+    $category->{'short'} = $cat[1];
+    $category->{'summary'} = $cat[2];
+    $category->{'tag'} = $cat[3];
     // query category images
     $sql = "
   SELECT project_media.link
-  FROM project_media 
-    LEFT JOIN project_tags 
+  FROM project_media
+    LEFT JOIN project_tags
       ON project_media.project_id = project_tags.project_id
   WHERE project_media.type = 'PHOTO'
     AND project_media.tag_name = '$category->tag'
