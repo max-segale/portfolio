@@ -80,8 +80,8 @@ var max = (function (window, document) {
             });
             return paramObj;
         },
-        // create new element, apply attributes, append to parent
-        newEl: function (elParent, elType, elAtrs, elInner) {
+        // create new element, apply attributes, add to parent
+        addKid: function (elParent, elType, elAtrs, elInner) {
             var element = document.createElement(elType);
             if (elAtrs) {
                 if (typeof elAtrs === "string") {
@@ -91,12 +91,26 @@ var max = (function (window, document) {
                 }
             }
             if (elInner) {
-                element.innerHTML = elInner;
+                if (typeof elInner === "string") {
+                    element.innerHTML = elInner;
+                } else if (typeof elInner === "object") {
+                    this.addKids(element, elInner);
+                }
             }
             if (elParent) {
                 elParent.appendChild(element);
             }
             return element;
+        },
+        // add multiple new elements to parent
+        addKids: function (elParent, kids) {
+            var elements = [];
+            var thisObj = this;
+            kids.forEach(function (el) {
+                var element = thisObj.addKid(elParent, el[0], el[1], el[2]);
+                elements.push(element);
+            });
+            return elements;
         },
         // calculate size as percentage of total width for auto resize
         relativeSize: function (widthPx, heightPx, maxWidthPx) {
