@@ -42,16 +42,14 @@ foreach($catArray as $cat) {
     $category->{'tag'} = $cat[3];
     // query category images
     $sql = "
-  SELECT project_media.link
-  FROM project_media
-    LEFT JOIN project_tags
-      ON project_media.project_id = project_tags.project_id
-  WHERE project_media.type = 'PHOTO'
-    AND project_media.tag_name = '$category->tag'
-    AND project_tags.name = '$category->tag'
-  ORDER BY RAND()
-  LIMIT 10
-    ";
+    SELECT project_media.link
+    FROM project_media
+        LEFT JOIN project_tags
+        ON project_media.project_id = project_tags.project_id
+    WHERE project_media.type = 'PHOTO'
+        AND project_tags.name = '$category->tag'
+    ORDER BY RAND()
+    LIMIT 10";
     $photos = sqlQuery($sql);
     // create tag images array and push file urls
     $tagImages = [];

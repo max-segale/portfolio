@@ -3,32 +3,29 @@ require_once '../info/portfolio.php';
 // set content as css
 header('Content-Type: text/css; charset=UTF-8');
 // set scaling sizes
-$minWidth = '320px';
 $smallWidth = '375px';
 $midWidth = '568px';
 $bigWidth = '724px';
 $fullWidth = '1024px';
 // set default styles
 $fontFam = '"Helvetica Neue", "Helvetica", sans-serif';
-$backColor = '#FFFFFF';
-$textColor = '#000000';
 $boxColor = '#EEEEEE';
+$transBox = "rgba(0, 0, 0, 0.75)";
 $midColor = '#999999';
 $blueColor = '#007AFF';
 // create preload image list
-$backimages = [
-    'icon-menu-24px.svg',
-    'icon-close-24px-b.svg',
-    'icon-close-24px-w.svg',
-    'icon-more-24px-b.svg',
-    'icon-more-24px-w.svg',
-    'icon-less-24px-b.svg',
-    'icon-less-24px-w.svg',
-    'icon-right-24px-b.svg',
-    'icon-right-24px-w.svg',
+$backImages = [
+    'icons/close-24px-b.svg',
+    'icons/close-24px-w.svg',
+    'icons/loading.gif',
+    'icons/menu-24px.svg',
+    'icons/more-24px-b.svg',
+    'icons/more-24px-w.svg',
+    'icons/right-24px-b.svg',
+    'icons/right-24px-w.svg',
     'me.jpg'
 ];
-foreach ($backimages as $image) {
+foreach ($backImages as $image) {
     $preImgList .= "
         url($imgPath$image) no-repeat -9999px -9999px,";
 }
@@ -44,12 +41,11 @@ $preImgList = substr($preImgList, 0, -1);
 
 /* tag styles */
 html, body {
-    /*min-width: <?= $minWidth ?>;*/
     text-align: left;
     font-size: 16px;
     font-family: <?= $fontFam ?>;
-    color: <?= $textColor ?>;
-    background-color: <?= $backColor ?>;
+    color: black;
+    background-color: white;
     -webkit-text-size-adjust: none;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
@@ -106,6 +102,9 @@ header .title {
     margin-right: 5px;
     cursor: pointer;
 }
+header .title:active {
+    text-decoration: underline;
+}
 header > nav {
     display: flex;
     flex-flow: row nowrap;
@@ -113,9 +112,6 @@ header > nav {
     align-items: baseline;
     white-space: nowrap;
     padding: 0 10px;
-}
-header > nav > * {
-  
 }
 header > nav .slash {
     display: none;
@@ -126,7 +122,7 @@ header > nav .slash {
 header > nav .menu_box {
     height: 0;
     flex: 1 0 0;
-    z-index: 1;
+    z-index: 2;
     text-transform: capitalize;
 }
 header > nav ul.menu {
@@ -134,16 +130,18 @@ header > nav ul.menu {
     flex-flow: column nowrap;
     margin: 0 0 0 5px;
     border-radius: 5px;
-    padding: 0 5px 15px;
 }
 header > nav ul.menu.open {
-    color: <?= $backColor ?>;
-    background-color: <?= $textColor ?>;
-    box-shadow: 0 0 0 2px <?= $backColor ?>;
+    color: white;
+    background-color: <?= $transBox ?>;
+    box-shadow: 0 0 0 2px white;
 }
 header > nav ul.menu > li {
     display: none;
     margin: 0 0 10px;
+}
+header > nav ul.menu > li:last-child {
+    margin: 0 0 20px;
 }
 header > nav ul.menu.open > li {
     display: block;
@@ -154,52 +152,58 @@ header > nav ul.menu > li.sub_title {
     margin: 0;
 }
 header > nav ul.menu > li.sub_title span {
-    padding-right: 25px;
+    padding: 0 25px 0 10px;
     background:
-        url(<?= $imgPath ?>icon-right-24px-b.svg)
+        url(<?= $imgPath . $backImages[6] ?>)
         right center
         no-repeat;
     cursor: pointer;
 }
+header > nav ul.menu > li.sub_title span:active {
+    text-decoration: underline;
+}
 header > nav ul.menu > li.sub_title span.selected {
     text-decoration: underline;
-    background-image: url(<?= $imgPath ?>icon-more-24px-b.svg);
+    background-image: url(<?= $imgPath . $backImages[4] ?>);
 }
 header > nav ul.menu.open > li.sub_title span {
-    background-image: url(<?= $imgPath ?>icon-right-24px-w.svg);
+    background-image: url(<?= $imgPath . $backImages[7] ?>);
 }
 header > nav ul.menu.open > li.sub_title span.selected {
-    background-image: url(<?= $imgPath ?>icon-more-24px-w.svg);
+    background-image: url(<?= $imgPath . $backImages[5] ?>);
 }
 header > nav ul.menu > li > div {
     float: left;
-    padding: 0 20px;
-    border-radius: 5px;
+    padding: 0 10px 0 25px;
+    border-radius: 0 5px 5px 0;
     cursor: pointer;
 }
 header > nav ul.menu > li > div.selected {
-    color: <?= $textColor ?>;
+    color: black;
     background:
-        url(<?= $imgPath ?>icon-close-24px-b.svg)
+        url(<?= $imgPath . $backImages[0] ?>)
         left center / contain
         no-repeat
-        <?= $backColor ?>;
+        white;
 }
 header > nav ul.menu > li.sub_menu_box {
     margin: 0;
 }
 header > nav ul.sub_menu {
+    height: 0;
+    overflow: hidden;
     float: left;
-    display: none;
-    padding: 0 0 10px 20px;
 }
 header > nav ul.sub_menu.open {
-    display: block;
+    height: initial;
 }
 header > nav  ul.sub_menu > li {
     margin: 0 0 10px;
-    padding: 0 10px;
+    padding: 0 0 0 25px;
     cursor: pointer;
+}
+header > nav  ul.sub_menu > li:last-child {
+    margin: 0 0 20px;
 }
 header > nav  ul.sub_menu > li.selected {
     text-decoration: underline;
@@ -211,10 +215,10 @@ header > nav .menu_btn {
     width: 30px;
     height: 30px;
     margin-left: 5px;
-    border: 2px solid <?= $textColor ?>;
+    border: 2px solid black;
     border-radius: 5px;
     background:
-        url(<?= $imgPath ?>icon-menu-24px.svg)
+        url(<?= $imgPath . $backImages[3] ?>)
         center center / contain
         no-repeat;
     cursor: pointer;
@@ -224,10 +228,10 @@ header > nav .menu_btn.show {
 }
 header > nav .menu_btn.selected {
     background:
-        url(<?= $imgPath ?>icon-close-24px-w.svg)
+        url(<?= $imgPath . $backImages[1] ?>)
         center center / contain
         no-repeat
-        <?= $textColor ?>;
+        <?= $transBox ?>;
 }
 
 /* content section */
@@ -242,20 +246,6 @@ header > nav .menu_btn.selected {
 .container .nav_box.show {
     display: block;
 }
-/*
-.container .nav_box .close_btn {
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    background-color: <?= $midColor ?>;
-    background-image: url(<?= $imgPath ?>icon-close-24px.svg);
-    background-size: contain;
-    background-repeat: no-repeat:
-    background-position: center center;
-    margin: 0 0 -1px 10px;
-    border-radius: 5px;
-}
-*/
 .container .nav_box > div {
     overflow: hidden;
 }
@@ -266,7 +256,7 @@ header > nav .menu_btn.selected {
     border-radius: 60px;
     float: right;
     background:
-        url(<?= $imgPath ?>me.jpg)
+        url(<?= $imgPath . $backImages[8] ?>)
         center center / cover
         no-repeat;
 }
@@ -297,12 +287,12 @@ form[name="ask"] input[type="email"], textarea {
     padding: 3px 0 3px 5px;
     font-size: 0.8em;
     resize: none;
-    color: <?= $textColor ?>;
+    color: black;
     background-color: <?= $boxColor ?>;
 }
 form[name="ask"] input[type="email"]:focus, textarea:focus {
-    border: 2px solid <?= $textColor ?>;
-    background-color: <?= $backColor ?>;
+    border: 2px solid black;
+    background-color: white;
 }
 form[name="ask"] input[type="submit"] {
     margin: 5px 10px 10px 0;
@@ -315,49 +305,74 @@ form[name="ask"] .status {
 
 /* landing menu */
 .categories {
-    padding: 0 5px;
+    background-color: <?= $boxColor ?>;
 }
 .categories li {
-    padding: 5px;
+    padding: 10px 0;
+    margin: 0 0 20px 0;
+    background-color: white;
 }
 .categories li > div {
-    height: 40vh;
+    height: 25vh;
     min-height: 150px;
-    max-height: 350px;
+    max-height: 500px;
     display: flex;
     flex-flow: row wrap;
     justify-content: space-between;
     position: relative;
     overflow: hidden;
-    border-radius: 5px;
-    border: 2px solid <?= $textColor ?>;
-    background-color: <?= $textColor ?>;
     cursor: pointer;
+}
+.categories li:first-child > div {
+    height: 50vh;
 }
 .categories li > div > .text {
     max-width: 80%;
     position: absolute;
-    left: 10px;
+    left: 0;
     top: 20px;
-    border-radius: 5px;
-    padding: 10px;
-    color: <?= $backColor ?>;
-    background-color: <?= $blueColor ?>;
-    box-shadow: 0 0 0 2px <?= $backColor ?>;
+    color: white;
+    /*text-shadow: 0 1px 3px rgba(0, 0, 0, 0.75);*/
 }
-.categories li > div > .text > .heading {
-  
+.categories li > div > .text > .pad {
+    overflow: hidden;
+    position: relative;
+    padding: 10px 15px;
+    box-shadow: 0 0 0 2px white;
+    border-radius: 0 10px 10px 0;
+    transition: padding 500ms;
 }
-.categories li > div > .text > span {
-    font-weight: 300;
+.categories li > div:hover > .text > .pad {
+    padding-left: 20px;
+}
+.categories li > div > .text > .pad > .filter {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    /*filter: blur(1.5rem);*/
+    background-color: <?= $transBox ?>;
+    /*-webkit-backdrop-filter: blur(20px);
+    /*-webkit-backdrop-filter: blur(10px);
+    transform: translateY(-30%);*/
+}
+
+.categories li > div > .text > .pad > .above {
+    z-index: 1;
+    position: relative;
 }
 .categories li > div > .img {
     height: 50%;
-    flex: 1 0 50%;
-    border: 1px solid #000000;
+    flex: 1 0 33.3333%;
     background:
         left center / cover
         no-repeat;
+}
+.categories li:first-child > div > .img {
+    height: 33.3333%;
+    flex: 1 0 50%;
 }
 
 /* project list item */
@@ -372,7 +387,6 @@ form[name="ask"] .status {
     border-right: 0;
     background-color: <?= $boxColor ?>;
 }
-
 .project > .info_box {
     padding: 0 5px;
 }
@@ -387,7 +401,7 @@ form[name="ask"] .status {
     margin: 0;
 }
 .project > .image_box > .image_view > .images {
-    
+
 }
 .project > .image_box > .image_view > .images > img {
     width: 100%;
@@ -433,9 +447,6 @@ footer .copyright {
     html, body {
         font-size: 18px;
     }
-    header > nav .menu_box {
-        
-    }
     header > nav ul.menu {
         flex-flow: row wrap;
         align-items: baseline;
@@ -455,14 +466,11 @@ footer .copyright {
         flex: 0 0 0;
         margin: 0;
     }
-    header > nav ul.menu > li.sub_title span.selected {
-        /* fix icon */
-    }
     header > nav ul.menu.open > li.sub_title span {
-      background-image: url(<?= $imgPath ?>icon-right-24px-b.svg);
+      background-image: url(<?= $imgPath . $backImages[6] ?>);
     }
     header > nav ul.menu.open > li.sub_title span.selected {
-        background-image: url(<?= $imgPath ?>icon-more-24px-b.svg);
+        background-image: url(<?= $imgPath . $backImages[4] ?>);
     }
     header > nav ul.menu > li.sub_menu_box {
         flex: 0 0 100%;
@@ -476,21 +484,21 @@ footer .copyright {
         background-color: <?= $boxColor ?>;
     }
     header > nav ul.menu > li > div.selected {
-        color: <?= $backColor ?>;
+        color: white;
         background:
-            url(<?= $imgPath ?>icon-close-24px-w.svg)
+            url(<?= $imgPath . $backImages[1] ?>)
             left center / 24px 24px
             no-repeat
-            <?= $textColor ?>;
+            <?= $transBox ?>;
     }
     header > nav ul.sub_menu {
         padding: 5px;
         border-radius: 5px;
     }
     header > nav ul.sub_menu.open {
-        color: <?= $backColor ?>;
-        background-color: <?= $textColor ?>;
-        box-shadow: 0 0 0 2px <?= $backColor ?>;
+        color: white;
+        background-color: <?= $transBox ?>;
+        box-shadow: 0 0 0 2px white;
     }
     header > nav ul.sub_menu > li {
         margin: 0 0 5px;
@@ -499,10 +507,6 @@ footer .copyright {
         width: 0;
         margin: 0;
         border: 0;
-    }
-    .container .nav_box {
-        /*width: <?= $midWidth ?>;
-        margin: 0 auto;*/
     }
     .container .nav_box .left {
         width: 50%;

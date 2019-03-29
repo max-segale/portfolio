@@ -5,18 +5,28 @@ header('Content-Type: application/json; charset=UTF-8');
 // get post variables
 $from = $_POST['from'];
 $message = $_POST['question'];
-// compose message
-$subject = "New Question";
-$headers = "From: $from";
 // create assoc array
 $jsonArray = [];
-// send email
-$jsonArray['sent'] = mail($domainEmail, $subject, $message, $headers);
-// check email status
-if ($jsonArray['sent'] == 1) {
-    $jsonArray['status'] = "✅ Success. Thank you.";
+// status return options
+$passMsg = "✅ Success. Thank you.";
+$failMsg = "❌ Error. Please try again.";
+$warnMsg = "⚠️ Please complete the form.";
+// validate message
+if (trim($message) !== '') {
+    // compose message
+    $subject = "New Question";
+    $headers = "From: $from";
+    // send email
+    $jsonArray['sent'] = mail($domainEmail, $subject, $message, $headers);
+    // check email status
+    if ($jsonArray['sent'] == 1) {
+        $jsonArray['status'] = $passMsg;
+    } else {
+        $jsonArray['status'] = $failMsg;
+    }
 } else {
-    $jsonArray['status'] = "⚠️ Error. Please try again.";
+    $jsonArray['sent'] = 0;
+    $jsonArray['status'] = $warnMsg;
 }
 // print assoc array as encoded json
 echo json_encode($jsonArray);

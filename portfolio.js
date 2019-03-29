@@ -1,3 +1,4 @@
+// init page components
 (function (window, document, max) {
     'use strict';
     var loadReady = false,
@@ -6,6 +7,7 @@
         focusInfoBox = {},
         oldScroll = {},
         nav = null,
+        msgForm = null,
         msgStatus = null,
         gallery = {};
 
@@ -317,9 +319,10 @@
     // check message status
     function checkMessage(result) {
         var returnObj = JSON.parse(result.responseText);
+        msgForm.send.disabled = false;
         msgStatus.innerHTML = returnObj.status;
         if (returnObj.sent) {
-            theForm.reset();
+            msgForm.reset();
         }
         setTimeout(function () {
             msgStatus.innerHTML = '';
@@ -327,14 +330,14 @@
     }
     // ajax form submit
     function sendMessage() {
-        var theForm = document.forms.ask,
-            email = theForm.elements.email.value,
-            message = theForm.elements.message.value,
+        var email = msgForm.elements.email.value,
+            message = msgForm.elements.message.value,
             paramObj = {
                 from: email,
                 question: message
             };
         event.preventDefault();
+        msgForm.send.disabled = true;
         max.request('POST', 'send-message.php', paramObj, checkMessage);
         return false;
     }
@@ -438,7 +441,7 @@
         // append new item to nav list
         function addNavItem(itemName) {
             var item = max.addKid(menuBoxes.list, 'li'),
-                itemBox = max.addKid(item, 'div', false, itemName);
+                itemBox = max.addKid(item, 'div', 'heading', itemName);
             max.addEvent(itemBox, 'click', function () {
                 clickNavItem(itemName);
                 toggleMenu(true);
@@ -496,8 +499,17 @@
             var item = max.addKid(gallery.list, 'li'),
                 itemBox = max.addKid(item, 'div');
             max.addKid(itemBox, 'div', 'text', [
-                ['h3', 'heading', catObj.name],
-                ['span', false, catObj.summary]
+                [
+                    'div', 'pad', [
+                        [
+                            'div', 'above', [
+                                ['h3', 'heading', catObj.name],
+                                ['span', false, catObj.summary]
+                            ]
+                        ],
+                        ['div', 'filter']
+                    ]
+                ]
             ]);
             max.addEvent(itemBox, 'click', function () {
                 clickTagItem(catObj);
@@ -524,11 +536,11 @@
             toggleMenu(true);
         }
         // get portfolio info object
-        function getInfo(afterFn) {
+        function getInfo(passFn) {
             max.request('GET', 'handle-nav-items.php', false, function (result) {
                 var items = JSON.parse(result.responseText);
-                if (afterFn) {
-                    afterFn(items);
+                if (passFn) {
+                    passFn(items);
                 }
             });
         }
@@ -549,15 +561,17 @@
         // get menu json data
         max.request('GET', 'handle-nav-items.php', false, initMenu);
     }
-    // check query, get elements, add events, add content
+    // check url parameters, get elements, add events, add content
     function initDoc() {
         var paramObj = max.parseQueryStr();
+        msgForm = document.forms.ask;
         msgStatus = document.querySelector('#msg_status');
         gallery.title = document.querySelector('#gallery_title');
         gallery.list = document.querySelector('#gallery_list');
         //max.addEvent(window, 'scroll', scrollCheck);
         //max.addEvent(window, 'keydown', keyCheck);
-        max.addEvent(document.forms.ask, 'submit', sendMessage);
+        max.addEvent(msgForm, 'submit', sendMessage);
+        msgForm.send.disabled = false;
         if (paramObj) {
             addNavMenu();
             getProjects(paramObj.p, paramObj.tag);

@@ -1,7 +1,7 @@
 /*
-    max.js version 3.0
     max segale
-    maxsegale.com
+    max.js version 3.0
+    common function library
 */
 var max = (function (window, document) {
     "use strict";
@@ -18,23 +18,23 @@ var max = (function (window, document) {
         });
     }
     // process request state changes
-    function stateChange(xmlhttp, afterFn, errorFn, statusFn) {
-        if (statusFn) {
-            statusFn(xmlhttp);
+    function stateChange(xmlhttp, passFn, failFn, waitFn) {
+        if (waitFn) {
+            waitFn(xmlhttp);
         }
         if (xmlhttp.readyState === 4) {
             if (xmlhttp.status === 200) {
-                if (afterFn) {
-                    afterFn(xmlhttp);
+                if (passFn) {
+                    passFn(xmlhttp);
                 }
-            } else if (errorFn) {
-                errorFn(xmlhttp);
+            } else if (failFn) {
+                failFn(xmlhttp);
             }
         }
     }
     return {
         // encoded ajax request with callback functions
-        request: function (method, path, paramObj, afterFn, errorFn, statusFn) {
+        request: function (method, path, paramObj, passFn, failFn, waitFn) {
             var xmlhttp = new XMLHttpRequest();
             var contType = "application/x-www-form-urlencoded";
             var theParams = "";
@@ -60,7 +60,7 @@ var max = (function (window, document) {
                 sendString = theParams;
             }
             xmlhttp.onreadystatechange = function () {
-                stateChange(xmlhttp, afterFn, errorFn, statusFn);
+                stateChange(xmlhttp, passFn, failFn, waitFn);
             };
             xmlhttp.open(method, sendUrl, true);
             xmlhttp.setRequestHeader("Content-Type", contType);
