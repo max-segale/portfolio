@@ -93,9 +93,24 @@ ul {
     padding: 5px 10px;
     color: white;
     background-color: <?= $blueColor ?>;
+    transition: box-shadow 250ms;
+}
+.btn:active {
+    box-shadow: inset 0 1px 10px 0 rgba(0, 0, 0, 0.75);
+}
+.glass {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 15;
+    left: 0;
+    top: 0;
 }
 
 /* header section */
+header {
+    user-select: none;
+}
 header .title {
     font-size: 1.5em;
     font-weight: 700;
@@ -122,7 +137,7 @@ header > nav .slash {
 header > nav .menu_box {
     height: 0;
     flex: 1 0 0;
-    z-index: 2;
+    z-index: 30;
     text-transform: capitalize;
 }
 header > nav ul.menu {
@@ -148,7 +163,7 @@ header > nav ul.menu.open > li {
 }
 header > nav ul.menu > li.sub_title {
     display: block;
-    line-height: 44px;
+    line-height: 45px;
     margin: 0;
 }
 header > nav ul.menu > li.sub_title span {
@@ -178,6 +193,9 @@ header > nav ul.menu > li > div {
     border-radius: 0 5px 5px 0;
     cursor: pointer;
 }
+header > nav ul.menu > li > div:active {
+    background-color: <?= $midColor ?>;
+}
 header > nav ul.menu > li > div.selected {
     color: black;
     background:
@@ -202,6 +220,9 @@ header > nav  ul.sub_menu > li {
     padding: 0 0 0 25px;
     cursor: pointer;
 }
+header > nav  ul.sub_menu > li:active {
+    text-decoration: underline;
+}
 header > nav  ul.sub_menu > li:last-child {
     margin: 0 0 20px;
 }
@@ -222,6 +243,9 @@ header > nav .menu_btn {
         center center / contain
         no-repeat;
     cursor: pointer;
+}
+header > nav .menu_btn:active {
+    background-color: <?= $boxColor ?>;
 }
 header > nav .menu_btn.show {
     display: block;
@@ -249,7 +273,7 @@ header > nav .menu_btn.selected {
 .container .nav_box > div {
     overflow: hidden;
 }
-.container .nav_box .profile_pic {
+.container .profile_pic {
     width: 120px;
     height: 120px;
     margin: 15px 10px 10px;
@@ -259,6 +283,12 @@ header > nav .menu_btn.selected {
         url(<?= $imgPath . $backImages[8] ?>)
         center center / cover
         no-repeat;
+    animation: spinPic 5s linear infinite;
+}
+@keyframes spinPic {
+    100% {
+        transform: rotate(-360deg);
+    }
 }
 .container .nav_box > a > .btn {
     float: left;
@@ -305,74 +335,93 @@ form[name="ask"] .status {
 
 /* landing menu */
 .categories {
-    background-color: <?= $boxColor ?>;
+    user-select: none;
 }
 .categories li {
-    padding: 10px 0;
-    margin: 0 0 20px 0;
-    background-color: white;
-}
-.categories li > div {
-    height: 25vh;
-    min-height: 150px;
-    max-height: 500px;
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: space-between;
+    height: 200px;
     position: relative;
     overflow: hidden;
-    cursor: pointer;
+    margin: 20px 0 0 0;
+    /*border-bottom: 2px solid <?= $blueColor ?>;
+    /*box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.1);*/
 }
-.categories li:first-child > div {
-    height: 50vh;
-}
-.categories li > div > .text {
-    max-width: 80%;
+.categories li .text {
     position: absolute;
+    z-index: 20;
     left: 0;
-    top: 20px;
-    color: white;
-    /*text-shadow: 0 1px 3px rgba(0, 0, 0, 0.75);*/
-}
-.categories li > div > .text > .pad {
-    overflow: hidden;
-    position: relative;
-    padding: 10px 15px;
-    box-shadow: 0 0 0 2px white;
+    top: -2px;
+    margin-right: 10px;
+    border: 2px solid white;
+    border-left: 0;
     border-radius: 0 10px 10px 0;
-    transition: padding 500ms;
+    padding: 10px 20px;
+    color: white;
+    background-color: <?= $blueColor ?>;
+    text-shadow: -1px 1px 3px rgba(0, 0, 0, 0.75);
+    cursor: pointer;
+    transition: padding 500ms, box-shadow 250ms;
+    animation: fromLeft 2s ease-in;
 }
-.categories li > div:hover > .text > .pad {
-    padding-left: 20px;
+@keyframes fromLeft {
+    0% {
+        margin-left: -100%;
+    }
+    100% {
+        margin-left: 0;
+    }
 }
-.categories li > div > .text > .pad > .filter {
-    width: 100%;
+.categories li:hover .text {
+    padding-left: 25px;
+}
+.categories li:active .text {
+    box-shadow: inset 0 1px 10px 0 rgba(0, 0, 0, 0.75);
+}
+.categories li .row {
     height: 100%;
     position: absolute;
+    z-index: 10;
     left: 0;
     top: 0;
-
-    /*filter: blur(1.5rem);*/
-    background-color: <?= $transBox ?>;
-    /*-webkit-backdrop-filter: blur(20px);
-    /*-webkit-backdrop-filter: blur(10px);
-    transform: translateY(-30%);*/
+    display: flex;
+    flex-flow: row nowrap;
+    animation: slider 15s ease-in-out infinite alternate;
 }
-
-.categories li > div > .text > .pad > .above {
-    z-index: 1;
-    position: relative;
+.categories li:nth-child(2) .row {
+    flex-flow: row-reverse nowrap;
+    animation-direction: alternate-reverse;
 }
-.categories li > div > .img {
-    height: 50%;
-    flex: 1 0 33.3333%;
-    background:
-        left center / cover
-        no-repeat;
+@keyframes slider {
+    0% {
+        transform: translateX(0);
+        left: 0;
+    }
+    100% {
+        transform: translateX(-100%);
+        left: 100%;
+    }
+}
+.cat_list_img {
+    height: 100%;
+    display: block;
+    margin-right: 5px;
+    margin-left: 100%;
+    opacity: 0;
+    transition: margin 1s, opacity 1s;
+}
+/*.categories li:nth-child(2) .cat_list_img {
+    transition: margin 2s
+}*/
+.cat_list_img.show {
+    margin-left: 0;
+    opacity: 1;
+}
+.categories li .img:nth-child(2),
+.categories li .img:nth-child(5),
+.categories li .img:nth-child(6) {
+    /*flex: 1 0 66.666%;*/
 }
 .categories li:first-child > div > .img {
-    height: 33.3333%;
-    flex: 1 0 50%;
+    /*padding-top: 33.3333%;*/
 }
 
 /* project list item */
@@ -411,7 +460,9 @@ form[name="ask"] .status {
 /* footer section */
 footer {
     text-align: center;
+    padding-top: 100px;
     background: <?= $preImgList ?>;
+    user-select: none;
 }
 footer .copyright {
     font-size: 0.75em;
@@ -450,7 +501,6 @@ footer .copyright {
     header > nav ul.menu {
         flex-flow: row wrap;
         align-items: baseline;
-        padding: 0 0 0 5px;
     }
     header > nav ul.menu.open {
         color: initial;
@@ -460,10 +510,9 @@ footer .copyright {
     header > nav ul.menu > li {
         flex: 1 0 0;
         display: block;
-        margin: 0 0 0 10px;
+        margin: 0 10px 0 0;
     }
-    header > nav ul.menu > li.sub_title {
-        flex: 0 0 0;
+    header > nav ul.menu > li:last-child {
         margin: 0;
     }
     header > nav ul.menu.open > li.sub_title span {
@@ -475,12 +524,12 @@ footer .copyright {
     header > nav ul.menu > li.sub_menu_box {
         flex: 0 0 100%;
         order: 4;
-        margin: 0 10px 0 0;
     }
     header > nav ul.menu > li > div {
         float: none;
         text-align: center;
         padding: 5px 25px;
+        border-radius: 5px;
         background-color: <?= $boxColor ?>;
     }
     header > nav ul.menu > li > div.selected {
@@ -492,7 +541,6 @@ footer .copyright {
             <?= $transBox ?>;
     }
     header > nav ul.sub_menu {
-        padding: 5px;
         border-radius: 5px;
     }
     header > nav ul.sub_menu.open {
@@ -501,7 +549,11 @@ footer .copyright {
         box-shadow: 0 0 0 2px white;
     }
     header > nav ul.sub_menu > li {
-        margin: 0 0 5px;
+        margin: 10px 0;
+        padding: 0 20px;
+    }
+    header > nav ul.sub_menu > li:last-child {
+        margin: 10px 0;
     }
     header > nav .menu_btn {
         width: 0;
@@ -518,9 +570,11 @@ footer .copyright {
         height: 200px;
         border-radius: 100px;
     }
-    .categories li > div > .img {
-        height: 100%;
-        flex: 1 0 25%;
+    .categories .img {
+        /*padding-top: 33.3333%;
+        padding-left: 33.3333%;*/
+        /*height: 100%;
+        flex: 1 0 25%;*/
     }
 }
 /* big size styles */
@@ -528,9 +582,16 @@ footer .copyright {
     header > nav .menu_box ul.menu > li.sub_menu_box {
         flex: 1 0 0;
         order: initial;
-        margin: 0;
+        margin: 0 10px 0 0;
     }
     header > nav .menu_box ul.sub_menu {
         float: none;
+    }
+    header > nav ul.menu > li.sub_title {
+        flex: 0 0 0;
+    }
+    .categories .img {
+        /*padding-top: 100%;
+        padding-left: 25%;*/
     }
 }

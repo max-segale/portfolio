@@ -229,9 +229,9 @@
             projectObject.projects.forEach(createProject);
             // check for end of project feed
             if (projectObject.more) {
-                loadReady = true;
+                //loadReady = true;
             } else {
-                max.addClass(gallery.list, 'done');
+                //max.addClass(gallery.list, 'done');
             }
         });
     }
@@ -444,7 +444,9 @@
                 itemBox = max.addKid(item, 'div', 'heading', itemName);
             max.addEvent(itemBox, 'click', function () {
                 clickNavItem(itemName);
-                toggleMenu(true);
+                //setTimeout(function () {
+                    toggleMenu(true);
+                //}, 250);
             });
         }
         // clear nav selection and gallery
@@ -489,38 +491,35 @@
         }
         // append new item to sub menu
         function addTagItem(tagObj) {
-            var item = max.addKid(menuBoxes.subList, 'li', false, tagObj.short);
+            var attrObj = {title: tagObj.name},
+                item = max.addKid(menuBoxes.subList, 'li', attrObj, tagObj.short);
             max.addEvent(item, 'click', function () {
                 clickTagItem(tagObj);
             });
         }
+        // show category image after it loads
+        function showImg() {
+            var img = event.target;
+            max.addClass(img, 'show');
+        }
         // append new item to category display
         function addCatItem(catObj) {
             var item = max.addKid(gallery.list, 'li'),
-                itemBox = max.addKid(item, 'div');
-            max.addKid(itemBox, 'div', 'text', [
-                [
-                    'div', 'pad', [
-                        [
-                            'div', 'above', [
-                                ['h3', 'heading', catObj.name],
-                                ['span', false, catObj.summary]
-                            ]
-                        ],
-                        ['div', 'filter']
-                    ]
-                ]
-            ]);
-            max.addEvent(itemBox, 'click', function () {
+                textBox = max.addKid(item, 'div', 'text', [
+                    ['h3', 'heading', catObj.name],
+                    ['span', false, catObj.summary]
+                ]),
+                imgBox = max.addKid(item, 'div', 'row');
+            max.addKid(item, 'div', 'glass');
+            max.addEvent(textBox, 'click', function () {
                 clickTagItem(catObj);
             });
             catObj.images.forEach(function (imgObj) {
-                max.addKid(itemBox, 'div', {
-                    className: 'img',
-                    style: {
-                        backgroundImage: 'url(' + imgObj.link + ')'
-                    }
-                });
+                var catImg = max.addKid(imgBox, 'img', {
+                        className: 'cat_list_img',
+                        src: imgObj.link
+                    });
+                max.addEvent(catImg, 'load', showImg);
             });
         }
         // fill category list
