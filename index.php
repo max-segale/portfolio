@@ -31,7 +31,7 @@ $siteDesc = "A portfolio of work from $myName, full stack web developer and grap
           <div class="menu_box">
             <ul class="menu" id="menu_list">
               <li class="sub_title heading">
-                <span id="sub_title">Portfolio</span>
+                <span id="sub_title" title="Select Category">Portfolio</span>
               </li>
               <li class="sub_menu_box">
                 <ul class="sub_menu" id="sub_menu_list"></ul>
@@ -42,52 +42,56 @@ $siteDesc = "A portfolio of work from $myName, full stack web developer and grap
         </nav>
       </header>
       <div class="container">
-        <div class="nav_box" id="about">
-          <div class="profile_pic"></div>
-          <h2 class="heading heavy margin">About</h2>
-          <p>
-            <span>I work as a full-stack web developer and graphic designer.</span>
-            <span>I specialize in front-end development and UI/UX design.</span>
-          </p>
-          <p>
-            <span>This a collection of freelance work, personal projects, and some old prints.</span>
-            <span>Some exciting projects are in development right now so stay tuned for cool updates!</span>
-          </p>
-          <p>
-            <span>I built this site using HTML5, CSS3, JavaScript, PHP, and MySQL.</span>
-          </p>
-          <a href="https://github.com/max-segale/portfolio" target="_blank">
-            <div class="btn">View on GitHub</div>
-          </a>
-        </div>
-        <div class="nav_box" id="contact">
-          <div class="left">
-            <h2 class="heading heavy margin">Contact</h2>
-            <p>Please contact me about any new projects or job opportunities.</p>
+        <div class="nav_boxes" id="nav_boxes">
+          <div class="nav_box" id="about">
+            <div class="profile_pic" title="Hello, World!"></div>
+            <h2 class="heading heavy margin">About</h2>
             <p>
-              <a href="tel:(908)752-0639">📱
-                <span class="u_line">908.752.0639</span>
-              </a>
-              <br>
-              <a href="mailto:maxsegale@gmail.com">📨
-                <span class="u_line">maxsegale@gmail.com</span>
-              </a>
+              <span>I work as a full-stack web developer and graphic designer.</span>
+              <span>I specialize in front-end development and UI/UX design.</span>
             </p>
+            <p>
+              <span>This a collection of freelance work, personal projects, and some old prints.</span>
+              <span>Some exciting projects are in development right now so stay tuned for cool updates!</span>
+            </p>
+            <p>
+              <span>I built this site using HTML5, CSS3, JavaScript, PHP, and MySQL.</span>
+            </p>
+            <a href="https://github.com/max-segale/portfolio" target="_blank">
+              <div class="btn">View on GitHub</div>
+            </a>
           </div>
-          <div class="margin">
-            <span>Any questions? Please ask. 💬</span>
-            <form name="ask">
-              <input type="email" name="email" placeholder="Your Email Address" maxlength="100" required>
-              <textarea name="message" placeholder="Your Question" maxlength="255" rows="3" required></textarea>
-              <div class="flex_row">
-                <input class="btn" type="submit" name="send" value="Send" disabled>
-                <div class="status" id="msg_status"></div>
-              </div>
-            </form>
+          <div class="nav_box" id="contact">
+            <div class="left">
+              <h2 class="heading heavy margin">Contact</h2>
+              <p>Please contact me about any new projects or job opportunities.</p>
+              <p>
+                <a href="tel:(908)752-0639">📱
+                  <span class="u_line">908.752.0639</span>
+                </a>
+                <br>
+                <a href="mailto:maxsegale@gmail.com">📨
+                  <span class="u_line">maxsegale@gmail.com</span>
+                </a>
+              </p>
+            </div>
+            <div class="margin">
+              <span>Any questions? Please ask. 💬</span>
+              <form name="ask">
+                <input type="email" name="email" placeholder="Your Email Address" maxlength="100" required>
+                <textarea name="message" placeholder="Your Question" maxlength="255" rows="3" required></textarea>
+                <div class="flex_row">
+                  <input class="btn" type="submit" name="send" value="Send" disabled>
+                  <div class="status" id="msg_status"></div>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
         <span class="heading heavy margin" id="gallery_title"></span>
-        <ul id="gallery_list"></ul>
+        <ul id="gallery_list">
+          <li class="loading"></li>
+        </ul>
       </div>
       <footer>
         <noscript>⚠️ Please enable JavaScript in your browser settings.</noscript>
