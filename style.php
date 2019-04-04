@@ -12,7 +12,8 @@ $fontFam = '"Helvetica Neue", "Helvetica", sans-serif';
 $boxColor = '#EEEEEE';
 $transBox = "rgba(0, 0, 0, 0.75)";
 $midColor = '#999999';
-$blueColor = '#007AFF';
+//$blueColor = '#007AFF';
+$blueColor = '#1f7ad6';
 // create preload image list
 $backImages = [
     'icons/close-24px-b.svg',
@@ -89,11 +90,12 @@ ul {
     text-decoration: underline;
 }
 .btn {
+    cursor: pointer;
     border-radius: 5px;
     padding: 5px 10px;
     color: white;
     background-color: <?= $blueColor ?>;
-    transition: box-shadow 250ms;
+    transition: box-shadow 250ms linear;
 }
 .btn:active {
     box-shadow: inset 0 1px 10px 0 rgba(0, 0, 0, 0.75);
@@ -134,39 +136,39 @@ header > nav .slash {
 }
 
 /* nav menu */
-header > nav .menu_box {
+.menu_box {
     height: 0;
     flex: 1 0 0;
     z-index: 30;
     text-transform: capitalize;
 }
-header > nav ul.menu {
+ul.menu {
     display: flex;
     flex-flow: column nowrap;
     margin: 0 0 0 5px;
     border-radius: 5px;
 }
-header > nav ul.menu.open {
+ul.menu.open {
     color: white;
     background-color: <?= $transBox ?>;
     box-shadow: 0 0 0 2px white;
 }
-header > nav ul.menu > li {
+ul.menu > li {
     display: none;
     margin: 0 0 10px;
 }
-header > nav ul.menu > li:last-child {
+ul.menu > li:last-child {
     margin: 0 0 20px;
 }
-header > nav ul.menu.open > li {
+ul.menu.open > li {
     display: block;
 }
-header > nav ul.menu > li.sub_title {
+ul.menu > li.sub_title {
     display: block;
     line-height: 45px;
     margin: 0;
 }
-header > nav ul.menu > li.sub_title span {
+ul.menu > li.sub_title span {
     padding: 0 25px 0 10px;
     background:
         url(<?= $imgPath . $backImages[6] ?>)
@@ -174,29 +176,29 @@ header > nav ul.menu > li.sub_title span {
         no-repeat;
     cursor: pointer;
 }
-header > nav ul.menu > li.sub_title span:active {
+ul.menu > li.sub_title span:active {
     text-decoration: underline;
 }
-header > nav ul.menu > li.sub_title span.selected {
+ul.menu > li.sub_title span.selected {
     text-decoration: underline;
     background-image: url(<?= $imgPath . $backImages[4] ?>);
 }
-header > nav ul.menu.open > li.sub_title span {
+ul.menu.open > li.sub_title span {
     background-image: url(<?= $imgPath . $backImages[7] ?>);
 }
-header > nav ul.menu.open > li.sub_title span.selected {
+ul.menu.open > li.sub_title span.selected {
     background-image: url(<?= $imgPath . $backImages[5] ?>);
 }
-header > nav ul.menu > li > div {
+ul.menu > li > div {
     float: left;
     padding: 0 10px 0 25px;
     border-radius: 0 5px 5px 0;
     cursor: pointer;
 }
-header > nav ul.menu > li > div:active {
+ul.menu > li > div:active {
     background-color: <?= $midColor ?>;
 }
-header > nav ul.menu > li > div.selected {
+ul.menu > li > div.selected {
     color: black;
     background:
         url(<?= $imgPath . $backImages[0] ?>)
@@ -204,34 +206,36 @@ header > nav ul.menu > li > div.selected {
         no-repeat
         white;
 }
-header > nav ul.menu > li.sub_menu_box {
+
+/* tag sub menu */
+ul.menu > li.sub_menu_box {
     margin: 0;
 }
-header > nav ul.sub_menu {
+ul.sub_menu {
     height: 0;
     overflow: hidden;
     float: left;
 }
-header > nav ul.sub_menu.open {
+ul.sub_menu.open {
     height: initial;
 }
-header > nav  ul.sub_menu > li {
+ul.sub_menu > li {
     margin: 0 0 10px;
     padding: 0 0 0 25px;
     cursor: pointer;
 }
-header > nav  ul.sub_menu > li:active {
+ul.sub_menu > li:active {
     text-decoration: underline;
 }
-header > nav  ul.sub_menu > li:last-child {
+ul.sub_menu > li:last-child {
     margin: 0 0 20px;
 }
-header > nav  ul.sub_menu > li.selected {
+ul.sub_menu > li.selected {
     text-decoration: underline;
 }
 
 /* nav menu icon */
-header > nav .menu_btn {
+.menu_btn {
     display: none;
     width: 30px;
     height: 30px;
@@ -244,13 +248,13 @@ header > nav .menu_btn {
         no-repeat;
     cursor: pointer;
 }
-header > nav .menu_btn:active {
+.menu_btn:active {
     background-color: <?= $boxColor ?>;
 }
-header > nav .menu_btn.show {
+.menu_btn.show {
     display: block;
 }
-header > nav .menu_btn.selected {
+.menu_btn.selected {
     background:
         url(<?= $imgPath . $backImages[1] ?>)
         center center / contain
@@ -262,44 +266,84 @@ header > nav .menu_btn.selected {
 .container {
     padding: 5px 0;
 }
-.container .nav_box {
-    display: none;
-    padding: 0 5px;
-    overflow: hidden;
-}
-.container .nav_box.show {
-    display: block;
-}
-.container .nav_box > div {
-    overflow: hidden;
-}
-.container .profile_pic {
-    width: 120px;
-    height: 120px;
-    margin: 15px 10px 10px;
-    border-radius: 60px;
-    float: right;
-    background:
-        url(<?= $imgPath . $backImages[8] ?>)
-        center center / cover
-        no-repeat;
-    animation: spinPic 5s linear infinite;
-}
-@keyframes spinPic {
-    100% {
-        transform: rotate(-360deg);
-    }
-}
-.container .nav_box > a > .btn {
-    float: left;
-    margin: 0 5px 20px;
-}
 .container > .heading {
     display: none;
     margin-left: 10px;
 }
 .container > .heading.show {
     display: block;
+}
+.nav_boxes {
+    width: 100%;
+    height: 0;
+    position: relative;
+    overflow: hidden;
+    transition: height 500ms ease-in;
+}
+.nav_boxes.show {
+    height: initial;
+}
+.nav_boxes .nav_box {
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 1;
+    overflow: hidden;
+    opacity: 0;
+    padding: 0 5px;
+    transform: translateY(100%);
+    transition: transform 500ms linear, opacity 500ms linear;
+}
+.nav_boxes .nav_box.show {
+    position: relative;
+    z-index: 2;
+    opacity: 1;
+    transform: translateY(0%);
+}
+.nav_box > div {
+    overflow: hidden;
+}
+.nav_box > a > .btn {
+    float: left;
+    margin: 0 5px 20px;
+}
+.nav_box .profile_pic {
+    width: 120px;
+    height: 120px;
+    margin: 15px 10px 10px;
+    border-radius: 60px;
+    float: right;
+    cursor: pointer;
+    background:
+        url(<?= $imgPath . $backImages[8] ?>)
+        center center / cover
+        no-repeat;
+    transition: border-radius 1s ease, transform 1s ease;
+    animation: spinLeft 500ms linear;
+}
+.nav_box .profile_pic:active {
+    border-radius: 0;
+    transform: rotate(360deg);
+}
+@keyframes spinLeft {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(-360deg);
+    }
+}
+.nav_box.show .profile_pic {
+    animation: spinRight 500ms linear;
+}
+@keyframes spinRight {
+    0% {
+        transform: rotate(-360deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
 }
 
 /* message form */
@@ -327,13 +371,15 @@ form[name="ask"] input[type="email"]:focus, textarea:focus {
 form[name="ask"] input[type="submit"] {
     margin: 5px 10px 10px 0;
     font-size: 1em;
-    cursor: pointer;
 }
 form[name="ask"] .status {
     font-size: 0.8em;
 }
 
 /* landing menu */
+.loading {
+    min-height: 50vh;
+}
 .categories {
     user-select: none;
 }
@@ -345,22 +391,23 @@ form[name="ask"] .status {
     /*border-bottom: 2px solid <?= $blueColor ?>;
     /*box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.1);*/
 }
+.categories li:first-child {
+    height: 300px;
+}
 .categories li .text {
     position: absolute;
     z-index: 20;
     left: 0;
     top: -2px;
-    margin-right: 10px;
+    padding: 2px 2px 2px 10px;
     border: 2px solid white;
     border-left: 0;
-    border-radius: 0 10px 10px 0;
-    padding: 10px 20px;
+    border-radius: 0 5px 5px 0;
     color: white;
-    background-color: <?= $blueColor ?>;
-    text-shadow: -1px 1px 3px rgba(0, 0, 0, 0.75);
+    background-color: rgba(31, 122, 214, 0.75);
     cursor: pointer;
-    transition: padding 500ms, box-shadow 250ms;
-    animation: fromLeft 2s ease-in;
+    transition: box-shadow 250ms linear;
+    animation: fromLeft 1s ease-out;
 }
 @keyframes fromLeft {
     0% {
@@ -370,11 +417,14 @@ form[name="ask"] .status {
         margin-left: 0;
     }
 }
-.categories li:hover .text {
-    padding-left: 25px;
-}
 .categories li:active .text {
     box-shadow: inset 0 1px 10px 0 rgba(0, 0, 0, 0.75);
+}
+.categories li .text > .heading {
+    display: inline;
+}
+.categories li .text > * {
+    background-color: <?= $blueColor ?>;
 }
 .categories li .row {
     height: 100%;
@@ -384,11 +434,11 @@ form[name="ask"] .status {
     top: 0;
     display: flex;
     flex-flow: row nowrap;
-    animation: slider 15s ease-in-out infinite alternate;
+    animation: slider 60s linear 1s infinite alternate;
 }
 .categories li:nth-child(2) .row {
-    flex-flow: row-reverse nowrap;
-    animation-direction: alternate-reverse;
+    /*flex-flow: row-reverse nowrap;*/
+    /*animation-direction: alternate-reverse;*/
 }
 @keyframes slider {
     0% {
@@ -406,7 +456,7 @@ form[name="ask"] .status {
     margin-right: 5px;
     margin-left: 100%;
     opacity: 0;
-    transition: margin 1s, opacity 1s;
+    transition: margin 1s linear, opacity 2s linear;
 }
 /*.categories li:nth-child(2) .cat_list_img {
     transition: margin 2s
@@ -476,16 +526,16 @@ footer .copyright {
     header > nav .slash {
         display: block;
     }
-    .container .nav_box {
+    .container > .heading {
+        margin-left: 20px;
+    }
+    .nav_boxes .nav_box {
         padding: 0 15px;
     }
-    .container .nav_box .profile_pic {
+    .nav_box .profile_pic {
         width: 144px;
         height: 144px;
         border-radius: 72px;
-        margin-left: 20px;
-    }
-    .container > .heading {
         margin-left: 20px;
     }
     .project > .info_box {
@@ -498,41 +548,41 @@ footer .copyright {
     html, body {
         font-size: 18px;
     }
-    header > nav ul.menu {
+    ul.menu {
         flex-flow: row wrap;
         align-items: baseline;
     }
-    header > nav ul.menu.open {
+    ul.menu.open {
         color: initial;
         background-color: initial;
         box-shadow: none;
     }
-    header > nav ul.menu > li {
+    ul.menu > li {
         flex: 1 0 0;
         display: block;
         margin: 0 10px 0 0;
     }
-    header > nav ul.menu > li:last-child {
+    ul.menu > li:last-child {
         margin: 0;
     }
-    header > nav ul.menu.open > li.sub_title span {
+    ul.menu.open > li.sub_title span {
       background-image: url(<?= $imgPath . $backImages[6] ?>);
     }
-    header > nav ul.menu.open > li.sub_title span.selected {
+    ul.menu.open > li.sub_title span.selected {
         background-image: url(<?= $imgPath . $backImages[4] ?>);
     }
-    header > nav ul.menu > li.sub_menu_box {
+    ul.menu > li.sub_menu_box {
         flex: 0 0 100%;
         order: 4;
     }
-    header > nav ul.menu > li > div {
+    ul.menu > li > div {
         float: none;
         text-align: center;
         padding: 5px 25px;
         border-radius: 5px;
         background-color: <?= $boxColor ?>;
     }
-    header > nav ul.menu > li > div.selected {
+    ul.menu > li > div.selected {
         color: white;
         background:
             url(<?= $imgPath . $backImages[1] ?>)
@@ -540,32 +590,35 @@ footer .copyright {
             no-repeat
             <?= $transBox ?>;
     }
-    header > nav ul.sub_menu {
+    ul.sub_menu {
         border-radius: 5px;
     }
-    header > nav ul.sub_menu.open {
+    ul.sub_menu.open {
         color: white;
         background-color: <?= $transBox ?>;
         box-shadow: 0 0 0 2px white;
     }
-    header > nav ul.sub_menu > li {
+    ul.sub_menu > li {
         margin: 10px 0;
         padding: 0 20px;
     }
-    header > nav ul.sub_menu > li:last-child {
+    ul.sub_menu > li:last-child {
         margin: 10px 0;
     }
-    header > nav .menu_btn {
+    .menu_btn {
         width: 0;
         margin: 0;
         border: 0;
     }
-    .container .nav_box .left {
+    /*.nav_boxes .nav_box {
+        padding: 0 25px;
+    }*/
+    .nav_box .left {
         width: 50%;
         float: left;
         padding-right: 20px;
     }
-    .container .nav_box .profile_pic {
+    .nav_box .profile_pic {
         width: 200px;
         height: 200px;
         border-radius: 100px;
@@ -579,15 +632,15 @@ footer .copyright {
 }
 /* big size styles */
 @media (min-width: <?= $bigWidth ?>) {
-    header > nav .menu_box ul.menu > li.sub_menu_box {
+    .menu_box ul.menu > li.sub_menu_box {
         flex: 1 0 0;
         order: initial;
         margin: 0 10px 0 0;
     }
-    header > nav .menu_box ul.sub_menu {
+    .menu_box ul.sub_menu {
         float: none;
     }
-    header > nav ul.menu > li.sub_title {
+    ul.menu > li.sub_title {
         flex: 0 0 0;
     }
     .categories .img {
