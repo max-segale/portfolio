@@ -354,12 +354,21 @@
                 btn: document.querySelector('#menu_btn')
             },
             infoBoxes = {
+                holder: document.querySelector('#nav_boxes'),
                 about: document.querySelector('#about'),
                 contact: document.querySelector('#contact')
             },
             selectInfo = null,
             selectItem = null,
             selectTag = null;
+        // check nav box transition
+        max.addEvent(infoBoxes['holder'], 'transitionend', function () {
+            if (event.propertyName === 'height') {
+                if (infoBoxes['holder'].style.height !== '0px') {
+                    infoBoxes['holder'].style.height = 'initial';
+                }
+            }
+        });
         // display nav selection
         function selectNavItem(itemName) {
             if (selectItem) {
@@ -374,14 +383,27 @@
         }
         // display info box selection
         function showInfo(itemName) {
+            var infoHeight = null;
             if (selectInfo) {
+                // set height before close for transition
+                infoHeight = infoBoxes[selectInfo].offsetHeight;
+                infoBoxes['holder'].style.height = infoHeight + 'px';
                 max.subClass(infoBoxes[selectInfo], 'show');
             }
             if (itemName) {
+                max.addClass(infoBoxes['holder'], 'show');
                 max.addClass(infoBoxes[itemName], 'show');
+                // set height for transition, remove after for resize
+                infoHeight = infoBoxes[itemName].offsetHeight;
+                infoBoxes['holder'].style.height = infoHeight + 'px';
                 selectInfo = itemName;
             } else {
+                max.subClass(infoBoxes['holder'], 'show');
                 selectInfo = false;
+                // allow height to set before close
+                setTimeout(function () {
+                    infoBoxes['holder'].style.height = 0;
+                }, 100);
             }
         }
         // set small screen nav menu open or closed
@@ -444,9 +466,7 @@
                 itemBox = max.addKid(item, 'div', 'heading', itemName);
             max.addEvent(itemBox, 'click', function () {
                 clickNavItem(itemName);
-                //setTimeout(function () {
-                    toggleMenu(true);
-                //}, 250);
+                toggleMenu(true);
             });
         }
         // clear nav selection and gallery
@@ -507,6 +527,7 @@
             var item = max.addKid(gallery.list, 'li'),
                 textBox = max.addKid(item, 'div', 'text', [
                     ['h3', 'heading', catObj.name],
+                    ['br'],
                     ['span', false, catObj.summary]
                 ]),
                 imgBox = max.addKid(item, 'div', 'row');
@@ -546,6 +567,7 @@
         // create nav items, add events, show items
         function initMenu(result) {
             var items = JSON.parse(result.responseText);
+            clearGallery();
             items.nav.forEach(addNavItem);
             items.categories.forEach(addTagItem);
             max.addEvent(menuBoxes.title, 'click', resetPage);
