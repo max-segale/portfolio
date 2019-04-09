@@ -1,6 +1,9 @@
 <?php
+
 // stop cache
 session_cache_limiter('nocache');
+$randNum = rand();
+
 // basic info
 $myName = "Max Segale";
 $siteDesc = "A portfolio of work from $myName, full stack web developer and graphic designer.";
@@ -19,13 +22,13 @@ $siteDesc = "A portfolio of work from $myName, full stack web developer and grap
     <title><?= $myName ?> 👨🏻‍💻 Portfolio</title>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="stylesheet" type="text/css" href="style.php">
-    <script type="text/javascript" src="max.js"></script>
-    <script type="text/javascript" src="portfolio.js"></script>
+    <script type="text/javascript" src="max.js?r=<?= $randNum ?>"></script>
+    <script type="text/javascript" src="portfolio.js?r=<?= $randNum ?>"></script>
   </head>
-  <body>
+  <body ontouchstart>
     <div class="wrapper">
       <header>
-        <nav>
+        <nav class="no_select">
           <h1 class="title" id="menu_title"><?= $myName ?></h1>
           <div class="slash heading">//</div>
           <div class="menu_box">
@@ -51,14 +54,14 @@ $siteDesc = "A portfolio of work from $myName, full stack web developer and grap
               <span>I specialize in front-end development and UI/UX design.</span>
             </p>
             <p>
-              <span>This a collection of freelance work, personal projects, and some old prints.</span>
+              <span>This a collection of some freelance work and personal projects.</span>
               <span>Some exciting projects are in development right now so stay tuned for cool updates!</span>
             </p>
             <p>
               <span>I built this site using HTML5, CSS3, JavaScript, PHP, and MySQL.</span>
             </p>
             <a href="https://github.com/max-segale/portfolio" target="_blank">
-              <div class="btn">View on GitHub</div>
+              <div class="btn no_select">View on GitHub</div>
             </a>
           </div>
           <div class="nav_box" id="contact">
@@ -70,8 +73,8 @@ $siteDesc = "A portfolio of work from $myName, full stack web developer and grap
                   <span class="u_line">908.752.0639</span>
                 </a>
                 <br>
-                <a href="mailto:maxsegale@gmail.com">📨
-                  <span class="u_line">maxsegale@gmail.com</span>
+                <a href="mailto:maxsegale@me.com">📨
+                  <span class="u_line">maxsegale@me.com</span>
                 </a>
               </p>
             </div>
@@ -89,11 +92,11 @@ $siteDesc = "A portfolio of work from $myName, full stack web developer and grap
           </div>
         </div>
         <span class="heading heavy margin" id="gallery_title"></span>
-        <ul id="gallery_list">
+        <ul id="gallery_list" class="no_select">
           <li class="loading"></li>
         </ul>
       </div>
-      <footer>
+      <footer class="no_select">
         <noscript>⚠️ Please enable JavaScript in your browser settings.</noscript>
         <div class="copyright">
           <span>&copy; <?= $myName.' '.date('Y') ?></span>

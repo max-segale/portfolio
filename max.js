@@ -18,27 +18,27 @@ var max = (function (window, document) {
         });
     }
     // process request state changes
-    function stateChange(xmlhttp, passFn, failFn, waitFn) {
+    function stateChange(XHR, passFn, failFn, waitFn) {
         if (waitFn) {
-            waitFn(xmlhttp);
+            waitFn(XHR);
         }
-        if (xmlhttp.readyState === 4) {
-            if (xmlhttp.status === 200) {
+        if (XHR.readyState === 4) {
+            if (XHR.status === 200) {
                 if (passFn) {
-                    passFn(xmlhttp);
+                    passFn(XHR);
                 }
             } else if (failFn) {
-                failFn(xmlhttp);
+                failFn(XHR);
             }
         }
     }
     return {
         // encoded ajax request with callback functions
         request: function (method, path, paramObj, passFn, failFn, waitFn) {
-            var xmlhttp = new XMLHttpRequest();
+            var XHR = new XMLHttpRequest();
             var contType = "application/x-www-form-urlencoded";
             var theParams = "";
-            var sendUrl = "";
+            var sendURL = "";
             var sendString = "";
             if (paramObj) {
                 Object.keys(paramObj).forEach(function (param, p) {
@@ -54,17 +54,17 @@ var max = (function (window, document) {
                     theParams += "&";
                 }
                 theParams += "v=" + Math.random();
-                sendUrl = path + "?" + theParams;
+                sendURL = path + "?" + theParams;
             } else {
-                sendUrl = path;
+                sendURL = path;
                 sendString = theParams;
             }
-            xmlhttp.onreadystatechange = function () {
-                stateChange(xmlhttp, passFn, failFn, waitFn);
+            XHR.onreadystatechange = function () {
+                stateChange(XHR, passFn, failFn, waitFn);
             };
-            xmlhttp.open(method, sendUrl, true);
-            xmlhttp.setRequestHeader("Content-Type", contType);
-            xmlhttp.send(sendString);
+            XHR.open(method, sendURL, true);
+            XHR.setRequestHeader("Content-Type", contType);
+            XHR.send(sendString);
         },
         // parse query string and return parameter object
         parseQueryStr: function () {
@@ -81,7 +81,7 @@ var max = (function (window, document) {
             return paramObj;
         },
         // create new element, apply attributes, add to parent
-        addKid: function (elParent, elType, elAtrs, elInner) {
+        newKid: function (elParent, elType, elAtrs, elInner) {
             var element = document.createElement(elType);
             if (elAtrs) {
                 if (typeof elAtrs === "string") {
@@ -94,7 +94,7 @@ var max = (function (window, document) {
                 if (typeof elInner === "string") {
                     element.innerHTML = elInner;
                 } else if (typeof elInner === "object") {
-                    this.addKids(element, elInner);
+                    this.newKids(element, elInner);
                 }
             }
             if (elParent) {
@@ -103,11 +103,11 @@ var max = (function (window, document) {
             return element;
         },
         // add multiple new elements to parent
-        addKids: function (elParent, kids) {
+        newKids: function (elParent, kids) {
             var elements = [];
             var thisObj = this;
             kids.forEach(function (el) {
-                var element = thisObj.addKid(elParent, el[0], el[1], el[2]);
+                var element = thisObj.newKid(elParent, el[0], el[1], el[2]);
                 elements.push(element);
             });
             return elements;
