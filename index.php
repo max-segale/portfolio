@@ -21,7 +21,7 @@ $siteDesc = "A portfolio of work from $myName, full stack web developer and grap
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title><?= $myName ?> 👨🏻‍💻 Portfolio</title>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <link rel="stylesheet" type="text/css" href="style.php">
+    <link rel="stylesheet" type="text/css" href="style.php?r=<?= $randNum ?>">
     <script type="text/javascript" src="max.js?r=<?= $randNum ?>"></script>
     <script type="text/javascript" src="portfolio.js?r=<?= $randNum ?>"></script>
   </head>

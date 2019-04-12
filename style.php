@@ -4,6 +4,27 @@ require_once '../info/portfolio.php';
 // set content as css
 header('Content-Type: text/css; charset=UTF-8');
 
+// add full vendor prefixes to a property or value
+function vFix($property, $value, $toValue) {
+    $vendors = ['-webkit-', '-moz-', '-ms-'];
+    foreach ($vendors as $v) {
+        $propCSS .= "$v$property: ";
+        if ($toValue) {
+            $propCSS .= $v;
+        }
+        $propCSS .= "$value;
+    ";
+    }
+    if ($toValue) {
+        foreach ($vendors as $v) {
+            $propCSS .= "$property: $v$value;
+    ";
+        }
+    }
+    $propCSS .= "$property: $value;";
+    return $propCSS;
+}
+
 // set scaling sizes
 $smallWidth = '375px';
 $midWidth = '568px';
@@ -12,48 +33,54 @@ $fullWidth = '1024px';
 
 // set fonts and colors
 $fontFam = '"Helvetica Neue", "Helvetica", sans-serif';
+$clear = 'rgba(0, 0, 0, 0)';
 $boxColor = 'rgba(222, 222, 222, 1)';
 $midColor = 'rgba(150, 150, 150, 1)';
 $blackTrans = 'rgba(0, 0, 0, 0.75)';
+$greyTrans = 'rgba(50, 50, 50, 0.75)';
 $whiteTrans = 'rgba(255, 255, 255, 0.97)';
 $blueColor = 'rgba(6, 127, 234, 1)';
 $blueTrans = 'rgba(6, 127, 234, 0.8)';
 
 // create preload image list
 $backImages = [
-    'icons/close-24px-b.svg',
-    'icons/close-24px-w.svg',
-    'icons/max-segale.svg',
-    'icons/menu-24px.svg',
-    'icons/more-24px-b.svg',
-    'icons/more-24px-w.svg',
-    'icons/right-24px-b.svg',
-    'icons/right-24px-w.svg',
-    'me.jpg'
+    'menu'=>'icons/menu-24px.svg',
+    'loading'=>'icons/max-segale.svg',
+    'right_b'=>'icons/right-24px-b.svg',
+    'right_w'=>'icons/right-24px-w.svg',
+    'more_b'=>'icons/more-24px-b.svg',
+    'more_w'=>'icons/more-24px-w.svg',
+    'close_b'=>'icons/close-24px-b.svg',
+    'close_w'=>'icons/close-24px-w.svg',
+    'forward'=>'icons/forward-24px-w.svg',
+    'back'=>'icons/back-24px-w.svg',
+    'self'=>'me.jpg'
 ];
 foreach ($backImages as $image) {
     $preImgList .= "
-        url($imgPath$image) no-repeat -9999px -9999px,";
+        url($imgPath/$image) no-repeat -9999px -9999px,";
 }
 $preImgList = substr($preImgList, 0, -1);
-?>
-/* global styles */
+
+// global styles
+$css = "/* max segale | portfolio */
 * {
     margin: 0;
     border: 0;
     padding: 0;
     box-sizing: border-box;
-}
+}";
 
-/* tag styles */
+// tag styles
+$css .= "
 html, body {
     text-align: left;
     font-size: 16px;
-    font-family: <?= $fontFam ?>;
+    font-family: $fontFam;
     color: black;
     background-color: white;
     -webkit-text-size-adjust: none;
-    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    -webkit-tap-highlight-color: $clear;
 }
 h1, h2, h3 {
     display: inline;
@@ -69,17 +96,16 @@ p {
 }
 ul {
     list-style: none;
-}
+}";
 
-/* general classes */
-.wrapper {
-
-}
-.flex_row {
-    display: flex;
-    flex-flow: row nowrap;
-    align-items: baseline;
-}
+// general classes
+$btnTrans = vFix('transition',
+    'text-shadow 250ms linear, box-shadow 250ms linear', false
+);
+$backBlur = vFix('backdrop-filter', 'blur(32px)', false);
+$backAnimation = vFix('animation', 'fadeIn 500ms linear', false);
+$userSelect = vFix('user-select', 'none', false);
+$css .= "
 .heading {
     display: block;
     font-size: 1.25em;
@@ -99,12 +125,17 @@ ul {
     border-radius: 5px;
     padding: 5px 10px;
     color: white;
-    background-color: <?= $blueColor ?>;
-    transition: text-shadow 250ms linear, box-shadow 250ms linear;
+    background-color: $blueColor;
+    $btnTrans
 }
 .btn:active {
-    text-shadow: 0 1px 3px <?= $blackTrans ?>;
-    box-shadow: inset 0 1px 10px 0 <?= $blackTrans ?>;
+    text-shadow: 0 1px 3px $blackTrans;
+    box-shadow: inset 0 1px 10px 0 $blackTrans;
+}
+.flex_row {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: baseline;
 }
 .glass {
     width: 100%;
@@ -121,39 +152,27 @@ ul {
     z-index: 100;
     left: 0;
     top: 0;
-    background-color: <?= $blackTrans ?>;
-    -webkit-backdrop-filter: blur(32px);
-    backdrop-filter: blur(32px);
-    animation: fadeIn 500ms linear;
-}
-@keyframes fadeIn {
-    0% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-    }
+    background-color: $greyTrans;
+    $backBlur
+    $backAnimation
 }
 .no_scroll {
     overflow: hidden;
 }
 .no_select {
     -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-}
+    $userSelect
+}";
 
-/* header section */
+// header section
+$css .= "
 header {
     position: -webkit-sticky;
     position: sticky;
     z-index: 25;
     top: 0;
     padding: 10px 0;
-    background-color: <?= $whiteTrans ?>;
+    background-color: $whiteTrans;
 }
 header .title {
     font-size: 1.5em;
@@ -174,15 +193,19 @@ header > nav {
 }
 header > nav .slash {
     display: none;
-    color: <?= $midColor ?>;
-}
+    color: $midColor;
+}";
 
-/* nav menu */
+// nav menu
+$menuFlex = vFix('flex', '1 0 0', false);
+$menuBlur = vFix('backdrop-filter', 'blur(32px)', false);
+$btnTrans = vFix('transition', 'background-color 250ms linear', false);
+$css .= "
 .menu_box {
     height: 0;
-    flex: 1 0 0;
     z-index: 30;
     text-transform: capitalize;
+    $menuFlex
 }
 ul.menu {
     display: flex;
@@ -192,10 +215,9 @@ ul.menu {
 }
 ul.menu.open {
     color: white;
-    background-color: <?= $blackTrans ?>;
+    background-color: $blackTrans;
     box-shadow: 0 0 0 2px white;
-    -webkit-backdrop-filter: blur(32px);
-    backdrop-filter: blur(32px);
+    $menuBlur
 }
 ul.menu > li {
     display: none;
@@ -214,46 +236,47 @@ ul.menu > li.sub_title {
 }
 ul.menu > li.sub_title span {
     padding: 0 25px 0 10px;
+    cursor: pointer;
     background:
-        url(<?= $imgPath . $backImages[6] ?>)
+        url($imgPath/$backImages[right_b])
         right center
         no-repeat;
-    cursor: pointer;
 }
 ul.menu > li.sub_title span:active {
     text-decoration: underline;
 }
 ul.menu > li.sub_title span.selected {
     text-decoration: underline;
-    background-image: url(<?= $imgPath . $backImages[4] ?>);
+    background-image: url($imgPath/$backImages[more_b]);
 }
 ul.menu.open > li.sub_title span {
-    background-image: url(<?= $imgPath . $backImages[7] ?>);
+    background-image: url($imgPath/$backImages[right_w]);
 }
 ul.menu.open > li.sub_title span.selected {
-    background-image: url(<?= $imgPath . $backImages[5] ?>);
+    background-image: url($imgPath/$backImages[more_w]);
 }
 ul.menu > li > div {
     float: left;
     padding: 0 10px 0 25px;
     border-radius: 0 5px 5px 0;
     cursor: pointer;
-    transition: background-color 250ms linear;
+    $btnTrans
 }
 ul.menu > li > div:active {
     color: white;
-    background-color: <?= $midColor ?>;
+    background-color: $midColor;
 }
 ul.menu > li > div.selected {
     color: black;
     background:
-        url(<?= $imgPath . $backImages[0] ?>)
+        url($imgPath/$backImages[close_b])
         left center / contain
         no-repeat
         white;
-}
+}";
 
-/* tag sub menu */
+// tag sub-menu
+$css .= "
 ul.menu > li.sub_menu_box {
     margin: 0;
 }
@@ -278,37 +301,51 @@ ul.sub_menu > li:last-child {
 }
 ul.sub_menu > li.selected {
     text-decoration: underline;
-}
+}";
 
-/* nav menu icon */
+// nav menu icon
+$css .= "
 .menu_btn {
     display: none;
     width: 30px;
     height: 30px;
+    cursor: pointer;
     margin-left: 5px;
     border: 2px solid black;
     border-radius: 5px;
     background:
-        url(<?= $imgPath . $backImages[3] ?>)
+        url($imgPath/$backImages[menu])
         center center / contain
         no-repeat;
-    cursor: pointer;
 }
 .menu_btn:active {
-    background-color: <?= $boxColor ?>;
+    background-color: $boxColor;
 }
 .menu_btn.show {
     display: block;
 }
 .menu_btn.selected {
     background:
-        url(<?= $imgPath . $backImages[1] ?>)
+        url($imgPath/$backImages[close_w])
         center center / contain
         no-repeat
-        <?= $blackTrans ?>;
-}
+        $blackTrans;
+}";
 
-/* content section */
+// content section
+$boxesTrans = vFix('transition', 'height 500ms ease-in', false);
+$boxTForm = vFix('transform', 'translateY(100%)', false);
+$boxShowTForm = vFix('transform', 'translateY(0%)', false);
+$boxTrans = vFix('transition',
+    'transform 500ms linear, opacity 500ms linear', true
+);
+$picTrans = vFix('transition',
+    'transform 1s ease, border-radius 1s ease', true
+);
+$picAni = vFix('animation', 'spinLeft 500ms linear', false);
+$picShowAni = vFix('animation', 'spinRight 500ms linear', false);
+$picTForm = vFix('transform', 'rotate(360deg)', false);
+$css .= "
 .container {
     overflow: hidden;
 }
@@ -324,7 +361,7 @@ ul.sub_menu > li.selected {
     height: 0;
     position: relative;
     overflow: hidden;
-    transition: height 500ms ease-in;
+    $boxesTrans
 }
 .nav_boxes .nav_box {
     width: 100%;
@@ -335,14 +372,14 @@ ul.sub_menu > li.selected {
     overflow: hidden;
     opacity: 0;
     padding: 0 5px;
-    transform: translateY(100%);
-    transition: transform 500ms linear, opacity 500ms linear;
+    $boxTForm
+    $boxTrans
 }
 .nav_boxes .nav_box.show {
     position: relative;
     z-index: 2;
     opacity: 1;
-    transform: translateY(0%);
+    $boxShowTForm
 }
 .nav_box > div {
     overflow: hidden;
@@ -359,86 +396,64 @@ ul.sub_menu > li.selected {
     float: right;
     cursor: pointer;
     background:
-        url(<?= $imgPath . $backImages[8] ?>)
+        url($imgPath/$backImages[self])
         center center / cover
         no-repeat;
-    transition: border-radius 1s ease, transform 1s ease;
-    animation: spinLeft 500ms linear;
+    $picTrans
+    $picAni
 }
 .nav_box .profile_pic:active {
     border-radius: 0;
-    transform: rotate(360deg);
-}
-@keyframes spinLeft {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(-360deg);
-    }
+    $picTForm
 }
 .nav_box.show .profile_pic {
-    animation: spinRight 500ms linear;
-}
-@keyframes spinRight {
-    0% {
-        transform: rotate(-360deg);
-    }
-    100% {
-        transform: rotate(0deg);
-    }
-}
+    $picShowAni
+}";
 
-/* message form */
-form[name="ask"] input, textarea {
+// message form
+$css .= "
+form[name='ask'] input, textarea {
     display: block;
     border-radius: 5px;
-    font-family: <?= $fontFam ?>;
+    font-family: $fontFam;
     outline: none;
     -webkit-appearance: none;
 }
-form[name="ask"] input[type="email"], textarea {
+form[name='ask'] input[type='email'], textarea {
     width: 100%;
     margin-top: 5px;
-    border: 2px solid <?= $boxColor ?>;
+    border: 2px solid $boxColor;
     padding: 3px 0 3px 5px;
     font-size: 0.8em;
     resize: none;
     color: black;
-    background-color: <?= $boxColor ?>;
+    background-color: $boxColor;
 }
-form[name="ask"] input[type="email"]:focus, textarea:focus {
+form[name='ask'] input[type='email']:focus, textarea:focus {
     border: 2px solid black;
     background-color: white;
 }
-form[name="ask"] input[type="submit"] {
+form[name='ask'] input[type='submit'] {
     margin: 5px 10px 10px 0;
     font-size: 1em;
 }
-form[name="ask"] .status {
+form[name='ask'] .status {
     font-size: 0.8em;
-}
+}";
 
-/* loading icon */
-.loading {
-    padding-top: 50%;
-    opacity: 0.25;
-    background:
-        url(<?= $imgPath . $backImages[2] ?>)
-        center center / 50%
-        no-repeat;
-    animation: loading 500ms ease infinite alternate;
-}
-@keyframes loading {
-    0% {
-        background-size: 0%;
-    }
-    100% {
-        background-size: 50%;
-    }
-}
-
-/* landing category display */
+// category display menu
+$textTrans = vFix('transition',
+    'padding 500ms ease, background 250ms ease, box-shadow 100ms linear',
+    false
+);
+$textAni = vFix('animation', 'fromLeft 1s ease-out', false);
+$imgTForm = vFix('transform', 'translateX(100vw)', false);
+$imgShowTForm = vFix('transform', 'translateX(0)', false);
+$imgTrans = vFix('transition',
+    'transform 1s ease-out, opacity 2s linear', true
+);
+$imgAni = vFix('animation', 'slider 45s linear 1s infinite alternate', false);
+$css .= "
 .categories li {
     height: 150px;
     position: relative;
@@ -458,20 +473,9 @@ form[name="ask"] .status {
     padding: 10px 5px 10px 10px;
     border-radius: 0 5px 5px 0;
     color: white;
-    background-color: <?= $blueTrans ?>;
-    transition:
-        padding 500ms ease,
-        background 250ms ease,
-        box-shadow 100ms linear;
-    animation: fromLeft 1s ease-out;
-}
-@keyframes fromLeft {
-    0% {
-        left: -100%;
-    }
-    100% {
-        left: 0;
-    }
+    background-color: $blueTrans;
+    $textTrans
+    $textAni
 }
 .categories li .text:hover {
     padding-left: 20px;
@@ -484,7 +488,7 @@ form[name="ask"] .status {
     display: inline;
 }
 .categories li .text > * {
-    background-color: <?= $blueColor ?>;
+    background-color: $blueColor;
 }
 .categories li .row {
     height: 100%;
@@ -494,39 +498,27 @@ form[name="ask"] .status {
     top: 0;
     display: flex;
     flex-flow: row nowrap;
-    animation: slider 45s linear 1s infinite alternate;
-}
-.categories li:nth-child(2) .row {
-    /*flex-flow: row-reverse nowrap;*/
-    /*animation-direction: alternate-reverse;*/
-}
-@keyframes slider {
-    0% {
-        transform: translateX(0);
-        left: 0;
-    }
-    100% {
-        transform: translateX(-100%);
-        left: 100%;
-    }
+    $imgAni
 }
 .categories .cat_list_img {
     height: 100%;
     display: block;
     opacity: 0;
     margin: 0 5px 0 0;
-    transform: translateX(100vw);
-    transition: opacity 2s linear, transform 1s ease-out;
+    $imgTForm
+    $imgTrans
 }
 .categories .cat_list_img.show {
     opacity: 1;
-    transform: translateX(0);
+    $imgShowTForm
 }
 .categories li:first-child .cat_list_img {
     margin: 0;
-}
+}";
 
-/* project list items */
+// project list items
+$imgFlex = vFix('flex', '1 0 25%', false);
+$css .= "
 .projects li {
     margin: 0 0 25px 0;
 }
@@ -543,33 +535,211 @@ form[name="ask"] .status {
     flex-flow: row wrap;
 }
 .projects li .images > .img {
-    flex: 1 0 25%;
     cursor: pointer;
     padding-top: 25%;
     background:
         center center / cover
         no-repeat;
-}
-.projects li .images > .img:first-child {
-    flex: 0 0 100%;
-    padding-top: 75%;
-}
+    $imgFlex
+}";
 
-/* footer section */
+// project pop-up view
+$projectTForm = vFix('transform', 'translateY(-50%)', false);
+$projectAni = vFix('animation', 'fadeIn 500ms linear', false);
+$imgFlex = vFix('flex', '0 0 0', false);
+$imgSelectFlex = vFix('flex', '0 0 100%;', false);
+$imgTrans = vFix('transition', 'flex 250ms linear', true);
+$thumbFlex = vFix('flex', '4 0 0', false);
+$thumbSelectFlex = vFix('flex', '5 0 0', false);
+$thubTrans = vFix('transition',
+    'flex 100ms linear, box-shadow 100ms linear', true
+);
+$css .= "
+.project {
+    width: 100%;
+    max-height: 100%;
+    position: fixed;
+    left: 0;
+    top: 50%;
+    z-index: 200;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    overflow: hidden;
+    color: white;
+    text-shadow: 0 1px 5px $blackTrans;
+    $projectTForm
+    $projectAni
+}
+.project .name {
+    font-style: italic;
+}
+.project .nav_box {
+    width: 100%;
+    overflow: hidden;
+    padding: 10px;
+}
+.project .nav_box .prev, .project .nav_box .next {
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    background:
+        center center / 100%
+        no-repeat;
+}
+.project .nav_box .prev {
+    float: left;
+    background-image: url($imgPath/$backImages[back]);
+}
+.project .nav_box .next {
+    float: right;
+    background-image: url($imgPath/$backImages[forward]);
+}
+.project .nav_box .caption {
+    font-weight: 300;
+}
+.project .img_box, .project .thumb_box {
+    width: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+}
+.project .img_box {
+
+}
+.project .img_box > div {
+    background:
+        center center / contain
+        no-repeat;
+    $imgFlex
+    $imgTrans
+
+}
+.project .img_box > div.selected {
+    padding-top: 100%;
+    $imgSelectFlex
+}
+.project .thumb_box {
+    margin-top: 10px;
+}
+.project .thumb_box > div {
+    height: 100px;
+    ;
+    cursor: pointer;
+    background:
+        center center / cover
+        no-repeat;
+    $thumbFlex
+    $thubTrans
+}
+.project .thumb_box > div.selected {
+    box-shadow: inset 0 0 0 4px $blueColor;
+    $thumbSelectFlex
+}
+.project_close {
+    width: 30px;
+    height: 30px;
+    position: fixed;
+    z-index: 300;
+    left: 5px;
+    top: 5px;
+    cursor: pointer;
+    background:
+        url($imgPath/$backImages[close_w])
+        center center / 100%
+        no-repeat;
+}";
+
+// loading icon
+$loadAni = vFix('animation', 'loading 500ms ease infinite alternate', false);
+$css .= "
+.loading {
+    padding-top: 50%;
+    opacity: 0.25;
+    background:
+        url($imgPath/$backImages[loading])
+        center center / 50%
+        no-repeat;
+    $loadAni
+}";
+
+// footer section
+$css .= "
 footer {
     text-align: center;
     padding-top: 100px;
-    background: <?= $preImgList ?>;
+    background: $preImgList;
 }
 footer .copyright {
     font-size: 0.75em;
     font-weight: 300;
     padding: 20px;
-    color: <?= $midColor ?>;
-}
+    color: $midColor;
+}";
 
-/* begin expanding */
-@media (min-width: <?= $smallWidth ?>) {
+// animation frames
+$sliderTForm = vFix('transform', 'translateX(0)', false);
+$sliderTForm2 = vFix('transform', 'translateX(-100%)', false);
+$spinLTForm = vFix('transform', 'rotate(0deg)', false);
+$spinLTForm2 = vFix('transform', 'rotate(-360deg)', false);
+$spinRTForm = vFix('transform', 'rotate(-360deg)', false);
+$spinRTForm2 = vFix('transform', 'rotate(0deg)', false);
+$css .= "
+@keyframes fromLeft {
+    0% {
+        left: -100%;
+    }
+    100% {
+        left: 0;
+    }
+}
+@keyframes slider {
+    0% {
+        left: 0;
+        $sliderTForm
+    }
+    100% {
+        left: 100%;
+        $sliderTForm2
+    }
+}
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+@keyframes spinLeft {
+    0% {
+        $spinLTForm
+    }
+    100% {
+        $spinLTForm2
+    }
+}
+@keyframes spinRight {
+    0% {
+        $spinRTForm
+    }
+    100% {
+        $spinRTForm2
+    }
+}
+@keyframes loading {
+    0% {
+        background-size: 0%;
+    }
+    100% {
+        background-size: 50%;
+    }
+}";
+
+// begin expanding layout
+$css .= "
+@media (min-width: $smallWidth) {
     header > nav .slash {
         display: block;
     }
@@ -588,10 +758,16 @@ footer .copyright {
     .projects li .info {
         padding: 0 20px;
     }
-}
+}";
 
-/* mid size styles */
-@media (min-width: <?= $midWidth ?>) {
+// mid size layout
+$menuBlur = vFix('backdrop-filter', 'none', false);
+$itemFlex = vFix('flex', '1 0 0', false);
+$subMenuFlex = vFix('flex', '0 0 100%', false);
+$subMenuOrder = vFix('order', 4, false);
+$subMenuBlur = vFix('backdrop-filter', 'blur(32px)', false);
+$css .= "
+@media (min-width: $midWidth) {
     html, body {
         font-size: 18px;
     }
@@ -603,51 +779,49 @@ footer .copyright {
         color: initial;
         background-color: initial;
         box-shadow: none;
-        -webkit-backdrop-filter: none;
-        backdrop-filter: none;
+        $menuBlur
     }
     ul.menu > li {
-        flex: 1 0 0;
         display: block;
         margin: 0 10px 0 0;
+        $itemFlex
     }
     ul.menu > li:last-child {
         margin: 0;
     }
     ul.menu.open > li.sub_title span {
-      background-image: url(<?= $imgPath . $backImages[6] ?>);
+        background-image: url($imgPath/$backImages[right_b]);
     }
     ul.menu.open > li.sub_title span.selected {
-        background-image: url(<?= $imgPath . $backImages[4] ?>);
+        background-image: url($imgPath/$backImages[more_b]);
     }
     ul.menu > li.sub_menu_box {
-        flex: 0 0 100%;
-        order: 4;
+        $subMenuFlex
+        $subMenuOrder
     }
     ul.menu > li > div {
         float: none;
         text-align: center;
         padding: 5px 0;
         border-radius: 5px;
-        background-color: <?= $boxColor ?>;
+        background-color: $boxColor;
     }
     ul.menu > li > div.selected {
         color: white;
         background:
-            url(<?= $imgPath . $backImages[1] ?>)
+            url($imgPath/$backImages[close_w])
             left center / 24px 24px
             no-repeat
-            <?= $blackTrans ?>;
+            $blackTrans;
     }
     ul.sub_menu {
         border-radius: 5px;
     }
     ul.sub_menu.open {
         color: white;
-        background-color: <?= $blackTrans ?>;
+        background-color: $blackTrans;
         box-shadow: 0 0 0 2px white;
-        -webkit-backdrop-filter: blur(32px);
-        backdrop-filter: blur(32px);
+        $subMenuBlur
     }
     ul.sub_menu > li {
         margin: 10px 0;
@@ -661,9 +835,6 @@ footer .copyright {
         margin: 0;
         border: 0;
     }
-    /*.nav_boxes .nav_box {
-        padding: 0 25px;
-    }*/
     .nav_box .left {
         width: 50%;
         float: left;
@@ -674,28 +845,31 @@ footer .copyright {
         height: 200px;
         border-radius: 100px;
     }
-    .categories .img {
-        /*padding-top: 33.3333%;
-        padding-left: 33.3333%;*/
-        /*height: 100%;
-        flex: 1 0 25%;*/
-    }
-}
-/* big size styles */
-@media (min-width: <?= $bigWidth ?>) {
+}";
+
+// bigger size layout
+$subMenuFlex = vFix('flex', '1 0 0', false);
+$subMenuOrder = vFix('order', 'initial', false);
+$subTitleFlex = vFix('flex', '0 0 0', false);
+$css .= "
+@media (min-width: $bigWidth) {
     .menu_box ul.menu > li.sub_menu_box {
-        flex: 1 0 0;
-        order: initial;
         margin: 0 10px 0 0;
+        $subMenuFlex
+        $subMenuOrder
     }
     .menu_box ul.sub_menu {
         float: none;
     }
     ul.menu > li.sub_title {
-        flex: 0 0 0;
+        $subTitleFlex
     }
-    .categories .img {
-        /*padding-top: 100%;
-        padding-left: 25%;*/
-    }
-}
+}";
+
+// mobile landscape layout
+
+// full size layout
+
+// print css
+echo $css;
+?>

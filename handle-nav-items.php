@@ -42,7 +42,7 @@ foreach($catArray as $tag => $cat) {
     while ($photo = $photos->fetch_object()) {
 
         // add url path
-        $photo->link = $imgPath.$photo->link;
+        $photo->link = $imgPath . '/' . $photo->link;
         array_push($tagImages, $photo);
     }
 

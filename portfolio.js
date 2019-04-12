@@ -2,6 +2,7 @@
 (function (window, document, max) {
     'use strict';
     var gallery = {},
+        project = {},
         msgForm = null,
         msgStatus = null,
         backdrop = null;
@@ -9,20 +10,104 @@
     function toggleBackdrop() {
         if (!backdrop) {
             backdrop = max.newKid(document.body, 'div', 'backdrop');
-            max.addEvent(backdrop, 'click', toggleBackdrop);
+            max.addEvent(backdrop, 'click', closeView);
             max.addClass(document.body, 'no_scroll');
+            max.addEvent(project.box, 'touchmove', function () {
+                event.preventDefault();
+            });
         } else {
             document.body.removeChild(backdrop);
             backdrop = false;
             max.subClass(document.body, 'no_scroll');
         }
     }
-    // add project view
-    function viewProject(pObj, imgObj) {
+    // select project view image, select thumb, show caption
+    function selectViewImg(imgNum) {
+        var imgObj = project.images[imgNum],
+            thumbObj = project.thumbs[imgNum],
+            theClass = 'selected';
+        project.selectNum = imgNum;
+        if (project.selectImg) {
+            max.subClass(project.selectImg, theClass);
+        }
+        max.addClass(imgObj.box, theClass);
+        project.selectImg = imgObj.box;
+        if (project.selectThumb) {
+            max.subClass(project.selectThumb, theClass);
+        }
+        max.addClass(thumbObj, theClass);
+        project.selectThumb = thumbObj;
+        project.caption.innerHTML = project.images[imgNum].caption;
+    }
+    // common child image div
+    function newImg(imgParent, imgSrc) {
+        var img = max.newKid(imgParent, 'div', {
+                style: {
+                    backgroundImage: 'url(' + imgSrc + ')'
+                }
+            });
+        return img;
+    }
+    // add project view image
+    function viewImg(imgObj, imgNum) {
+        var img = newImg(project.imgBox, imgObj.link);
+        project.images[imgNum].box = img;
+    }
+    // add project view thumbnail
+    function viewThumb(imgObj, imgNum) {
+        var thumb = newImg(project.thumbBox, imgObj.link);
+        max.addEvent(thumb, 'click', function () {
+            selectViewImg(imgNum);
+        });
+        project.thumbs.push(thumb);
+    }
+    // remove project view
+    function closeView() {
+        document.body.removeChild(project.box);
+        document.body.removeChild(project.closeBtn);
+        project = {};
         toggleBackdrop();
-
-
-
+    }
+    // select next image in project
+    function nextImg() {
+        var nextNum = project.selectNum + 1;
+        if (nextNum < project.images.length) {
+            selectViewImg(nextNum);
+        } else {
+            selectViewImg(0);
+        }
+    }
+    // select previous image in project
+    function prevImg() {
+        var nextNum = project.selectNum - 1,
+            lastNum = project.images.length - 1;
+        if (nextNum >= 0) {
+            selectViewImg(nextNum);
+        } else {
+            selectViewImg(lastNum);
+        }
+    }
+    // add project view
+    function viewProject(pObj, imgObj, imgNum) {
+        project.closeBtn = max.newKid(document.body, 'div', 'project_close');
+        max.addEvent(project.closeBtn, 'click', closeView);
+        project.box = max.newKid(document.body, 'div', 'project no_select', [
+            ['div', 'name', pObj.name]
+        ]);
+        project.navBox = max.newKid(project.box, 'div', 'nav_box');
+        project.prevBtn = max.newKid(project.navBox, 'div', 'prev');
+        max.addEvent(project.prevBtn, 'click', prevImg);
+        project.nextBtn = max.newKid(project.navBox, 'div', 'next');
+        max.addEvent(project.nextBtn, 'click', nextImg);
+        project.caption = max.newKid(project.navBox, 'div', 'caption', imgObj.caption);
+        project.imgBox = max.newKid(project.box, 'div', 'img_box');
+        project.thumbBox = max.newKid(project.box, 'div', 'thumb_box');
+        project.images = pObj.images;
+        project.thumbs = [];
+        pObj.images.forEach(viewImg);
+        pObj.images.forEach(viewThumb);
+        selectViewImg(imgNum);
+        toggleBackdrop();
     }
     // create project list item
     function createProject(pObj) {
@@ -33,13 +118,13 @@
                 ]]
             ]),
             pImages = max.newKid(pItem, 'div', 'images');
-        pObj.images.forEach(function (imgObj) {
+        pObj.images.forEach(function (imgObj, imgNum) {
             var img = max.newKid(pImages, 'div', {
                     className: 'img',
                     style: {backgroundImage: 'url(' + imgObj.link + ')'}
                 });
             max.addEvent(img, 'click', function () {
-                viewProject(pObj, imgObj, pItem);
+                viewProject(pObj, imgObj, imgNum);
             });
         });
     }

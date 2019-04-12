@@ -39,7 +39,7 @@ while ($project = $projects->fetch_object()) {
 
     // query project photos
     $selectPhotos = "
-    SELECT link, caption
+    SELECT id, link, caption
     FROM project_media
     WHERE project_id = '$project->id' AND type = 'PHOTO'
     ORDER BY date DESC";
@@ -57,7 +57,7 @@ while ($project = $projects->fetch_object()) {
         }
 
         // add file path for photos
-        $photo->link = $imgPath.$photo->link;
+        $photo->link = $imgPath . '/' . $photo->link;
         array_push($photoArray, $photo);
     }
     $project->{'images'} = $photoArray;
