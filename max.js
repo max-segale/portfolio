@@ -66,20 +66,6 @@ var max = (function (window, document) {
             XHR.setRequestHeader("Content-Type", contType);
             XHR.send(sendString);
         },
-        // parse query string and return parameter object
-        parseQueryStr: function () {
-            var paramStr = window.location.search.substr(1);
-            var paramArray = paramStr.split("&");
-            var paramObj = {};
-            if (paramStr.length === 0) {
-                return null;
-            }
-            paramArray.forEach(function (param) {
-                var valPair = param.split("=");
-                paramObj[valPair[0]] = decodeURIComponent(valPair[1]);
-            });
-            return paramObj;
-        },
         // create new element, apply attributes, add to parent
         newKid: function (elParent, elType, elAtrs, elInner) {
             var element = document.createElement(elType);
@@ -121,47 +107,19 @@ var max = (function (window, document) {
                 height: heightPct
             };
         },
-        // add event listener, with old browser support
-        addEvent: function (element, evtType, fn, capture) {
-            if (element.addEventListener) {
-                element.addEventListener(evtType, fn, capture);
-            } else if (element.attachEvent) {
-                element.attachEvent("on" + evtType, fn);
+        // parse query string and return parameter object
+        parseQueryStr: function () {
+            var paramStr = window.location.search.substr(1);
+            var paramArray = paramStr.split("&");
+            var paramObj = {};
+            if (paramStr.length === 0) {
+                return null;
             }
-        },
-        // remove event listener, with older browser support
-        subEvent: function (element, evtType, fn, capture) {
-            if (element.removeEventListener) {
-                element.removeEventListener(evtType, fn, capture);
-            } else if (element.detachEvent) {
-                element.detachEvent("on" + evtType, fn);
-            }
-        },
-        // add to element class, with older browser support
-        addClass: function (element, theClass) {
-            if (element.classList) {
-                element.classList.add(theClass);
-            } else if (element.className) {
-                element.className += " " + theClass;
-            }
-        },
-        // remove class from element, with older browser support
-        subClass: function (element, theClass) {
-            var classArray = [];
-            if (element.classList) {
-                element.classList.remove(theClass);
-            } else if (element.className) {
-                if (element.className === theClass) {
-                    element.removeAttribute("class");
-                } else {
-                    element.className.split(" ").forEach(function (classItem) {
-                        if (classItem !== theClass) {
-                            classArray.push(classItem);
-                        }
-                    });
-                    element.className = classArray.join(" ");
-                }
-            }
+            paramArray.forEach(function (param) {
+                var valPair = param.split("=");
+                paramObj[valPair[0]] = decodeURIComponent(valPair[1]);
+            });
+            return paramObj;
         }
     };
 }(window, document));

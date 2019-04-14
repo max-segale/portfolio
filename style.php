@@ -575,11 +575,12 @@ $css .= "
 }
 .project .name {
     font-style: italic;
+    padding: 10px 0 0 0;
 }
 .project .nav_box {
     width: 100%;
     overflow: hidden;
-    padding: 10px;
+    padding: 5px 10px;
 }
 .project .nav_box .prev, .project .nav_box .next {
     width: 25px;
@@ -601,12 +602,12 @@ $css .= "
     font-weight: 300;
 }
 .project .img_box, .project .thumb_box {
-    width: 100%;
     display: flex;
     flex-flow: row nowrap;
 }
 .project .img_box {
-
+    width: 100%;
+    max-width: 75vh;
 }
 .project .img_box > div {
     background:
@@ -621,11 +622,11 @@ $css .= "
     $imgSelectFlex
 }
 .project .thumb_box {
+    width: 100%;
     margin-top: 10px;
 }
 .project .thumb_box > div {
-    height: 100px;
-    ;
+    height: 40px;
     cursor: pointer;
     background:
         center center / cover
@@ -844,6 +845,9 @@ $css .= "
         width: 200px;
         height: 200px;
         border-radius: 100px;
+    }
+    .project .thumb_box {
+        max-width: 75vh;
     }
 }";
 
