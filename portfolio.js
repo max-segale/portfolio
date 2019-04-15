@@ -135,7 +135,7 @@
         toggleBackdrop();
     }
     // create project list item
-    function createProject(pObj) {
+    function addProject(pObj) {
         var pItem = max.newKid(gallery.list, 'li', false, [
                 ['div', 'info', [
                     ['div', 'name', pObj.name],
@@ -168,7 +168,7 @@
             gallery.list.classList.add('projects');
             gallery.title.innerHTML = projObj.category;
             gallery.title.classList.add('show');
-            projObj.projects.forEach(createProject);
+            projObj.projects.forEach(addProject);
         });
     }
     // check message status

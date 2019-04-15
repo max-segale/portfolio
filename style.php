@@ -517,10 +517,13 @@ $css .= "
 }";
 
 // project list items
-$imgFlex = vFix('flex', '1 0 25%', false);
+$itemAni = vFix('animation', 'projItem 250ms linear', false);
+$imgFlex = vFix('flex', '1 0 33.3333%', false);
 $css .= "
 .projects li {
+    position: relative;
     margin: 0 0 25px 0;
+    $itemAni
 }
 .projects li .info {
     padding: 0 10px;
@@ -538,7 +541,7 @@ $css .= "
     cursor: pointer;
     padding-top: 25%;
     background:
-        center center / cover
+        center top / cover
         no-repeat;
     $imgFlex
 }";
@@ -731,10 +734,18 @@ $css .= "
 }
 @keyframes loading {
     0% {
-        background-size: 0%;
+        background-size: 0;
     }
     100% {
         background-size: 50%;
+    }
+}
+@keyframes projItem {
+    0% {
+        left: 100%;
+    }
+    100% {
+        left: 0;
     }
 }";
 
