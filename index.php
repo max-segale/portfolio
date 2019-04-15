@@ -91,10 +91,12 @@ $siteDesc = "A portfolio of work from $myName, full stack web developer and grap
             </div>
           </div>
         </div>
-        <span class="heading heavy margin" id="gallery_title"></span>
-        <ul id="gallery_list" class="no_select">
-          <li class="loading"></li>
-        </ul>
+        <div class="content">
+          <span class="heading heavy margin" id="gallery_title"></span>
+          <ul id="gallery_list" class="no_select">
+            <li class="loading"></li>
+          </ul>
+        </div>
       </div>
       <footer class="no_select">
         <noscript>⚠️ Please enable JavaScript in your browser settings.</noscript>

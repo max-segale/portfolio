@@ -349,13 +349,6 @@ $css .= "
 .container {
     overflow: hidden;
 }
-.container > .heading {
-    display: none;
-    margin-left: 10px;
-}
-.container > .heading.show {
-    display: block;
-}
 .nav_boxes {
     width: 100%;
     height: 0;
@@ -408,6 +401,13 @@ $css .= "
 }
 .nav_box.show .profile_pic {
     $picShowAni
+}
+.content > .heading {
+    display: none;
+    margin-left: 10px;
+}
+.content > .heading.show {
+    display: block;
 }";
 
 // message form
@@ -443,7 +443,7 @@ form[name='ask'] .status {
 
 // category display menu
 $textTrans = vFix('transition',
-    'padding 500ms ease, background 250ms ease, box-shadow 100ms linear',
+    'background 250ms ease, box-shadow 100ms linear',
     false
 );
 $textAni = vFix('animation', 'fromLeft 1s ease-out', false);
@@ -478,8 +478,7 @@ $css .= "
     $textAni
 }
 .categories li .text:hover {
-    padding-left: 20px;
-    box-shadow: 0 0 0 2px white;
+    box-shadow: 0 0 0 5px white;
 }
 .categories li .text:active, .categories li .text:active > * {
     background-color: black;
@@ -555,7 +554,7 @@ $imgTrans = vFix('transition', 'flex 250ms linear', true);
 $thumbFlex = vFix('flex', '4 0 0', false);
 $thumbSelectFlex = vFix('flex', '5 0 0', false);
 $thubTrans = vFix('transition',
-    'flex 100ms linear, box-shadow 100ms linear', true
+    'flex 250ms linear, border 250ms linear', true
 );
 $css .= "
 .project {
@@ -631,14 +630,20 @@ $css .= "
 .project .thumb_box > div {
     height: 40px;
     cursor: pointer;
+    margin-left: 10px;
+    border: 2px solid white;
+    border-radius: 20px;
     background:
-        center center / cover
+        center center / 150%
         no-repeat;
     $thumbFlex
     $thubTrans
 }
+.project .thumb_box > div:first-child {
+    margin-left: 0;
+}
 .project .thumb_box > div.selected {
-    box-shadow: inset 0 0 0 4px $blueColor;
+    border: 5px solid $blueColor;
     $thumbSelectFlex
 }
 .project_close {
@@ -755,9 +760,6 @@ $css .= "
     header > nav .slash {
         display: block;
     }
-    .container > .heading {
-        margin-left: 20px;
-    }
     .nav_boxes .nav_box {
         padding: 0 15px;
     }
@@ -765,6 +767,9 @@ $css .= "
         width: 144px;
         height: 144px;
         border-radius: 72px;
+        margin-left: 20px;
+    }
+    .content > .heading {
         margin-left: 20px;
     }
     .projects li .info {
@@ -857,7 +862,7 @@ $css .= "
         height: 200px;
         border-radius: 100px;
     }
-    .project .thumb_box {
+    .project .nav_box, .project .thumb_box {
         max-width: 75vh;
     }
 }";
@@ -879,11 +884,22 @@ $css .= "
     ul.menu > li.sub_title {
         $subTitleFlex
     }
+    .categories li .text {
+        margin-left: 10px;
+        border-radius: 5px;
+    }
 }";
 
 // mobile landscape layout
 
 // full size layout
+$css .= "
+@media (min-width: $fullWidth) {
+    header, .nav_boxes, .content, footer {
+        width: $fullWidth;
+        margin: 0 auto;
+    }
+}";
 
 // print css
 echo $css;
