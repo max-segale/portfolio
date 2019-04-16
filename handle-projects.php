@@ -41,25 +41,26 @@ while ($project = $projects->fetch_object()) {
     $selectPhotos = "
     SELECT id, link, caption
     FROM project_media
-    WHERE project_id = '$project->id' AND type = 'PHOTO'
+    WHERE project_id = '$project->id'
+        AND type = 'PHOTO'
+        AND (status IS NULL OR status <> 'HIDE')
     ORDER BY date DESC";
     $photos = sqlQuery($selectPhotos);
 
-    // add photo rows to project object
+    // loop photo rows, get size, add url path, add to new array
     $photoArray = [];
     while ($photo = $photos->fetch_object()) {
-
-        // get image size
-        if (file_exists($photoDirLocal.$photo->link)) {
-            $imgSize = getimagesize($photoDirLocal.$photo->link);
+        $photoLocalPath = $photoDirLocal.'/'.$photo->link;
+        if (file_exists($photoLocalPath)) {
+            $imgSize = getimagesize($photoLocalPath);
             $photo->width = $imgSize[0];
             $photo->height = $imgSize[1];
         }
-
-        // add file path for photos
         $photo->link = $imgPath . '/' . $photo->link;
         array_push($photoArray, $photo);
     }
+
+    // add photo array to project object
     $project->{'images'} = $photoArray;
 
     // query project tags
@@ -70,13 +71,13 @@ while ($project = $projects->fetch_object()) {
     ORDER BY name";
     $tags = sqlQuery($selectTags);
 
-    // push tag rows to tags array
+    // loop tag rows, add to new array
     $tagArray = [];
     while ($tag = $tags->fetch_object()) {
         array_push($tagArray, $tag->name);
     }
 
-    // add tags array to project object
+    // add tag array to project object
     $project->{'tags'} = $tagArray;
 
     // add project object to array
