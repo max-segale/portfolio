@@ -36,11 +36,11 @@ $fontFam = '"Helvetica Neue", "Helvetica", sans-serif';
 $clear = 'rgba(0, 0, 0, 0)';
 $boxColor = 'rgba(222, 222, 222, 1)';
 $midColor = 'rgba(150, 150, 150, 1)';
-$blackTrans = 'rgba(0, 0, 0, 0.75)';
-$greyTrans = 'rgba(50, 50, 50, 0.75)';
-$whiteTrans = 'rgba(255, 255, 255, 0.97)';
+$blackTrans = 'rgba(0, 0, 0, 0.8)';
+$greyTrans = 'rgba(50, 50, 50, 0.96)';
+$whiteTrans = 'rgba(255, 255, 255, 0.96)';
 $blueColor = 'rgba(6, 127, 234, 1)';
-$blueTrans = 'rgba(6, 127, 234, 0.8)';
+$blueTrans = 'rgba(6, 127, 234, 0.96)';
 
 // create preload image list
 $backImages = [
@@ -103,6 +103,7 @@ $btnTrans = vFix('transition',
     'text-shadow 250ms linear, box-shadow 250ms linear', false
 );
 $backBlur = vFix('backdrop-filter', 'blur(32px)', false);
+$backTrans = vFix('transition', 'opacity 500ms linear', false);
 $backAnimation = vFix('animation', 'fadeIn 500ms linear', false);
 $userSelect = vFix('user-select', 'none', false);
 $css .= "
@@ -154,7 +155,11 @@ $css .= "
     top: 0;
     background-color: $greyTrans;
     $backBlur
+    $backTrans
     $backAnimation
+}
+.see_thru {
+    opacity: 0;
 }
 .no_scroll {
     overflow: hidden;
@@ -516,8 +521,9 @@ $css .= "
 }";
 
 // project list items
-$itemAni = vFix('animation', 'projItem 250ms linear', false);
-$imgFlex = vFix('flex', '1 0 33.3333%', false);
+$itemAni = vFix('animation', 'projItem 750ms ease-out', false);
+$imgFlex = vFix('flex', '1 0 0', false);
+$imgAni = vFix('animation', 'fadeIn 1s linear', false);
 $css .= "
 .projects li {
     position: relative;
@@ -531,22 +537,31 @@ $css .= "
 .projects li .info .name {
     font-size: 1.2em;
     font-style: italic;
+    text-decoration: underline;
+    cursor: pointer;
 }
 .projects li .images {
     display: flex;
     flex-flow: row wrap;
+    border: 1px solid white;
 }
 .projects li .images > .img {
+    height: 125px;
     cursor: pointer;
-    padding-top: 25%;
+    border: 1px solid white;
     background:
-        center top / cover
+        center center / cover
         no-repeat;
     $imgFlex
+    $imgAni
+}
+.projects li .images > .img.wide {
+    background-position: center top;
 }";
 
 // project pop-up view
 $projectTForm = vFix('transform', 'translateY(-50%)', false);
+$projectTrans = vFix('transition', 'opacity 500ms linear', false);
 $projectAni = vFix('animation', 'fadeIn 500ms linear', false);
 $imgFlex = vFix('flex', '0 0 0', false);
 $imgSelectFlex = vFix('flex', '0 0 100%;', false);
@@ -573,6 +588,7 @@ $css .= "
     color: white;
     text-shadow: 0 1px 5px $blackTrans;
     $projectTForm
+    $projectTrans
     $projectAni
 }
 .project .name {
@@ -862,6 +878,9 @@ $css .= "
         height: 200px;
         border-radius: 100px;
     }
+    .projects li .images > .img {
+        height: 150px;
+    }
     .project .nav_box, .project .thumb_box {
         max-width: 75vh;
     }
@@ -885,8 +904,11 @@ $css .= "
         $subTitleFlex
     }
     .categories li .text {
-        margin-left: 10px;
+        margin-left: 20px;
         border-radius: 5px;
+    }
+    .projects li .images > .img {
+        height: 175px;
     }
 }";
 
@@ -898,6 +920,9 @@ $css .= "
     header, .nav_boxes, .content, footer {
         width: $fullWidth;
         margin: 0 auto;
+    }
+    .projects li .images > .img {
+        height: 200px;
     }
 }";
 
