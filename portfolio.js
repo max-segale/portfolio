@@ -42,22 +42,21 @@
         project.caption.innerHTML = project.images[imgNum].caption;
     }
     // common child image div
-    function newImg(imgParent, imgSrc) {
+    function newImg(imgParent, imgObj) {
         var img = max.newKid(imgParent, 'div', {
-                style: {
-                    backgroundImage: 'url(' + imgSrc + ')'
-                }
+                style: {backgroundImage: 'url(' + imgObj.link + ')'}
             });
         return img;
     }
     // add project view image
     function viewImg(imgObj, imgNum) {
-        var img = newImg(project.imgBox, imgObj.link);
+        var img = newImg(project.imgBox, imgObj);
         project.images[imgNum].box = img;
     }
     // add project view thumbnail
     function viewThumb(imgObj, imgNum) {
-        var thumb = newImg(project.thumbBox, imgObj.link);
+        var thumb = newImg(project.thumbBox, imgObj);
+        thumb.title = imgObj.caption;
         thumb.addEventListener('click', function () {
             selectViewImg(imgNum);
         });
@@ -93,11 +92,19 @@
     }
     // remove project view
     function closeView() {
-        document.body.removeChild(project.box);
-        document.body.removeChild(project.closeBtn);
-        project = {};
-        window.removeEventListener('keydown', keyCheck);
-        toggleBackdrop();
+        var theClass = 'see_thru';
+        project.box.classList.add(theClass);
+        backdrop.classList.add(theClass);
+        // remove after transition is complete
+        backdrop.addEventListener('transitionend', function () {
+            if (event.propertyName === 'opacity') {
+                document.body.removeChild(project.box);
+                document.body.removeChild(project.closeBtn);
+                project = {};
+                window.removeEventListener('keydown', keyCheck);
+                toggleBackdrop();
+            }
+        });
     }
     // add project view
     function viewProject(pObj, imgObj, imgNum) {
@@ -136,9 +143,14 @@
     }
     // create project list item
     function addProject(pObj) {
-        var pItem = max.newKid(gallery.list, 'li', false, [
+        var pItem = max.newKid(gallery.list, 'li', pObj.tags[0], [
                 ['div', 'info', [
-                    ['div', 'name', pObj.name],
+                    ['div', {
+                        className: 'name',
+                        onclick: function () {
+                            viewProject(pObj, pObj.images[0], 0);
+                        }
+                    }, pObj.name],
                     ['span', false, pObj.summary]
                 ]]
             ]),
@@ -146,8 +158,12 @@
         pObj.images.forEach(function (imgObj, imgNum) {
             var img = max.newKid(pImages, 'div', {
                     className: 'img',
-                    style: {backgroundImage: 'url(' + imgObj.link + ')'}
+                    style: {backgroundImage: 'url(' + imgObj.link + ')'},
+                    title: imgObj.caption
                 });
+            if (imgObj.width > imgObj.height) {
+                img.classList.add('wide');
+            }
             img.addEventListener('click', function () {
                 viewProject(pObj, imgObj, imgNum);
             });
