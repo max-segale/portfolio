@@ -63,7 +63,10 @@ foreach ($backImages as $image) {
 $preImgList = substr($preImgList, 0, -1);
 
 // global styles
-$css = "/* max segale | portfolio */
+$css = "/*
+    max segale
+    portfolio style sheet
+*/
 * {
     margin: 0;
     border: 0;

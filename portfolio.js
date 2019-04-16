@@ -1,4 +1,7 @@
-// portfolio components
+/*
+    max segale
+    portfolio components
+*/
 (function (window, document, max) {
     'use strict';
     var gallery = {},
