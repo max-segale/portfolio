@@ -275,6 +275,8 @@
                 infoBoxes[selectInfo].classList.remove('show');
             }
             if (itemName) {
+                // go to top of page
+                window.scrollTo(0, window.scrollX);
                 infoBoxes[itemName].classList.add('show');
                 // set height for transition, remove after for resize
                 infoHeight = infoBoxes[itemName].offsetHeight;
