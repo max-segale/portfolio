@@ -44,17 +44,16 @@ $blueTrans = 'rgba(6, 127, 234, 0.96)';
 
 // create preload image list
 $backImages = [
-    'menu'=>'icons/menu-24px.svg',
+    'self'=>'me.jpg',
     'loading'=>'icons/max-segale.svg',
+    'menu'=>'icons/menu-24px.svg',
     'right_b'=>'icons/right-24px-b.svg',
     'right_w'=>'icons/right-24px-w.svg',
+    'left_w'=>'icons/left-24px-w.svg',
     'more_b'=>'icons/more-24px-b.svg',
     'more_w'=>'icons/more-24px-w.svg',
     'close_b'=>'icons/close-24px-b.svg',
-    'close_w'=>'icons/close-24px-w.svg',
-    'forward'=>'icons/forward-24px-w.svg',
-    'back'=>'icons/back-24px-w.svg',
-    'self'=>'me.jpg'
+    'close_w'=>'icons/close-24px-w.svg'
 ];
 foreach ($backImages as $image) {
     $preImgList .= "
@@ -382,14 +381,14 @@ $css .= "
     opacity: 1;
     $boxShowTForm
 }
-.nav_box > div {
+.nav_boxes .nav_box > div {
     overflow: hidden;
 }
-.nav_box > a > .btn {
+.nav_boxes .nav_box > a > .btn {
     float: left;
     margin: 0 5px 20px;
 }
-.nav_box .profile_pic {
+.nav_boxes .nav_box .profile_pic {
     width: 120px;
     height: 120px;
     margin: 15px 10px 10px;
@@ -403,11 +402,11 @@ $css .= "
     $picTrans
     $picAni
 }
-.nav_box .profile_pic:active {
+.nav_boxes .nav_box .profile_pic:active {
     border-radius: 0;
     $picTForm
 }
-.nav_box.show .profile_pic {
+.nav_boxes .nav_box.show .profile_pic {
     $picShowAni
 }
 .content > .heading {
@@ -526,6 +525,7 @@ $css .= "
 // project list items
 $itemAni = vFix('animation', 'projItem 750ms ease-out', false);
 $imgFlex = vFix('flex', '1 0 0', false);
+$imgTrans = vFix('transition', 'height 1s linear', false);
 $imgAni = vFix('animation', 'fadeIn 1s linear', false);
 $css .= "
 .projects li {
@@ -556,19 +556,23 @@ $css .= "
         center center / cover
         no-repeat;
     $imgFlex
+    $imgTrans
     $imgAni
-}
-.projects li .images > .img.wide {
-    background-position: center top;
 }";
 
 // project pop-up view
-$projectTForm = vFix('transform', 'translateY(-50%)', false);
+$projectTForm = vFix('transform', 'translate(-50%, -50%)', false);
 $projectTrans = vFix('transition', 'opacity 500ms linear', false);
 $projectAni = vFix('animation', 'fadeIn 500ms linear', false);
+$itemFlex = vFix('flex', '0 0 0', false);
+$navFlex = vFix('flex', '0 0 25px', false);
+$navBtnFlex = vFix('flex', '0 0 25px', false);
+$capFlex = vFix('flex', '1 0 0', false);
+$imgBoxFlex = vFix('flex', '1 0 0', false);
 $imgFlex = vFix('flex', '0 0 0', false);
 $imgSelectFlex = vFix('flex', '0 0 100%;', false);
 $imgTrans = vFix('transition', 'flex 250ms linear', true);
+$thumbBoxFlex = vFix('flex', '0 0 40px', false);
 $thumbFlex = vFix('flex', '4 0 0', false);
 $thumbSelectFlex = vFix('flex', '5 0 0', false);
 $thubTrans = vFix('transition',
@@ -579,12 +583,12 @@ $css .= "
     width: 100%;
     max-height: 100%;
     position: fixed;
-    left: 0;
+    left: 50%;
     top: 50%;
     z-index: 200;
     display: flex;
     flex-flow: column nowrap;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     text-align: center;
     overflow: hidden;
@@ -596,31 +600,32 @@ $css .= "
 }
 .project .name {
     font-style: italic;
-    padding: 10px 0 0 0;
+    $itemFlex
 }
 .project .nav_box {
     width: 100%;
-    overflow: hidden;
-    padding: 5px 10px;
+    display: flex;
+    flex-flow: row nowrap;
+    margin: 10px 0;
+    $navFlex
 }
 .project .nav_box .prev, .project .nav_box .next {
-    width: 25px;
     height: 25px;
     cursor: pointer;
     background:
         center center / 100%
         no-repeat;
+    $navBtnFlex
 }
 .project .nav_box .prev {
-    float: left;
-    background-image: url($imgPath/$backImages[back]);
+    background-image: url($imgPath/$backImages[left_w]);
 }
 .project .nav_box .next {
-    float: right;
-    background-image: url($imgPath/$backImages[forward]);
+    background-image: url($imgPath/$backImages[right_w]);
 }
 .project .nav_box .caption {
     font-weight: 300;
+    $capFlex
 }
 .project .img_box, .project .thumb_box {
     display: flex;
@@ -628,7 +633,7 @@ $css .= "
 }
 .project .img_box {
     width: 100%;
-    max-width: 75vh;
+    $imgBoxFlex
 }
 .project .img_box > div {
     background:
@@ -636,7 +641,6 @@ $css .= "
         no-repeat;
     $imgFlex
     $imgTrans
-
 }
 .project .img_box > div.selected {
     padding-top: 100%;
@@ -644,7 +648,9 @@ $css .= "
 }
 .project .thumb_box {
     width: 100%;
-    margin-top: 10px;
+    margin: 10px 0;
+    padding: 0 10px;
+    $thumbBoxFlex
 }
 .project .thumb_box > div {
     height: 40px;
@@ -884,8 +890,11 @@ $css .= "
     .projects li .images > .img {
         height: 150px;
     }
-    .project .nav_box, .project .thumb_box {
-        max-width: 75vh;
+    .project {
+        width: $midWidth;
+    }
+    .project .img_box {
+        max-width: 64vh;
     }
 }";
 
@@ -926,6 +935,9 @@ $css .= "
     }
     .projects li .images > .img {
         height: 200px;
+    }
+    .project .img_box {
+        max-width: 80vh;
     }
 }";
 

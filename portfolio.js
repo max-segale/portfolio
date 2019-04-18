@@ -28,10 +28,12 @@
     function selectViewImg(imgNum) {
         var imgObj = project.images[imgNum],
             thumbObj = project.thumbs[imgNum],
-            theClass = 'selected';
+            theClass = 'selected',
+            maxWidth = imgObj.box.parentNode.offsetWidth;
         project.selectNum = imgNum;
         if (project.selectImg) {
             project.selectImg.classList.remove(theClass);
+            project.selectImg.style.paddingTop = '';
         }
         imgObj.box.classList.add(theClass);
         project.selectImg = imgObj.box;
@@ -124,10 +126,12 @@
         if (multiImg) {
             project.prevBtn = max.newKid(project.navBox, 'div', 'prev');
             project.prevBtn.addEventListener('click', prevImg);
+        }
+        project.caption = max.newKid(project.navBox, 'div', 'caption', imgObj.caption);
+        if (multiImg) {
             project.nextBtn = max.newKid(project.navBox, 'div', 'next');
             project.nextBtn.addEventListener('click', nextImg);
         }
-        project.caption = max.newKid(project.navBox, 'div', 'caption', imgObj.caption);
         project.imgBox = max.newKid(project.box, 'div', 'img_box');
         if (multiImg) {
             project.thumbBox = max.newKid(project.box, 'div', 'thumb_box');
