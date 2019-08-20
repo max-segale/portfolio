@@ -1,5 +1,5 @@
 (function (window, document, max) {
-    'use strict';
+    "use strict";
     var loadReady = false,
         focusPNum = 0,
         projects = [],
