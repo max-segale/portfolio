@@ -1,7 +1,6 @@
 /*
-    max.js version 3.0
     max segale
-    maxsegale.com
+    common js function library
 */
 var max = (function (window, document) {
     "use strict";
@@ -18,27 +17,27 @@ var max = (function (window, document) {
         });
     }
     // process request state changes
-    function stateChange(xmlhttp, afterFn, errorFn, statusFn) {
-        if (statusFn) {
-            statusFn(xmlhttp);
+    function stateChange(XHR, passFn, failFn, waitFn) {
+        if (waitFn) {
+            waitFn(XHR);
         }
-        if (xmlhttp.readyState === 4) {
-            if (xmlhttp.status === 200) {
-                if (afterFn) {
-                    afterFn(xmlhttp);
+        if (XHR.readyState === 4) {
+            if (XHR.status === 200) {
+                if (passFn) {
+                    passFn(XHR);
                 }
-            } else if (errorFn) {
-                errorFn(xmlhttp);
+            } else if (failFn) {
+                failFn(XHR);
             }
         }
     }
     return {
         // encoded ajax request with callback functions
-        request: function (method, path, paramObj, afterFn, errorFn, statusFn) {
-            var xmlhttp = new XMLHttpRequest();
+        request: function (method, path, paramObj, passFn, failFn, waitFn) {
+            var XHR = new XMLHttpRequest();
             var contType = "application/x-www-form-urlencoded";
             var theParams = "";
-            var sendUrl = "";
+            var sendURL = "";
             var sendString = "";
             if (paramObj) {
                 Object.keys(paramObj).forEach(function (param, p) {
@@ -54,17 +53,58 @@ var max = (function (window, document) {
                     theParams += "&";
                 }
                 theParams += "v=" + Math.random();
-                sendUrl = path + "?" + theParams;
+                sendURL = path + "?" + theParams;
             } else {
-                sendUrl = path;
+                sendURL = path;
                 sendString = theParams;
             }
-            xmlhttp.onreadystatechange = function () {
-                stateChange(xmlhttp, afterFn, errorFn, statusFn);
+            XHR.onreadystatechange = function () {
+                stateChange(XHR, passFn, failFn, waitFn);
             };
-            xmlhttp.open(method, sendUrl, true);
-            xmlhttp.setRequestHeader("Content-Type", contType);
-            xmlhttp.send(sendString);
+            XHR.open(method, sendURL, true);
+            XHR.setRequestHeader("Content-Type", contType);
+            XHR.send(sendString);
+        },
+        // create new element, apply attributes, add to parent
+        newKid: function (elParent, elType, elAtrs, elInner) {
+            var element = document.createElement(elType);
+            if (elAtrs) {
+                if (typeof elAtrs === "string") {
+                    element.className = elAtrs;
+                } else if (typeof elAtrs === "object") {
+                    objElAtr(element, elAtrs);
+                }
+            }
+            if (elInner) {
+                if (typeof elInner === "string") {
+                    element.innerHTML = elInner;
+                } else if (typeof elInner === "object") {
+                    this.newKids(element, elInner);
+                }
+            }
+            if (elParent) {
+                elParent.appendChild(element);
+            }
+            return element;
+        },
+        // add multiple new elements to parent
+        newKids: function (elParent, kids) {
+            var elements = [];
+            var thisObj = this;
+            kids.forEach(function (el) {
+                var element = thisObj.newKid(elParent, el[0], el[1], el[2]);
+                elements.push(element);
+            });
+            return elements;
+        },
+        // calculate size as percentage of total width for auto resize
+        relativeSize: function (widthPx, heightPx, maxWidthPx) {
+            var widthPct = widthPx * 100 / maxWidthPx;
+            var heightPct = widthPct * heightPx / widthPx;
+            return {
+                width: widthPct,
+                height: heightPct
+            };
         },
         // parse query string and return parameter object
         parseQueryStr: function () {
@@ -79,75 +119,6 @@ var max = (function (window, document) {
                 paramObj[valPair[0]] = decodeURIComponent(valPair[1]);
             });
             return paramObj;
-        },
-        // create new element, apply attributes, append to parent
-        newEl: function (elParent, elType, elAtrs, elInner) {
-            var element = document.createElement(elType);
-            if (elAtrs) {
-                if (typeof elAtrs === "string") {
-                    element.className = elAtrs;
-                } else if (typeof elAtrs === "object") {
-                    objElAtr(element, elAtrs);
-                }
-            }
-            if (elInner) {
-                element.innerHTML = elInner;
-            }
-            if (elParent) {
-                elParent.appendChild(element);
-            }
-            return element;
-        },
-        // calculate size as percentage of total width for auto resize
-        relativeSize: function (widthPx, heightPx, maxWidthPx) {
-            var widthPct = widthPx * 100 / maxWidthPx;
-            var heightPct = widthPct * heightPx / widthPx;
-            return {
-                width: widthPct,
-                height: heightPct
-            };
-        },
-        // add event listener, with old browser support
-        addEvent: function (element, evtType, fn, capture) {
-            if (element.addEventListener) {
-                element.addEventListener(evtType, fn, capture);
-            } else if (element.attachEvent) {
-                element.attachEvent("on" + evtType, fn);
-            }
-        },
-        // remove event listener, with older browser support
-        subEvent: function (element, evtType, fn, capture) {
-            if (element.removeEventListener) {
-                element.removeEventListener(evtType, fn, capture);
-            } else if (element.detachEvent) {
-                element.detachEvent("on" + evtType, fn);
-            }
-        },
-        // add to element class, with older browser support
-        addClass: function (element, theClass) {
-            if (element.classList) {
-                element.classList.add(theClass);
-            } else if (element.className) {
-                element.className += " " + theClass;
-            }
-        },
-        // remove class from element, with older browser support
-        subClass: function (element, theClass) {
-            var classArray = [];
-            if (element.classList) {
-                element.classList.remove(theClass);
-            } else if (element.className) {
-                if (element.className === theClass) {
-                    element.removeAttribute("class");
-                } else {
-                    element.className.split(" ").forEach(function (classItem) {
-                        if (classItem !== theClass) {
-                            classArray.push(classItem);
-                        }
-                    });
-                    element.className = classArray.join(" ");
-                }
-            }
         }
     };
 }(window, document));
