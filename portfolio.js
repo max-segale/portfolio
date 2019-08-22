@@ -111,6 +111,13 @@
             }
         });
     }
+    // update page url
+    function updateURL(pObj) {
+        var thePage = window.location.origin,
+            newLocation = thePage + '?p=' + pObj.id;
+        console.log(pObj);
+        history.pushState({id: pObj.id}, 'TEST', newLocation);
+    }
     // add project view
     function viewProject(pObj, imgObj, imgNum) {
         var multiImg = true;
@@ -147,6 +154,8 @@
             window.addEventListener('keydown', keyCheck);
         }
         toggleBackdrop();
+
+        updateURL(pObj);
     }
     // create project list item
     function addProject(pObj) {
@@ -471,7 +480,16 @@
         } else {
             addNavMenu(true);
         }
+
+        //history.replaceState({}, '', '');
     }
     // initialize page on window load
     window.addEventListener('load', initDoc);
+    // check browser forward and back buttons
+    window.addEventListener('popstate', function () {
+
+        event.preventDefault();
+        //console.log(history);
+
+    });
 }(window, document, max));
