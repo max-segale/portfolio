@@ -415,6 +415,9 @@
           });
         catImg.addEventListener('load', showImg);
       });
+      setTimeout(function () {
+        imgBox.classList.add('sliding');
+      }, 1000);
     }
     // fill category list
     function fillCatList(items) {
@@ -464,7 +467,6 @@
     gallery.title = document.querySelector('#gallery_title');
     gallery.list = document.querySelector('#gallery_list');
     msgForm.addEventListener('submit', sendMessage);
-    msgForm.send.disabled = false;
     if (paramObj) {
       addNavMenu(false, paramObj.tag);
       getProjects(paramObj.p, paramObj.tag);

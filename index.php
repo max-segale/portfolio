@@ -7,6 +7,7 @@ $randNum = rand();
 // basic info
 $myName = "Max Segale";
 $siteDesc = "A portfolio of work from $myName, full stack web developer and graphic designer.";
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -84,7 +85,7 @@ $siteDesc = "A portfolio of work from $myName, full stack web developer and grap
                 <input type="email" name="email" placeholder="Your Email Address" maxlength="100" required>
                 <textarea name="message" placeholder="Your Question" maxlength="255" rows="3" required></textarea>
                 <div class="flex_row">
-                  <input class="btn" type="submit" name="send" value="Send" disabled>
+                  <input class="btn" type="submit" name="send" value="Send">
                   <div class="status" id="msg_status"></div>
                 </div>
               </form>

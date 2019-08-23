@@ -40,6 +40,7 @@ foreach ($backImages as $image) {
         url($imgPath/$image) no-repeat -9999px -9999px,";
 }
 $preImgList = substr($preImgList, 0, -1);
+$preImgList = 'none';
 
 // global styles
 $css = "/*
@@ -439,7 +440,7 @@ $imgShowTForm = vFix('transform', 'translateX(0)', false);
 $imgTrans = vFix('transition',
     'transform 1s ease-out, opacity 2s linear', true
 );
-$imgAni = vFix('animation', 'slider 45s linear 1s infinite alternate', false);
+$imgAni = vFix('animation', 'slider 45s linear infinite alternate', false);
 $css .= "
 .categories li {
     height: 150px;
@@ -484,9 +485,13 @@ $css .= "
     top: 0;
     display: flex;
     flex-flow: row nowrap;
+    will-change: left, transform;
+}
+.categories li .row.sliding {
     $imgAni
 }
 .categories .cat_list_img {
+    width: 0;
     height: 100%;
     display: block;
     opacity: 0;
@@ -495,6 +500,7 @@ $css .= "
     $imgTrans
 }
 .categories .cat_list_img.show {
+    width: initial;
     opacity: 1;
     $imgShowTForm
 }
@@ -788,6 +794,7 @@ $itemFlex = vFix('flex', '1 0 0', false);
 $subMenuFlex = vFix('flex', '0 0 100%', false);
 $subMenuOrder = vFix('order', 4, false);
 $subMenuBlur = vFix('backdrop-filter', 'blur(32px)', false);
+$imgAni = vFix('animation-duration', '30s', false);
 $css .= "
 @media (min-width: $midWidth) {
     html, body {
@@ -876,12 +883,16 @@ $css .= "
     .project .img_box {
         max-width: 64vh;
     }
+    .categories li .row.sliding {
+        $imgAni
+    }
 }";
 
 // bigger size layout
 $subMenuFlex = vFix('flex', '1 0 0', false);
 $subMenuOrder = vFix('order', 'initial', false);
 $subTitleFlex = vFix('flex', '0 0 0', false);
+$imgAni = vFix('animation-duration', '25s', false);
 $css .= "
 @media (min-width: $bigWidth) {
     .menu_box ul.menu > li.sub_menu_box {
@@ -902,11 +913,15 @@ $css .= "
     .projects li .images > .img {
         height: 175px;
     }
+    .categories li .row.sliding {
+        $imgAni
+    }
 }";
 
 // mobile landscape layout
 
 // full size layout
+$imgAni = vFix('animation-duration', '20s', false);
 $css .= "
 @media (min-width: $fullWidth) {
     header, .nav_boxes, .content, footer {
@@ -918,6 +933,9 @@ $css .= "
     }
     .project .img_box {
         max-width: 80vh;
+    }
+    .categories li .row.sliding {
+        $imgAni
     }
 }";
 

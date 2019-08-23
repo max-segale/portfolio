@@ -34,10 +34,10 @@ foreach($catArray as $tag => $cat) {
         AND project_tags.name = '$tag'
         AND project_media.status = 'SELECT'
     ORDER BY RAND()
-    LIMIT 12";
+    LIMIT 10";
     $photos = sqlQuery($sql);
 
-    // create tag images array and push file urls
+    // create category images array and push file urls
     $tagImages = [];
     while ($photo = $photos->fetch_object()) {
 
@@ -46,7 +46,7 @@ foreach($catArray as $tag => $cat) {
         array_push($tagImages, $photo);
     }
 
-    // add tag images array to category object
+    // add category images array to category object
     $category->{'images'} = $tagImages;
 
     // push category object to categories array
