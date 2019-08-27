@@ -6,6 +6,7 @@
   'use strict';
   var gallery = {},
     project = {},
+    touchVals = {},
     msgForm = null,
     msgStatus = null,
     backdrop = null;
@@ -111,6 +112,29 @@
       }
     });
   }
+  // start swipe on photo
+  function startSwipe(e) {
+    var touch = e.touches[0];
+    touchVals.x = touch.clientX;
+    touchVals.y = touch.clientY;
+  }
+  // check photo swipe direction
+  function checkSwipe(e) {
+    var touch = e.touches[0];
+    if (touchVals.x < touch.clientX) {
+      touchVals.dir = 'right';
+    } else {
+      touchVals.dir = 'left';
+    }
+  }
+  // finish photo swipe
+  function endSwipe(e) {
+    if (touchVals.dir === 'left') {
+      nextImg();
+    } else if (touchVals.dir === 'right') {
+      prevImg();
+    }
+  }
   // add project view
   function viewProject(pObj, imgObj, imgNum) {
     var multiImg = true;
@@ -134,6 +158,10 @@
     }
     project.imgBox = max.newKid(project.box, 'div', 'img_box');
     if (multiImg) {
+      project.imgBox.addEventListener('click', nextImg);
+      project.imgBox.addEventListener('touchstart', startSwipe);
+      project.imgBox.addEventListener('touchmove', checkSwipe);
+      project.imgBox.addEventListener('touchend', endSwipe);
       project.thumbBox = max.newKid(project.box, 'div', 'thumb_box');
     }
     project.images = pObj.images;
@@ -152,12 +180,17 @@
   function addProject(pObj) {
     var pItem = max.newKid(gallery.list, 'li', pObj.tags[0], [
         ['div', 'info', [
-          ['div', {
+          ['span', {
             className: 'name',
             onclick: function () {
-              viewProject(pObj, pObj.images[0], 0);
+              if (pObj.link) {
+                window.open('http://' + pObj.link);
+              } else {
+                viewProject(pObj, pObj.images[0], 0);
+              }
             }
           }, pObj.name],
+          ['br'],
           ['span', false, pObj.summary]
         ]]
       ]),
@@ -397,18 +430,20 @@
     // append new item to category display
     function addCatItem(catObj) {
       var item = max.newKid(gallery.list, 'li'),
-        textBox = max.newKid(item, 'div', 'text', [
-          ['h3', 'heading', catObj.name],
-          ['br'],
-          ['span', false, catObj.summary]
+        glassBox = max.newKid(item, 'div', 'glass', [
+          ['div', 'text', [
+            ['h3', 'heading', catObj.name],
+            ['br'],
+            ['span', false, catObj.summary]
+          ]]
         ]),
-        imgBox = max.newKid(item, 'div', 'row');
-      max.newKid(item, 'div', 'glass');
-      textBox.addEventListener('click', function () {
+        rowWrap = max.newKid(item, 'div', 'row_wrap'),
+        imgRow = max.newKid(rowWrap, 'div', 'row');
+      glassBox.addEventListener('click', function () {
         clickTagItem(catObj);
       });
       catObj.images.forEach(function (imgObj) {
-        var catImg = max.newKid(imgBox, 'img', {
+        var catImg = max.newKid(imgRow, 'img', {
             className: 'cat_list_img',
             src: imgObj.link,
             alt: imgObj.caption
@@ -416,7 +451,7 @@
         catImg.addEventListener('load', showImg);
       });
       setTimeout(function () {
-        imgBox.classList.add('sliding');
+        rowWrap.classList.add('sliding');
       }, 1000);
     }
     // fill category list

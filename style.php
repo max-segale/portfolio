@@ -380,6 +380,7 @@ $css .= "
         url($imgPath/$backImages[self])
         center center / cover
         no-repeat;
+    -webkit-user-select: none;
     $picTrans
     $picAni
 }
@@ -404,6 +405,7 @@ form[name='ask'] input, textarea {
     display: block;
     border-radius: 5px;
     font-family: $fontFam;
+    box-shadow: none;
     outline: none;
     -webkit-appearance: none;
 }
@@ -438,9 +440,10 @@ $textAni = vFix('animation', 'fromLeft 1s ease-out', false);
 $imgTForm = vFix('transform', 'translateX(100vw)', false);
 $imgShowTForm = vFix('transform', 'translateX(0)', false);
 $imgTrans = vFix('transition',
-    'transform 1s ease-out, opacity 2s linear', true
+    'transform 1s ease-out, max-width 1s linear, opacity 2s linear', true
 );
-$imgAni = vFix('animation', 'slider 45s linear infinite alternate', false);
+$rowWrapAni = vFix('animation', 'sliderWrap 15000ms linear infinite alternate', false);
+$rowAni = vFix('animation', 'sliderRow 15000ms linear infinite alternate', false);
 $css .= "
 .categories li {
     height: 150px;
@@ -451,13 +454,14 @@ $css .= "
 .categories li:first-child {
     height: 250px;
 }
+.categories li .glass {
+  cursor: pointer;
+}
 .categories li .text {
     max-width: 66.6666%;
     position: absolute;
-    z-index: 20;
     left: 0;
     top: 0;
-    cursor: pointer;
     padding: 10px 5px 10px 10px;
     border-radius: 0 5px 5px 0;
     color: white;
@@ -465,10 +469,10 @@ $css .= "
     $textTrans
     $textAni
 }
-.categories li .text:hover {
+.categories li .glass:hover .text {
     box-shadow: 0 0 0 5px white;
 }
-.categories li .text:active, .categories li .text:active > * {
+.categories li .glass:active .text, .categories li .glass:active .text > * {
     background-color: black;
 }
 .categories li .text > .heading {
@@ -477,21 +481,30 @@ $css .= "
 .categories li .text > * {
     background-color: $blueColor;
 }
-.categories li .row {
+.categories li .row_wrap {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+.categories li .row_wrap.sliding {
+    will-change: width;
+    $rowWrapAni
+}
+.categories li .row_wrap .row {
     height: 100%;
     position: absolute;
     z-index: 10;
-    left: 0;
-    top: 0;
     display: flex;
     flex-flow: row nowrap;
-    will-change: left, transform;
 }
-.categories li .row.sliding {
-    $imgAni
+.categories li .row_wrap.sliding .row {
+    will-change: transform;
+    $rowAni
 }
 .categories .cat_list_img {
-    width: 0;
+    max-width: 0;
     height: 100%;
     display: block;
     opacity: 0;
@@ -500,7 +513,7 @@ $css .= "
     $imgTrans
 }
 .categories .cat_list_img.show {
-    width: initial;
+    max-width: 9999px;
     opacity: 1;
     $imgShowTForm
 }
@@ -509,10 +522,10 @@ $css .= "
 }";
 
 // project list items
-$itemAni = vFix('animation', 'projItem 750ms ease-out', false);
-$imgFlex = vFix('flex', '1 0 0', false);
-$imgTrans = vFix('transition', 'height 1s linear', false);
-$imgAni = vFix('animation', 'fadeIn 1s linear', false);
+$itemAni = vFix('animation', 'projItem 500ms ease-out', false);
+$imgFlex = vFix('flex', '50 0 0', false);
+$imgTrans = vFix('transition', 'height 500ms linear, flex 125ms linear', false);
+$imgAni = vFix('animation', 'fadeIn 500ms linear', false);
 $css .= "
 .projects li {
     position: relative;
@@ -544,6 +557,15 @@ $css .= "
     $imgFlex
     $imgTrans
     $imgAni
+}
+.projects li .images > .img:hover {
+    flex: 51 0 0;
+}
+.projects li .images > .img:active {
+    flex: 52 0 0;
+}
+.projects li .images > .img.wide {
+    background-position: center top;
 }";
 
 // project pop-up view
@@ -586,6 +608,7 @@ $css .= "
 }
 .project .name {
     font-style: italic;
+    text-decoration: underline;
     $itemFlex
 }
 .project .nav_box {
@@ -643,7 +666,7 @@ $css .= "
     cursor: pointer;
     margin-left: 10px;
     border: 2px solid white;
-    border-radius: 20px;
+    border-radius: 10px;
     background:
         center center / 150%
         no-repeat;
@@ -698,73 +721,6 @@ footer .copyright {
     color: $midColor;
 }";
 
-// animation frames
-$sliderTForm = vFix('transform', 'translateX(0)', false);
-$sliderTForm2 = vFix('transform', 'translateX(-100%)', false);
-$spinLTForm = vFix('transform', 'rotate(0deg)', false);
-$spinLTForm2 = vFix('transform', 'rotate(-360deg)', false);
-$spinRTForm = vFix('transform', 'rotate(-360deg)', false);
-$spinRTForm2 = vFix('transform', 'rotate(0deg)', false);
-$css .= "
-@keyframes fromLeft {
-    0% {
-        left: -100%;
-    }
-    100% {
-        left: 0;
-    }
-}
-@keyframes slider {
-    0% {
-        left: 0;
-        $sliderTForm
-    }
-    100% {
-        left: 100%;
-        $sliderTForm2
-    }
-}
-@keyframes fadeIn {
-    0% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-    }
-}
-@keyframes spinLeft {
-    0% {
-        $spinLTForm
-    }
-    100% {
-        $spinLTForm2
-    }
-}
-@keyframes spinRight {
-    0% {
-        $spinRTForm
-    }
-    100% {
-        $spinRTForm2
-    }
-}
-@keyframes loading {
-    0% {
-        background-size: 0;
-    }
-    100% {
-        background-size: 50%;
-    }
-}
-@keyframes projItem {
-    0% {
-        left: 100%;
-    }
-    100% {
-        left: 0;
-    }
-}";
-
 // begin expanding layout
 $css .= "
 @media (min-width: $smallWidth) {
@@ -794,7 +750,6 @@ $itemFlex = vFix('flex', '1 0 0', false);
 $subMenuFlex = vFix('flex', '0 0 100%', false);
 $subMenuOrder = vFix('order', 4, false);
 $subMenuBlur = vFix('backdrop-filter', 'blur(32px)', false);
-$imgAni = vFix('animation-duration', '30s', false);
 $css .= "
 @media (min-width: $midWidth) {
     html, body {
@@ -883,16 +838,12 @@ $css .= "
     .project .img_box {
         max-width: 64vh;
     }
-    .categories li .row.sliding {
-        $imgAni
-    }
 }";
 
 // bigger size layout
 $subMenuFlex = vFix('flex', '1 0 0', false);
 $subMenuOrder = vFix('order', 'initial', false);
 $subTitleFlex = vFix('flex', '0 0 0', false);
-$imgAni = vFix('animation-duration', '25s', false);
 $css .= "
 @media (min-width: $bigWidth) {
     .menu_box ul.menu > li.sub_menu_box {
@@ -913,20 +864,19 @@ $css .= "
     .projects li .images > .img {
         height: 175px;
     }
-    .categories li .row.sliding {
-        $imgAni
-    }
 }";
 
 // mobile landscape layout
 
 // full size layout
-$imgAni = vFix('animation-duration', '20s', false);
 $css .= "
 @media (min-width: $fullWidth) {
     header, .nav_boxes, .content, footer {
         width: $fullWidth;
         margin: 0 auto;
+    }
+    ul.menu > li > div.selected {
+        background-position: 5px center;
     }
     .projects li .images > .img {
         height: 200px;
@@ -934,8 +884,80 @@ $css .= "
     .project .img_box {
         max-width: 80vh;
     }
-    .categories li .row.sliding {
-        $imgAni
+}";
+
+// animation frames
+$sliderTForm = vFix('transform', 'translateX(0)', false);
+$sliderTForm2 = vFix('transform', 'translateX(-100%)', false);
+$spinLTForm = vFix('transform', 'rotate(0deg)', false);
+$spinLTForm2 = vFix('transform', 'rotate(-360deg)', false);
+$spinRTForm = vFix('transform', 'rotate(-360deg)', false);
+$spinRTForm2 = vFix('transform', 'rotate(0deg)', false);
+$css .= "
+@keyframes fromLeft {
+    0% {
+        left: -100%;
+    }
+    100% {
+        left: 0;
+    }
+}
+@keyframes sliderWrap {
+    0% {
+        width: 100%;
+    }
+    100% {
+        width: 0%;
+    }
+}
+@keyframes sliderRow {
+    0% {
+        //left: 0;
+        $sliderTForm
+    }
+    100% {
+        //left: 100%;
+        $sliderTForm2
+    }
+}
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+@keyframes spinLeft {
+    0% {
+        $spinLTForm
+    }
+    100% {
+        $spinLTForm2
+    }
+}
+@keyframes spinRight {
+    0% {
+        $spinRTForm
+    }
+    100% {
+        $spinRTForm2
+    }
+}
+@keyframes loading {
+    0% {
+        background-size: 0;
+    }
+    100% {
+        background-size: 50%;
+    }
+}
+@keyframes projItem {
+    0% {
+        left: 100%;
+    }
+    100% {
+        left: 0;
     }
 }";
 
