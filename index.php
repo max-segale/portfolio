@@ -106,13 +106,5 @@ $siteDesc = "A portfolio of work from $myName, full stack web developer and grap
         </div>
       </footer>
     </div>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-146094101-2"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'UA-146094101-2');
-    </script>
   </body>
 </html>
