@@ -1,0 +1,28 @@
+{
+  "name": "portfolio",
+  "version": "1.0.0",
+  "description": "A portfolio of work from Max Segale.",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/max-segale/portfolio.git"
+  },
+  "keywords": [
+    "web",
+    "developer",
+    "designer"
+  ],
+  "author": "Max Segale",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/max-segale/portfolio/issues"
+  },
+  "homepage": "https://github.com/max-segale/portfolio#readme",
+  "devDependencies": {
+    "gulp": "^4.0.2",
+    "gulp-sass": "^4.0.2"
+  }
+}
