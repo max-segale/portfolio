@@ -1,6 +1,6 @@
 <?php
-require_once '../info/portfolio.php';
-require_once '../common/functions.php';
+require_once '../../info.php';
+require_once '../../../common/functions.php';
 
 // set content as json
 header('Content-Type: application/json; charset=UTF-8');
