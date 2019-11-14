@@ -1,4 +1,6 @@
 <?php
+
+require_once 'categories.php';
 require_once '../../info.php';
 require_once '../../../common/functions.php';
 
@@ -26,15 +28,15 @@ foreach($catArray as $tag => $cat) {
 
     // query category images
     $sql = "
-    SELECT project_media.link, project_media.caption
-    FROM project_media
-        LEFT JOIN project_tags
-        ON project_media.project_id = project_tags.project_id
-    WHERE project_media.type = 'PHOTO'
-        AND project_tags.name = '$tag'
-        AND project_media.status = 'SELECT'
-    ORDER BY RAND()
-    LIMIT 10";
+        SELECT project_media.link, project_media.caption
+        FROM project_media
+            LEFT JOIN project_tags
+            ON project_media.project_id = project_tags.project_id
+        WHERE project_media.type = 'PHOTO'
+            AND project_tags.name = '$tag'
+            AND project_media.status = 'SELECT'
+        ORDER BY RAND()
+        LIMIT 10";
     $photos = sqlQuery($sql);
 
     // create category images array and push file urls
@@ -42,7 +44,7 @@ foreach($catArray as $tag => $cat) {
     while ($photo = $photos->fetch_object()) {
 
         // add url path
-        $photo->link = $imgPath . '/' . $photo->link;
+        $photo->link = 'img/' . $photo->link;
         array_push($tagImages, $photo);
     }
 

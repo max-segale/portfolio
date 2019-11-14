@@ -1,6 +1,8 @@
 <?php
-require_once '../info/portfolio.php';
-require_once '../common/functions.php';
+
+require_once 'categories.php';
+require_once '../../info.php';
+require_once '../../../common/functions.php';
 
 // set content as json
 header('Content-Type: application/json; charset=UTF-8');
@@ -23,12 +25,12 @@ $sqlWhere = "
 $sqlOrder = "
     ORDER BY date DESC";
 if ($projectId != "") {
-        $sqlWhere .= "
+    $sqlWhere .= "
         AND projects.id = '$projectId'";
 } else if ($tagName != "") {
-        $sqlFrom .= "
+    $sqlFrom .= "
         LEFT JOIN project_tags ON projects.id = project_tags.project_id";
-        $sqlWhere .= "
+    $sqlWhere .= "
         AND project_tags.name = '$tagName'";
 }
 $sqlStatement = $sqlSelect.$sqlFrom.$sqlWhere.$sqlOrder;
@@ -39,12 +41,12 @@ while ($project = $projects->fetch_object()) {
 
     // query project photos
     $selectPhotos = "
-    SELECT id, link, caption
-    FROM project_media
-    WHERE project_id = '$project->id'
-        AND type = 'PHOTO'
-        AND (status IS NULL OR status <> 'HIDE')
-    ORDER BY date DESC";
+        SELECT id, link, caption
+        FROM project_media
+        WHERE project_id = '$project->id'
+            AND type = 'PHOTO'
+            AND (status IS NULL OR status <> 'HIDE')
+        ORDER BY date DESC";
     $photos = sqlQuery($selectPhotos);
 
     // loop photo rows, get size, add url path, add to new array
@@ -56,7 +58,7 @@ while ($project = $projects->fetch_object()) {
             $photo->width = $imgSize[0];
             $photo->height = $imgSize[1];
         }
-        $photo->link = $imgPath . '/' . $photo->link;
+        $photo->link = 'img/' . $photo->link;
         array_push($photoArray, $photo);
     }
 
@@ -65,10 +67,10 @@ while ($project = $projects->fetch_object()) {
 
     // query project tags
     $selectTags = "
-    SELECT name
-    FROM project_tags
-    WHERE project_id = '$project->id'
-    ORDER BY name";
+        SELECT name
+        FROM project_tags
+        WHERE project_id = '$project->id'
+        ORDER BY name";
     $tags = sqlQuery($selectTags);
 
     // loop tag rows, add to new array

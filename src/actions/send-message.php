@@ -1,8 +1,10 @@
 <?php
-require_once '../info/portfolio.php';
 
 // set content as json
 header('Content-Type: application/json; charset=UTF-8');
+
+// set email destination
+$toEmail = 'info@maxsegale.com';
 
 // get post variables
 $from = $_POST['from'];
@@ -24,7 +26,7 @@ if (trim($message) !== '') {
     $headers = "From: $from";
 
     // send email
-    $jsonArray['sent'] = mail($domainEmail, $subject, $message, $headers);
+    $jsonArray['sent'] = mail($toEmail, $subject, $message, $headers);
 
     // check email status
     if ($jsonArray['sent'] == 1) {

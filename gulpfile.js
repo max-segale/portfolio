@@ -33,7 +33,7 @@ function scripts() {
 }
 
 function data() {
-  return gulp.src('src/sql/**')
+  return gulp.src('src/data/**')
     .pipe(gulp.dest('public/data'));
 }
 

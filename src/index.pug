@@ -14,7 +14,6 @@ html(lang='en')
     meta(name='apple-mobile-web-app-capable' content='yes')
     meta(http-equiv='X-UA-Compatible' content='IE=edge')
     title #{myName} 👨🏻‍💻 Portfolio
-    link(rel='icon' type='image/x-icon' href='favicon.ico')
     link(rel='stylesheet' type='text/css' href='style.css')
     script(type='text/javascript' src='scripts.js')
   body(ontouchstart)
@@ -32,7 +31,7 @@ html(lang='en')
           .menu_btn#menu_btn
       .container
         .nav_boxes#nav_boxes
-          .nav_box#about
+          section.nav_box#about
             .profile_pic(title='Hello, World!')
             h2.heading.heavy.margin About
             p
@@ -43,7 +42,7 @@ html(lang='en')
               span Some exciting projects are in development right now so stay tuned for cool updates!
             p
               span I built this site using HTML5, CSS3, JavaScript, PHP, and MySQL.
-            a(href='https://github.com/max-segale/portfolio' target='_blank')
+            a(href='https://github.com/max-segale/portfolio/tree/master/src' target='_blank')
               .btn.no_select View on GitHub
           .nav_box#contact
             .left
@@ -63,7 +62,7 @@ html(lang='en')
                 .flex_row
                   input.btn(type='submit' name='send' value='Send')
                   .status#msg_status
-        .content
+        section.content
           span.heading.heavy.margin#gallery_title
           ul.no_select#gallery_list
             li.loading
