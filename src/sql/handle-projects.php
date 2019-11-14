@@ -89,4 +89,3 @@ $jsonArray['category'] = $catArray[$tagName][0];
 
 // print assoc array as encoded json
 echo json_encode($jsonArray);
-?>

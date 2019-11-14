@@ -55,4 +55,3 @@ foreach($catArray as $tag => $cat) {
 
 // print assoc array as encoded json
 echo json_encode($jsonArray);
-?>

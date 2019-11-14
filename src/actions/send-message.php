@@ -39,4 +39,3 @@ if (trim($message) !== '') {
 
 // print assoc array as encoded json
 echo json_encode($jsonArray);
-?>
