@@ -43,13 +43,21 @@ function actions() {
 }
 
 function img() {
-  return gulp.src('assets/**')
+  return gulp.src([
+      'assets/**/*.jpg',
+      'assets/**/*.png',
+      'assets/**/*.svg'
+    ])
     .pipe(gulp.dest('public/img'));
 }
 
-exports.default = gulp.parallel(views, style, scripts, data, actions, img);
+function fav() {
+  return gulp.src('assets/icons/fav/*.ico')
+    .pipe(gulp.dest('public'));
+}
+
+exports.default = gulp.parallel(views, style, scripts, data, actions, img, fav);
 
 gulp.watch(['src/*.pug'], views);
 gulp.watch(['src/*.scss'], style);
 gulp.watch('src/*.js', scripts);
-gulp.watch('assets/**', img)
