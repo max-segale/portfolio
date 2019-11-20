@@ -8,8 +8,8 @@ require_once '../../../common/functions.php';
 header('Content-Type: application/json; charset=UTF-8');
 
 // get parameters
-$projectId = $_REQUEST[project];
-$tagName = $_REQUEST[tag];
+$projectId = $_REQUEST['project'];
+$tagName = $_REQUEST['tag'];
 
 // create projects array
 $arrayName = 'projects';
