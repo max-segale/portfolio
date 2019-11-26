@@ -31,9 +31,9 @@ html(lang='en')
           .menu_btn#menu_btn
       .container
         .nav_boxes#nav_boxes
-          section.nav_box#about
+          .nav_box#about
             .profile_pic(title='Hello, World!')
-            h2.heading.heavy.margin About
+            h2.heading.heavy About
             p
               span I work as a full-stack web developer and graphic designer.
               span I specialize in front-end development and UI/UX design.
@@ -41,29 +41,32 @@ html(lang='en')
               span This a collection of some freelance work and personal projects.
               span Some exciting projects are in development right now so stay tuned for cool updates!
             p
-              span I built this site using HTML5, CSS3, JavaScript, PHP, and MySQL.
+              span I built this site using HTML5/Pug, CSS3/Sass, JavaScript, MySQL, and PHP.
             a(href='https://github.com/max-segale/portfolio/tree/master/src' target='_blank')
-              .btn.no_select View on GitHub
+              .btn.src.no_select View Source Code
           .nav_box#contact
             .left
-              h2.heading.heavy.margin Contact
+              h2.heading.heavy Contact
               p Please contact me about any new projects or job opportunities.
               p
-                a(href='tel:(908)752-0639') 📱
+                a(href='tel:(908)752-0639')
                   span.u_line 908.752.0639
+                  span.emoji 📱
                 br
-                a(href='mailto:maxsegale@me.com') 📨
+                a(href='mailto:maxsegale@me.com')
                   span.u_line maxsegale@me.com
-            .margin
-              span Any questions? Please ask. 💬
+                  span.emoji 📨
+            .message_box
               form(name='ask')
+                span Any questions? Please ask.
+                  span.emoji 💬
                 input(type='email' name='email' placeholder='Your Email Address' maxlength='100' required)
                 textarea(name='message' placeholder='Your Question' maxlength='255' rows='3' required)
                 .flex_row
                   input.btn(type='submit' name='send' value='Send')
                   .status#msg_status
-        section.content
-          span.heading.heavy.margin#gallery_title
+        .content
+          span.heading.heavy#gallery_title
           ul.no_select#gallery_list
             li.loading
       footer.no_select

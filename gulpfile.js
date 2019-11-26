@@ -23,6 +23,9 @@ function views() {
 function style() {
   return gulp.src('src/*.scss')
     .pipe(sass())
+    .pipe(beautify.css({
+      indent_size: 2
+    }))
     .pipe(gulp.dest('public'));
 }
 

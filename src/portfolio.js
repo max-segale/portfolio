@@ -430,7 +430,7 @@
     // append new item to category display
     function addCatItem(catObj) {
       var item = max.newKid(gallery.list, 'li'),
-        glassBox = max.newKid(item, 'div', 'glass', [
+        typeBox = max.newKid(item, 'div', 'type', [
           ['div', 'text', [
             ['h3', 'heading', catObj.name],
             ['br'],
@@ -439,7 +439,7 @@
         ]),
         rowWrap = max.newKid(item, 'div', 'row_wrap'),
         imgRow = max.newKid(rowWrap, 'div', 'row');
-      glassBox.addEventListener('click', function () {
+      typeBox.addEventListener('click', function () {
         clickTagItem(catObj);
       });
       catObj.images.forEach(function (imgObj) {
@@ -463,8 +463,8 @@
     function resetPage() {
       selectSubItem();
       clearGallery();
-      getInfo(fillCatList);
       toggleMenu(true);
+      getInfo(fillCatList);
     }
     // get portfolio info object
     function getInfo(passFn) {

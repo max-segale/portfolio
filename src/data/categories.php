@@ -5,7 +5,7 @@ $catArray = [
     'web'=>[
         'Web Development',
         'Web Dev',
-        'UI/UX, HTML, CSS, JS, JSON, MySQL, PHP'
+        'Designing and building websites'
     ],
     'design'=>[
         'Graphic Design',
