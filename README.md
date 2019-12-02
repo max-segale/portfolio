@@ -1,7 +1,13 @@
-# portfolio
-My online portfolio
+# Portfolio
+My online portfolio site
 
-## Getting Started
+## Required
+NPM
+Gulp
+Pug
+Sass
+
+### Getting Started
 Install dependencies:
 ```
 npm install
