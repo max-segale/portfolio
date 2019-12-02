@@ -89,28 +89,22 @@ ul {
     box-shadow: inset 0 1px 10px 0 $blackTran;
   }
 }
-.flex_row {
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: baseline;
-}
-.type {
-  width: 100%;
-  height: 0;
-  position: relative;
-  z-index: 15;
-}
-.backdrop {
+.backdrop, .click_block {
   width: 100%;
   height: 100%;
   position: fixed;
-  z-index: 100;
   left: 0;
   top: 0;
+}
+.backdrop {
+  z-index: 100;
   background-color: $greyTran;
   backdrop-filter: blur(32px);
   transition: opacity 500ms linear;
   animation: fadeIn 500ms linear;
+}
+.click_block {
+  z-index: 20;
 }
 .see_thru {
   opacity: 0;
@@ -129,16 +123,6 @@ ul {
 }
 .container {
   overflow: hidden;
-}
-.content {
-  > .heading {
-    display: none;
-    margin: 4vh 0 0;
-    padding: 0 20px;
-    &.show {
-      display: block;
-    }
-  }
 }
 
 // header section
@@ -184,6 +168,21 @@ ul.menu {
   flex-flow: column nowrap;
   margin: 0 0 0 5px;
   border-radius: 5px;
+  &.open {
+    color: white;
+    background-color: $blackTran;
+    box-shadow: 0 0 0 5px white;
+    backdrop-filter: blur(32px);
+    > li {
+      display: block;
+      &.sub_title span {
+        background-image: url($imgRightW);
+        &.selected {
+          background-image: url($imgMoreW);
+        }
+      }
+    }
+  }
   > li {
     display: none;
     margin: 0 0 10px;
@@ -209,7 +208,7 @@ ul.menu {
     }
     > div {
       float: right;
-      padding: 0 15px 0 30px;
+      padding: 0 10px 0 30px;
       border-radius: 5px 0 0 5px;
       cursor: pointer;
       transition: background-color 250ms linear;
@@ -223,21 +222,6 @@ ul.menu {
       }
     }
   }
-  &.open {
-    color: white;
-    background-color: $blackTran;
-    box-shadow: 0 0 0 5px white;
-    backdrop-filter: blur(32px);
-    > li {
-      display: block;
-      &.sub_title span {
-        background-image: url($imgRightW);
-        &.selected {
-          background-image: url($imgMoreW);
-        }
-      }
-    }
-  }
 }
 
 // tags sub-menu
@@ -248,22 +232,16 @@ ul.sub_menu {
   height: 0;
   overflow: hidden;
   float: left;
-  > li {
-    margin: 0 0 10px;
-    padding: 0 0 0 25px;
-    cursor: pointer;
-    &:active {
-      text-decoration: underline;
-    }
-    &:last-child {
-      margin: 0 0 20px;
-    }
-    &.selected {
-      text-decoration: underline;
-    }
-  }
   &.open {
     height: initial;
+  }
+  > li {
+    margin: 0 0 10px;
+    padding: 0 0 0 20px;
+    cursor: pointer;
+    &:active, &.selected {
+      text-decoration: underline;
+    }
   }
 }
 
@@ -288,7 +266,7 @@ ul.sub_menu {
   }
 }
 
-//
+// hidden nav content
 .nav_boxes {
   width: 100%;
   height: 0;
@@ -307,6 +285,15 @@ ul.sub_menu {
   padding: 4vh 20px;
   transform: translateY(100%);
   transition: transform 500ms linear, opacity 500ms linear;
+  &.show {
+    position: relative;
+    z-index: 2;
+    opacity: 1;
+    transform: translateY(0%);
+    .profile_pic {
+      animation: spinRight 500ms linear;
+    }
+  }
   > div {
     overflow: hidden;
   }
@@ -316,7 +303,7 @@ ul.sub_menu {
   .profile_pic {
     width: 120px;
     height: 120px;
-    margin: 0 0 0 10px;
+    margin: 10px 0 0 10px;
     border-radius: 60px;
     float: right;
     background: url($imgSelf) center center / cover no-repeat;
@@ -325,15 +312,6 @@ ul.sub_menu {
     animation: spinLeft 500ms linear;
     &:hover {
       transform: rotate(360deg);
-    }
-  }
-  &.show {
-    position: relative;
-    z-index: 2;
-    opacity: 1;
-    transform: translateY(0%);
-    .profile_pic {
-      animation: spinRight 500ms linear;
     }
   }
 }
@@ -366,8 +344,29 @@ form[name='ask'] {
     margin: 5px 10px 0 0;
     font-size: 1em;
   }
-  .status {
-    font-size: 0.8em;
+  .send_row {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: baseline;
+    .status {
+      font-size: 0.8em;
+    }
+  }
+}
+
+// content area
+.content {
+  > .heading {
+    margin: 4vh 0 0;
+    padding: 0 20px;
+    position: relative;
+    left: -100vw;
+    opacity: 0;
+    transition: left 500ms ease-out, opacity 500ms linear;
+    &.show {
+      left: 0;
+      opacity: 1;
+    }
   }
 }
 
@@ -379,16 +378,33 @@ form[name='ask'] {
     max-height: 225px;
     position: relative;
     overflow: hidden;
-    margin: 20px 0 0 0;
-    background: #EDEDED;
+    margin: 4vh 0 0 0;
+    background: $boxColor;
     &:first-child {
       height: 20vw;
       min-height: 175px;
       max-height: 250px;
     }
     .type {
-      cursor: pointer;
+      width: 100%;
+      height: 0;
+      position: relative;
+      z-index: 15;
+      &:hover {
+        .text {
+          //box-shadow: 0 0 0 5px white;
+        }
+      }
+      &:active {
+        .text {
+          //background-color: black;
+          > * {
+            //background-color: black;
+          }
+        }
+      }
       .text {
+        cursor: pointer;
         margin: 0 10px;
         border-radius: 10px;
         padding: 5px 50px 5px 20px;
@@ -409,19 +425,6 @@ form[name='ask'] {
           //background-color: $blueColor;
         }
       }
-      &:hover {
-        .text {
-          //box-shadow: 0 0 0 5px white;
-        }
-      }
-      &:active {
-        .text {
-          //background-color: black;
-          > * {
-            //background-color: black;
-          }
-        }
-      }
     }
     .row_wrap {
       width: 100%;
@@ -429,6 +432,14 @@ form[name='ask'] {
       position: absolute;
       right: 0;
       top: 0;
+      &.sliding {
+        will-change: width;
+        //animation: sliderWrap 15000ms linear infinite alternate;
+        .row {
+          will-change: transform;
+          //animation: sliderRow 15000ms linear infinite alternate;
+        }
+      }
       .row {
         height: 100%;
         position: absolute;
@@ -450,14 +461,6 @@ form[name='ask'] {
           }
         }
       }
-      &.sliding {
-        will-change: width;
-        //animation: sliderWrap 15000ms linear infinite alternate;
-        .row {
-          will-change: transform;
-          //animation: sliderRow 15000ms linear infinite alternate;
-        }
-      }
     }
   }
 }
@@ -470,7 +473,7 @@ form[name='ask'] {
     animation: projItem 500ms ease-out;
     .info {
       padding: 0 20px;
-      margin: 0 0 5px 0;
+      margin: 0 0 10px 0;
       .name {
         font-size: 1.2em;
         font-style: italic;
@@ -653,29 +656,6 @@ footer {
   ul.menu {
     flex-flow: row wrap;
     align-items: baseline;
-    > li {
-      display: block;
-      margin: 0 10px 0 0;
-      flex: 10 0 0;
-      > div {
-        float: none;
-        text-align: center;
-        padding: 0;
-        border-radius: 5px;
-        //background-color: $boxColor;
-        &.selected {
-          color: white;
-          background: $blackTran url($imgCloseW) left center / 24px 24px no-repeat;
-        }
-      }
-      &:last-child {
-        margin: 0;
-      }
-      &.sub_menu_box {
-        flex: 0 0 100%;
-        order: 4;
-      }
-    }
     &.open {
       color: initial;
       background-color: initial;
@@ -688,22 +668,46 @@ footer {
         }
       }
     }
+    > li {
+      display: block;
+      margin: 0 10px 0 0;
+      flex: 10 0 0;
+      &:last-child {
+        margin: 0;
+      }
+      &.sub_menu_box {
+        flex: 0 0 100%;
+        order: 4;
+      }
+      > div {
+        float: none;
+        text-align: center;
+        padding: 0;
+        border-radius: 5px;
+        //background-color: $boxColor;
+        &.selected {
+          color: white;
+          background: $blackTran url($imgCloseW) left center / 24px 24px no-repeat;
+        }
+      }
+
+    }
   }
   ul.sub_menu {
     border-radius: 5px;
     margin-left: 10px;
+    &.open {
+      color: white;
+      background-color: $blackTran;
+      box-shadow: 0 0 0 5px white;
+      backdrop-filter: blur(32px);
+    }
     > li {
       margin: 10px 0;
       padding: 0 20px;
       &:last-child {
         margin: 10px 0;
       }
-    }
-    &.open {
-      color: white;
-      background-color: $blackTran;
-      box-shadow: 0 0 0 5px white;
-      backdrop-filter: blur(32px);
     }
   }
   .menu_btn {
@@ -753,11 +757,11 @@ footer {
     margin-right: auto;
   }
   ul.menu > li {
-    > div.selected {
-      background-position: 5px center;
-    }
     &.sub_title {
       flex: 15 0 0;
+    }
+    > div.selected {
+      background-position: 5px center;
     }
   }
   /*.menu_box ul.menu > li.sub_menu_box {

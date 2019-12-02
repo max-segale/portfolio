@@ -9,7 +9,8 @@
     touchVals = {},
     msgForm = null,
     msgStatus = null,
-    backdrop = null;
+    backdrop = null,
+    clickBlock = null;
   // toggle backdrop
   function toggleBackdrop() {
     if (!backdrop) {
@@ -327,10 +328,16 @@
         menuOpen = true;
         menuBoxes.list.classList.add('open');
         menuBoxes.btn.classList.add('selected');
+        clickBlock = max.newKid(document.body, 'div', 'click_block');
+        clickBlock.addEventListener('click', toggleMenu);
       } else {
         menuOpen = false;
         menuBoxes.list.classList.remove('open');
         menuBoxes.btn.classList.remove('selected');
+        if (clickBlock) {
+          document.body.removeChild(clickBlock);
+          clickBlock = null;
+        }
       }
     }
     // toggle small screen nav menu
@@ -387,6 +394,7 @@
     // clear nav selection and gallery
     function clearGallery() {
       gallery.title.innerHTML = '';
+      gallery.title.classList.remove('show');
       gallery.list.innerHTML = '<li class="loading"></li>';
       gallery.list.classList.remove('categories');
       gallery.list.classList.remove('projects');
