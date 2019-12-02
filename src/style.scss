@@ -310,7 +310,7 @@ ul.sub_menu {
     -webkit-user-select: none;
     transition: transform 1000ms ease;
     animation: spinLeft 500ms linear;
-    &:hover {
+    &:active {
       transform: rotate(360deg);
     }
   }
