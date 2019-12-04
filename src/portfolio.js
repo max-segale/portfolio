@@ -1,6 +1,6 @@
 /*
-  max segale
-  portfolio components
+  Max Segale
+  Portfolio js components
 */
 (function (window, document, max) {
   'use strict';

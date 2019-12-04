@@ -1,6 +1,6 @@
 /*
-    max segale
-    common js function library
+  Max Segale
+  JavaScript function library
 */
 var max = (function (window, document) {
     "use strict";

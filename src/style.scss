@@ -1,4 +1,7 @@
-// max segale - portfolio style sheet
+/*
+  Max Segale
+  Portfolio style sheet
+*/
 
 // set responsive breakpoints
 $smallWidth: 375px;
@@ -405,6 +408,7 @@ form[name='ask'] {
       }
       .text {
         cursor: pointer;
+        float: left;
         margin: 0 10px;
         border-radius: 10px;
         padding: 5px 50px 5px 20px;
@@ -731,7 +735,7 @@ footer {
     }
   }
   .categories .text {
-    float: left;
+    //float: left;
   }
   .projects li .images > .img {
     height: 150px;
