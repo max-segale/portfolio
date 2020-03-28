@@ -219,7 +219,7 @@
     if (pTag) {
       paramObj.tag = pTag;
     }
-    max.request('GET', 'data/handle-projects.php', paramObj, function (XHR) {
+    max.request('GET', 'handle-projects.php', paramObj, function (XHR) {
       var projObj = JSON.parse(XHR.responseText);
       gallery.list.innerHTML = '';
       gallery.list.classList.add('projects');
@@ -250,7 +250,7 @@
       };
     event.preventDefault();
     msgForm.send.disabled = true;
-    max.request('POST', 'actions/send-message.php', paramObj, checkMessage);
+    max.request('POST', 'send-message.php', paramObj, checkMessage);
     return false;
   }
   // create nav menu and project categories display
@@ -476,7 +476,7 @@
     }
     // get portfolio info object
     function getInfo(passFn) {
-      max.request('GET', 'data/handle-nav-items.php', false, function (XHR) {
+      max.request('GET', 'handle-nav-items.php', false, function (XHR) {
         var items = JSON.parse(XHR.responseText);
         gallery.list.innerHTML = '';
         if (passFn) {
