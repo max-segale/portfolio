@@ -1,11 +1,19 @@
+// Set modules
 const gulp = require('gulp');
+const del = require('del');
 const pug = require('gulp-pug');
 const sass = require('gulp-sass');
 const rename = require('gulp-rename');
 const beautify = require('gulp-beautify');
 const concat = require('gulp-concat');
 
-function views() {
+// Delete existing content before build
+function clean() {
+  return del('public/**/*');
+}
+
+// Create HTML pages from Pug, use .php ext
+function pages() {
   return gulp.src('src/*.pug')
     .pipe(pug())
     .pipe(beautify.html({
@@ -20,7 +28,8 @@ function views() {
     .pipe(gulp.dest('public'));
 }
 
-function style() {
+// Create style sheet from SCSS
+function styles() {
   return gulp.src('src/*.scss')
     .pipe(sass())
     .pipe(beautify.css({
@@ -29,18 +38,21 @@ function style() {
     .pipe(gulp.dest('public'));
 }
 
+// Merge js into single script
 function scripts() {
   return gulp.src('src/*.js')
     .pipe(concat('scripts.js'))
     .pipe(gulp.dest('public'));
 }
 
+// Copy action and data handlers
 function php() {
   return gulp.src('src/*.php')
     .pipe(gulp.dest('public'));
 }
 
-function img() {
+// Copy images
+function images() {
   return gulp.src([
       'assets/**/*.jpg',
       'assets/**/*.png',
@@ -49,13 +61,22 @@ function img() {
     .pipe(gulp.dest('public/img'));
 }
 
+// Copy favicon
 function fav() {
   return gulp.src('assets/icons/fav/*.ico')
     .pipe(gulp.dest('public'));
 }
 
-exports.default = gulp.parallel(views, style, scripts, php, img, fav);
+// Use clean build as default script
+exports.default = gulp.series(
+  clean,
+  gulp.parallel(
+    pages, styles, scripts, php, images, fav
+  )
+);
 
-gulp.watch(['src/*.pug'], views);
-gulp.watch(['src/*.scss'], style);
+// Watch for file updates
+gulp.watch('src/*.pug', pages);
+gulp.watch('src/*.scss', styles);
 gulp.watch('src/*.js', scripts);
+gulp.watch('src/*.php', php);
