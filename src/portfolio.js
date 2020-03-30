@@ -406,14 +406,15 @@
     }
     // Append new item to category display
     function addCatItem(catObj) {
-      var item = max.newKid(gallery.list, 'li', [
-        'div', 'type', [
-          ['div', 'text', [
-            ['h3', 'cat_name', catObj.name],
-            ['br'],
-            ['h4', 'cat_summ', catObj.summary]
+      var item = max.newKid(gallery.list, 'li', false, [
+          ['div', 'type', [
+            ['div', 'text', [
+              ['h3', 'cat_name', catObj.name],
+              ['br'],
+              ['h4', 'cat_summ', catObj.summary]
+            ]]
           ]]
-        ]]),
+        ]),
         rowWrap = max.newKid(item, 'div', 'row_wrap'),
         imgRow = max.newKid(rowWrap, 'div', 'row');
       item.addEventListener('click', function () {
