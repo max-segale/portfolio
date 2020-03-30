@@ -3,6 +3,8 @@ const gulp = require('gulp');
 const del = require('del');
 const pug = require('gulp-pug');
 const sass = require('gulp-sass');
+const postcss = require('gulp-postcss');
+const autoprefixer = require('autoprefixer');
 const rename = require('gulp-rename');
 const beautify = require('gulp-beautify');
 const concat = require('gulp-concat');
@@ -32,6 +34,9 @@ function pages() {
 function styles() {
   return gulp.src('src/*.scss')
     .pipe(sass())
+    .pipe(postcss([
+      autoprefixer()
+    ]))
     .pipe(beautify.css({
       indent_size: 2
     }))
