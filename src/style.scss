@@ -11,6 +11,8 @@ $fullWidth: 1024px;
 
 // set fonts and colors
 $fontFam: "Helvetica Neue", "Helvetica", sans-serif;
+$fontColor: rgba(0, 0, 0, 1);
+$backColor: rgba(255, 255, 255, 1);
 $boxColor: rgba(222, 222, 222, 1);
 $midColor: rgba(150, 150, 150, 1);
 $blueColor: rgba(10, 132, 255, 1);
@@ -43,12 +45,15 @@ html, body {
   text-align: left;
   font-size: 16px;
   font-family: $fontFam;
-  color: black;
-  background-color: white;
+  color: $fontColor;
+  background-color: $backColor;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
   -webkit-text-size-adjust: none;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
-h1, h2, h3 {
+h1, h2, h3, h4 {
   display: inline;
   font-size: inherit;
   font-weight: inherit;
@@ -63,11 +68,14 @@ p {
 ul {
   list-style: none;
 }
+img {
+  display: block;
+}
 
 // general classes
 .heading {
   display: block;
-  font-size: 1.25em;
+  font-size: 1.25rem;
   text-transform: capitalize;
 }
 .heavy {
@@ -80,7 +88,7 @@ ul {
   cursor: pointer;
   border-radius: 5px;
   padding: 5px 15px;
-  color: white;
+  color: $backColor;
   background-color: $blueColor;
   transition: text-shadow 125ms linear, box-shadow 125ms linear;
   &:hover {
@@ -115,14 +123,11 @@ ul {
 .no_scroll {
   overflow: hidden;
 }
-.no_select {
-  -webkit-touch-callout: none;
-  user-select: none;
-}
 
 // page structure
 .wrapper {
-  padding: 2vh 0 0;
+  min-height: 100vh;
+  padding: 2vh 0 5vh;
 }
 .container {
   overflow: hidden;
@@ -144,7 +149,7 @@ header {
     white-space: nowrap;
     padding: 0 10px;
     .title {
-      font-size: 1.5em;
+      font-size: 1.5rem;
       font-weight: 700;
       margin-right: 5px;
       cursor: pointer;
@@ -172,9 +177,9 @@ ul.menu {
   margin: 0 0 0 5px;
   border-radius: 5px;
   &.open {
-    color: white;
+    color: $backColor;
     background-color: $blackTran;
-    box-shadow: 0 0 0 5px white;
+    box-shadow: 0 0 0 5px $backColor;
     backdrop-filter: blur(32px);
     > li {
       display: block;
@@ -216,12 +221,12 @@ ul.menu {
       cursor: pointer;
       transition: background-color 250ms linear;
       &:active {
-        color: white;
+        color: $backColor;
         background-color: $midColor;
       }
       &.selected {
-        color: black;
-        background: white url($imgCloseB) left center / contain no-repeat;
+        color: $fontColor;
+        background: $backColor url($imgCloseB) left center / contain no-repeat;
       }
     }
   }
@@ -255,7 +260,7 @@ ul.sub_menu {
   height: 30px;
   cursor: pointer;
   margin-left: 5px;
-  border: 2px solid black;
+  border: 2px solid $fontColor;
   border-radius: 5px;
   background: url($imgMenu) center center / contain no-repeat;
   &:active {
@@ -276,45 +281,44 @@ ul.sub_menu {
   position: relative;
   overflow: hidden;
   transition: height 500ms ease-in;
-}
-.nav_box {
-  width: 100%;
-  position: absolute;
-  left: 0;
-  top: 0;
-  z-index: 1;
-  overflow: hidden;
-  opacity: 0;
-  padding: 4vh 20px;
-  transform: translateY(100%);
-  transition: transform 500ms linear, opacity 500ms linear;
-  &.show {
-    position: relative;
-    z-index: 2;
-    opacity: 1;
-    transform: translateY(0%);
-    .profile_pic {
-      animation: spinRight 500ms linear;
-    }
-  }
-  > div {
+  .nav_box {
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 1;
     overflow: hidden;
-  }
-  .btn.src {
-    float: left;
-  }
-  .profile_pic {
-    width: 120px;
-    height: 120px;
-    margin: 10px 0 0 10px;
-    border-radius: 60px;
-    float: right;
-    background: url($imgSelf) center center / cover no-repeat;
-    -webkit-user-select: none;
-    transition: transform 1000ms ease;
-    animation: spinLeft 500ms linear;
-    &:active {
-      transform: rotate(360deg);
+    opacity: 0;
+    padding: 4vh 20px;
+    transform: translateY(100%);
+    transition: transform 500ms linear, opacity 500ms linear;
+    &.show {
+      position: relative;
+      z-index: 2;
+      opacity: 1;
+      transform: translateY(0%);
+      .profile_pic {
+        animation: spinRight 500ms linear;
+      }
+    }
+    > div {
+      overflow: hidden;
+    }
+    .btn {
+      float: left;
+    }
+    .profile_pic {
+      width: 120px;
+      height: 120px;
+      margin: 0 0 10px 10px;
+      border-radius: 60px;
+      float: right;
+      background: url($imgSelf) center center / cover no-repeat;
+      transition: transform 1000ms ease;
+      animation: spinLeft 500ms linear;
+      &:active {
+        transform: rotate(360deg);
+      }
     }
   }
 }
@@ -334,25 +338,25 @@ form[name='ask'] {
     margin-top: 5px;
     border: 2px solid $boxColor;
     padding: 4px 0 3px 10px;
-    font-size: 0.8em;
+    font-size: 0.8rem;
     resize: none;
-    color: black;
+    color: $fontColor;
     background-color: $boxColor;
   }
   input[type='email']:focus, textarea:focus {
-    border: 2px solid black;
-    background-color: white;
+    border: 2px solid $fontColor;
+    background-color: $backColor;
   }
   input[type='submit'] {
     margin: 5px 10px 0 0;
-    font-size: 1em;
+    font-size: 1rem;
   }
   .send_row {
     display: flex;
     flex-flow: row nowrap;
     align-items: baseline;
     .status {
-      font-size: 0.8em;
+      font-size: 0.8rem;
     }
   }
 }
@@ -383,6 +387,7 @@ form[name='ask'] {
     overflow: hidden;
     margin: 4vh 0 0 0;
     background: $boxColor;
+    cursor: pointer;
     &:first-child {
       height: 20vw;
       min-height: 175px;
@@ -393,40 +398,43 @@ form[name='ask'] {
       height: 0;
       position: relative;
       z-index: 15;
-      &:hover {
-        .text {
-          //box-shadow: 0 0 0 5px white;
-        }
-      }
-      &:active {
-        .text {
-          //background-color: black;
-          > * {
-            //background-color: black;
-          }
-        }
-      }
+      animation: fromLeft 1s ease-out;
       .text {
-        cursor: pointer;
-        float: left;
-        margin: 0 10px;
-        border-radius: 10px;
-        padding: 5px 50px 5px 20px;
-        color: white;
-        background: $blackTran url($imgRightW) right center / 40px no-repeat;
-        box-shadow: 0 0 0 5px white;
-        transition: background 250ms ease, box-shadow 100ms linear;
-        animation: fromLeft 1s ease-out;
-        > .heading {
-          display: inline;
-          font-size: 1.5em;
+        padding: 10px;
+        color: $fontColor;
+        > .cat_name {
+          display: inline-block;
+          font-size: 2rem;
+          font-weight: 900;
+          text-decoration: underline;
+          text-transform: uppercase;
         }
-        > span {
-          font-weight: 300;
-          text-indent: 10px;
+        > .cat_summ {
+          display: inline-block;
+          margin: 0;
+          font-weight: 400;
+          font-size: 1.5rem;
         }
         > * {
-          //background-color: $blueColor;
+          padding: 0 10px;
+          background-color: rgba(255, 255, 255, 0.5);
+          transition: color 250ms ease, background 250ms ease;
+          backdrop-filter: blur(32px);
+        }
+      }
+    }
+    &:hover {
+      .text {
+        > * {
+          background-color: $backColor;
+        }
+      }
+    }
+    &:active {
+      .text {
+        > * {
+          color: $backColor;
+          background-color: $fontColor;
         }
       }
     }
@@ -438,10 +446,10 @@ form[name='ask'] {
       top: 0;
       &.sliding {
         will-change: width;
-        //animation: sliderWrap 15000ms linear infinite alternate;
+        animation: sliderWrap 15000ms linear infinite alternate;
         .row {
           will-change: transform;
-          //animation: sliderRow 15000ms linear infinite alternate;
+          animation: sliderRow 15000ms linear infinite alternate;
         }
       }
       .row {
@@ -479,7 +487,7 @@ form[name='ask'] {
       padding: 0 20px;
       margin: 0 0 10px 0;
       .name {
-        font-size: 1.2em;
+        font-size: 1.2rem;
         font-style: italic;
         text-decoration: underline;
         cursor: pointer;
@@ -488,23 +496,27 @@ form[name='ask'] {
     .images {
       display: flex;
       flex-flow: row wrap;
-      border: 1px solid white;
-      > .img {
-        height: 125px;
+      justify-content: center;
+      align-items: center;
+      > .image {
+        //height: 125px;
         cursor: pointer;
-        border: 1px solid white;
-        background: center center / cover no-repeat;
-        flex: 50 0 0;
-        transition: height 500ms linear, flex 125ms linear;
+        //border: 1px solid $backColor;
+        flex: 0 0 100%;
+        //position: relative;
+        //transition: height 500ms linear, flex 125ms linear;
         animation: fadeIn 500ms linear;
         &:hover {
-          flex: 51 0 0;
+          //flex: 51 0 0;
         }
         &:active {
-          flex: 52 0 0;
+          //flex: 52 0 0;
         }
-        &.wide {
-          background-position: center top;
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+          object-position: center center;
         }
       }
     }
@@ -525,7 +537,7 @@ form[name='ask'] {
   align-items: center;
   text-align: center;
   overflow: hidden;
-  color: white;
+  color: $backColor;
   text-shadow: 0 1px 5px $blackTran;
   transform: translate(-50%, -50%);
   transition: opacity 500ms linear;
@@ -535,7 +547,7 @@ form[name='ask'] {
     text-decoration: underline;
     flex: 0 0 0;
   }
-  .nav_box {
+  .ctl_box {
     width: 100%;
     display: flex;
     flex-flow: row nowrap;
@@ -584,7 +596,7 @@ form[name='ask'] {
       height: 40px;
       cursor: pointer;
       margin-left: 10px;
-      border: 2px solid white;
+      border: 2px solid $backColor;
       border-radius: 10px;
       background: center center / 150% no-repeat;
       flex: 4 0 0;
@@ -604,28 +616,32 @@ form[name='ask'] {
   height: 30px;
   position: fixed;
   z-index: 300;
-  left: 5px;
-  top: 5px;
+  right: 10px;
+  top: 10px;
   cursor: pointer;
   background: url($imgCloseW) center center / 100% no-repeat;
 }
 
 // loading view
 .loading {
-  height: 75vh;
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 50;
   opacity: 0.25;
   background: url($imgLoad) center center / 125px no-repeat;
   animation: loadPulse 750ms ease infinite alternate;
 }
 
-// footer section
+// Footer section
 footer {
+  padding: 0 0 5vh;
   text-align: center;
-  padding-top: 100px;
   .copyright {
-    font-size: 0.75em;
+    font-size: 0.75rem;
     font-weight: 300;
-    padding: 20px;
     color: $midColor;
   }
 }
@@ -690,7 +706,7 @@ footer {
         border-radius: 5px;
         //background-color: $boxColor;
         &.selected {
-          color: white;
+          color: $backColor;
           background: $blackTran url($imgCloseW) left center / 24px 24px no-repeat;
         }
       }
@@ -701,9 +717,9 @@ footer {
     border-radius: 5px;
     margin-left: 10px;
     &.open {
-      color: white;
+      color: $backColor;
       background-color: $blackTran;
-      box-shadow: 0 0 0 5px white;
+      box-shadow: 0 0 0 5px $backColor;
       backdrop-filter: blur(32px);
     }
     > li {
@@ -734,11 +750,9 @@ footer {
       margin: 10px 0 0;
     }
   }
-  .categories .text {
-    //float: left;
-  }
-  .projects li .images > .img {
-    height: 150px;
+  .projects li .images > .image {
+    //height: 150px;
+    flex: 0 0 50%;
   }
   .project {
     width: $midWidth;
@@ -752,7 +766,7 @@ footer {
 @media (min-width: $bigWidth) {
   header nav,
   .nav_boxes,
-  .categories .type,
+  .categories li .type,
   .content .heading,
   .projects li .info,
   footer {
@@ -783,8 +797,9 @@ footer {
     //margin-left: 10px;
     //border-radius: 5px;
   }
-  .projects li .images > .img {
-    height: 175px;
+  .projects li .images > .image {
+    //height: 175px;
+    flex: 0 0 33.3333%;
   }
 }
 
@@ -793,7 +808,7 @@ footer {
   html, body {
     //font-size: 20px;
   }
-  .projects li .images > .img {
+  .projects li .images > .image {
     //height: 200px;
   }
   .project .img_box {

@@ -5,16 +5,16 @@ $catArray = [
   'web' => [
     'Web Development',
     'Web Dev',
-    'Designing and building websites'
+    'UI/UX Design, Full-stack Dev'
   ],
   'design' => [
     'Graphic Design',
     'Designs',
-    'Logos, branding, graphics'
+    'Logos, Branding, Merch'
   ],
   'print' => [
     'Printmaking',
     'Prints',
-    'Screen prints, posters'
+    'Screen Prints, Posters'
   ]
 ];

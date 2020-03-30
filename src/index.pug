@@ -19,7 +19,7 @@ html(lang='en')
   body(ontouchstart)
     .wrapper
       header
-        nav.no_select
+        nav
           h1.title#menu_title #{myName}
           .slash.heading //
           .menu_box
@@ -43,7 +43,7 @@ html(lang='en')
             p
               span I built this site using HTML5/Pug, CSS3/Sass, JavaScript, MySQL, and PHP.
             a(href='https://github.com/max-segale/portfolio/tree/master/src' target='_blank')
-              .btn.src.no_select View Source Code
+              .btn View Source Code
           .nav_box#contact
             h2.heading.heavy Contact
             .left
@@ -67,9 +67,9 @@ html(lang='en')
                   .status#msg_status
         .content
           span.heading.heavy#gallery_title
-          ul.no_select#gallery_list
+          ul#gallery_list
             li.loading
-      footer.no_select
-        noscript ⚠️ Please enable JavaScript in your browser settings.
-        .copyright
-          span &copy; #{myName} <?= date('Y') ?>
+    footer
+      noscript ⚠️ Please enable JavaScript in your browser settings.
+      .copyright
+        span &copy; #{myName} <?= date('Y') ?>

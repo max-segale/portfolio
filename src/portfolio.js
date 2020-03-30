@@ -1,6 +1,6 @@
 /*
   Max Segale
-  Portfolio js components
+  Portfolio JS components
 */
 (function (window, document, max) {
   'use strict';
@@ -11,7 +11,7 @@
     msgStatus = null,
     backdrop = null,
     clickBlock = null;
-  // toggle backdrop
+  // Toggle backdrop
   function toggleBackdrop() {
     if (!backdrop) {
       backdrop = max.newKid(document.body, 'div', 'backdrop');
@@ -26,7 +26,7 @@
       backdrop = false;
     }
   }
-  // select project view image, select thumb, show caption
+  // Select project view image, select thumb, show caption
   function selectViewImg(imgNum) {
     var imgObj = project.images[imgNum],
       thumbObj = project.thumbs[imgNum],
@@ -48,19 +48,19 @@
     }
     project.caption.innerHTML = project.images[imgNum].caption;
   }
-  // common child image div
+  // Common child image div
   function newImg(imgParent, imgObj) {
     var img = max.newKid(imgParent, 'div', {
         style: {backgroundImage: 'url(' + imgObj.link + ')'}
       });
     return img;
   }
-  // add project view image
+  // Add project view image
   function viewImg(imgObj, imgNum) {
     var img = newImg(project.imgBox, imgObj);
     project.images[imgNum].box = img;
   }
-  // add project view thumbnail
+  // Add project view thumbnail
   function viewThumb(imgObj, imgNum) {
     var thumb = newImg(project.thumbBox, imgObj);
     thumb.title = imgObj.caption;
@@ -69,7 +69,7 @@
     });
     project.thumbs.push(thumb);
   }
-  // select next image in project
+  // Select next image in project
   function nextImg() {
     var nextNum = project.selectNum + 1;
     if (nextNum < project.images.length) {
@@ -78,7 +78,7 @@
       selectViewImg(0);
     }
   }
-  // select previous image in project
+  // Select previous image in project
   function prevImg() {
     var nextNum = project.selectNum - 1,
       lastNum = project.images.length - 1;
@@ -88,7 +88,7 @@
       selectViewImg(lastNum);
     }
   }
-  // nav project view with keyboard
+  // Nav project view with keyboard
   function keyCheck() {
     var keyCode = event.keyCode || event.which;
     if (keyCode === 39) {
@@ -97,12 +97,13 @@
       prevImg();
     }
   }
-  // remove project view
+  // Remove project view
   function closeView() {
     var theClass = 'see_thru';
     project.box.classList.add(theClass);
+    project.closeBtn.classList.add(theClass);
     backdrop.classList.add(theClass);
-    // remove after transition is complete
+    // Remove after transition is complete
     backdrop.addEventListener('transitionend', function () {
       if (event.propertyName === 'opacity') {
         document.body.removeChild(project.box);
@@ -113,30 +114,7 @@
       }
     });
   }
-  // start swipe on photo
-  function startSwipe(e) {
-    var touch = e.touches[0];
-    touchVals.x = touch.clientX;
-    touchVals.y = touch.clientY;
-  }
-  // check photo swipe direction
-  function checkSwipe(e) {
-    var touch = e.touches[0];
-    if (touchVals.x < touch.clientX) {
-      touchVals.dir = 'right';
-    } else {
-      touchVals.dir = 'left';
-    }
-  }
-  // finish photo swipe
-  function endSwipe(e) {
-    if (touchVals.dir === 'left') {
-      nextImg();
-    } else if (touchVals.dir === 'right') {
-      prevImg();
-    }
-  }
-  // add project view
+  // Add project view
   function viewProject(pObj, imgObj, imgNum) {
     var multiImg = true;
     if (pObj.images.length === 1) {
@@ -144,10 +122,10 @@
     }
     project.closeBtn = max.newKid(document.body, 'div', 'project_close');
     project.closeBtn.addEventListener('click', closeView);
-    project.box = max.newKid(document.body, 'div', 'project no_select', [
+    project.box = max.newKid(document.body, 'div', 'project', [
       ['div', 'name', pObj.name]
     ]);
-    project.navBox = max.newKid(project.box, 'div', 'nav_box');
+    project.navBox = max.newKid(project.box, 'div', 'ctl_box');
     if (multiImg) {
       project.prevBtn = max.newKid(project.navBox, 'div', 'prev');
       project.prevBtn.addEventListener('click', prevImg);
@@ -160,9 +138,6 @@
     project.imgBox = max.newKid(project.box, 'div', 'img_box');
     if (multiImg) {
       project.imgBox.addEventListener('click', nextImg);
-      project.imgBox.addEventListener('touchstart', startSwipe);
-      project.imgBox.addEventListener('touchmove', checkSwipe);
-      project.imgBox.addEventListener('touchend', endSwipe);
       project.thumbBox = max.newKid(project.box, 'div', 'thumb_box');
     }
     project.images = pObj.images;
@@ -177,18 +152,14 @@
     }
     toggleBackdrop();
   }
-  // create project list item
+  // Create project list item
   function addProject(pObj) {
     var pItem = max.newKid(gallery.list, 'li', pObj.tags[0], [
         ['div', 'info', [
           ['span', {
             className: 'name',
             onclick: function () {
-              if (pObj.link) {
-                window.open('http://' + pObj.link);
-              } else {
-                viewProject(pObj, pObj.images[0], 0);
-              }
+              viewProject(pObj, pObj.images[0], 0);
             }
           }, pObj.name],
           ['br'],
@@ -197,20 +168,18 @@
       ]),
       pImages = max.newKid(pItem, 'div', 'images');
     pObj.images.forEach(function (imgObj, imgNum) {
-      var img = max.newKid(pImages, 'div', {
-          className: 'img',
-          style: {backgroundImage: 'url(' + imgObj.link + ')'},
-          title: imgObj.caption
-        });
-      if (imgObj.width > imgObj.height) {
-        img.classList.add('wide');
-      }
+      var img = max.newKid(pImages, 'div', 'image', [
+        ['img', {
+          src: imgObj.link,
+          alt: imgObj.caption
+        }]
+      ]);
       img.addEventListener('click', function () {
         viewProject(pObj, imgObj, imgNum);
       });
     });
   }
-  // check parameters, get projects object, create list
+  // Check parameters, get projects object, create list
   function getProjects(pNum, pTag, pTagName) {
     var paramObj = {};
     if (pNum) {
@@ -228,7 +197,7 @@
       projObj.projects.forEach(addProject);
     });
   }
-  // check message status
+  // Check message status
   function checkMessage(XHR) {
     var returnObj = JSON.parse(XHR.responseText);
     msgForm.send.disabled = false;
@@ -240,7 +209,7 @@
       msgStatus.innerHTML = '';
     }, 5000);
   }
-  // ajax form submit
+  // Form submit AJAX
   function sendMessage() {
     var email = msgForm.elements.email.value,
       message = msgForm.elements.message.value,
@@ -253,7 +222,7 @@
     max.request('POST', 'send-message.php', paramObj, checkMessage);
     return false;
   }
-  // create nav menu and project categories display
+  // Create nav menu and project categories display
   function addNavMenu (showCatItems, catTag) {
     var menuOpen = false,
       subMenuOpen = false,
@@ -274,7 +243,7 @@
       selectInfo = null,
       selectItem = null,
       selectTag = null;
-    // check nav box transition
+    // Check nav box transition
     infoBoxes['holder'].addEventListener('transitionend', function () {
       if (event.propertyName === 'height') {
         if (infoBoxes['holder'].style.height !== '0px') {
@@ -282,7 +251,7 @@
         }
       }
     });
-    // display nav selection
+    // Display nav selection
     function selectNavItem(itemName) {
       var theClass = 'selected';
       if (selectItem) {
@@ -295,34 +264,34 @@
         selectItem = false;
       }
     }
-    // close info boxes
+    // Close info boxes
     function noInfo() {
       infoBoxes['holder'].style.height = 0;
     }
-    // display info box selection
+    // Display info box selection
     function showInfo(itemName) {
       var infoHeight = null;
       if (selectInfo) {
-        // set height before close for transition
+        // Set height before close for transition
         infoHeight = infoBoxes[selectInfo].offsetHeight;
         infoBoxes['holder'].style.height = infoHeight + 'px';
         infoBoxes[selectInfo].classList.remove('show');
       }
       if (itemName) {
-        // go to top of page
+        // Go to top of page
         window.scrollTo(0, window.scrollX);
         infoBoxes[itemName].classList.add('show');
-        // set height for transition, remove after for resize
+        // Set height for transition, remove after for resize
         infoHeight = infoBoxes[itemName].offsetHeight;
         infoBoxes['holder'].style.height = infoHeight + 'px';
         selectInfo = itemName;
       } else {
         selectInfo = false;
-        // allow height to set before close
+        // Allow height to set before close
         setTimeout(noInfo, 100);
       }
     }
-    // set small screen nav menu open or closed
+    // Set small screen nav menu open or closed
     function openMenu(isOpen) {
       if (isOpen === true) {
         menuOpen = true;
@@ -340,7 +309,7 @@
         }
       }
     }
-    // toggle small screen nav menu
+    // Toggle small screen nav menu
     function toggleMenu(isClosed) {
       if (menuOpen || isClosed === true) {
         openMenu(false);
@@ -357,7 +326,7 @@
         }
       }
     }
-    // toggle tags sub menu
+    // Toggle tags sub menu
     function toggleSubMenu(isClosed) {
       if (subMenuOpen || isClosed === true) {
         subMenuOpen = false;
@@ -372,7 +341,7 @@
         }
       }
     }
-    // select item, display info selection
+    // Select item, display info selection
     function clickNavItem(itemName) {
       if (selectItem !== event.target) {
         selectNavItem(itemName);
@@ -382,7 +351,7 @@
         showInfo();
       }
     }
-    // append new item to nav list
+    // Append new item to nav list
     function addNavItem(itemName) {
       var item = max.newKid(menuBoxes.list, 'li'),
         itemBox = max.newKid(item, 'div', 'heading', itemName);
@@ -391,7 +360,7 @@
         toggleMenu(true);
       });
     }
-    // clear nav selection and gallery
+    // Clear nav selection and gallery
     function clearGallery() {
       gallery.title.innerHTML = '';
       gallery.title.classList.remove('show');
@@ -401,7 +370,7 @@
       selectNavItem();
       showInfo();
     }
-    // select sub menu item
+    // Select sub menu item
     function selectSubItem(theTag) {
       var tagItem = navItems[theTag];
       if (selectTag) {
@@ -414,14 +383,14 @@
         selectTag = false;
       }
     }
-    // select tag, clear gallery, get new projects, close menu
+    // Select tag, clear gallery, get new projects, close menu
     function clickTagItem(tagObj) {
       selectSubItem(tagObj.tag);
       clearGallery();
       getProjects(0, tagObj.tag);
       toggleMenu(true);
     }
-    // append new item to sub menu
+    // Append new item to sub menu
     function addTagItem(tagObj) {
       var attrObj = {title: tagObj.name},
         item = max.newKid(menuBoxes.subList, 'li', attrObj, tagObj.short);
@@ -430,24 +399,24 @@
         clickTagItem(tagObj);
       });
     }
-    // show category image after it loads
+    // Show category image after it loads
     function showImg() {
       var img = event.target;
       img.classList.add('show');
     }
-    // append new item to category display
+    // Append new item to category display
     function addCatItem(catObj) {
-      var item = max.newKid(gallery.list, 'li'),
-        typeBox = max.newKid(item, 'div', 'type', [
+      var item = max.newKid(gallery.list, 'li', [
+        'div', 'type', [
           ['div', 'text', [
-            ['h3', 'heading', catObj.name],
+            ['h3', 'cat_name', catObj.name],
             ['br'],
-            ['span', false, catObj.summary]
+            ['h4', 'cat_summ', catObj.summary]
           ]]
-        ]),
+        ]]),
         rowWrap = max.newKid(item, 'div', 'row_wrap'),
         imgRow = max.newKid(rowWrap, 'div', 'row');
-      typeBox.addEventListener('click', function () {
+      item.addEventListener('click', function () {
         clickTagItem(catObj);
       });
       catObj.images.forEach(function (imgObj) {
@@ -462,19 +431,19 @@
         rowWrap.classList.add('sliding');
       }, 1000);
     }
-    // fill category list
+    // Fill category list
     function fillCatList(items) {
       gallery.list.classList.add('categories');
       items.categories.forEach(addCatItem);
     }
-    // reset nav menu and gallery list
+    // Reset nav menu and gallery list
     function resetPage() {
       selectSubItem();
       clearGallery();
       toggleMenu(true);
       getInfo(fillCatList);
     }
-    // get portfolio info object
+    // Get portfolio info object
     function getInfo(passFn) {
       max.request('GET', 'handle-nav-items.php', false, function (XHR) {
         var items = JSON.parse(XHR.responseText);
@@ -484,7 +453,7 @@
         }
       });
     }
-    // create nav items, add events, show items
+    // Create nav items, add events, show items
     function initMenu(items) {
       items.nav.forEach(addNavItem);
       items.categories.forEach(addTagItem);
@@ -499,10 +468,10 @@
         selectSubItem(catTag);
       }
     }
-    // get menu json data and initialize
+    // Get menu json data and initialize
     getInfo(initMenu);
   }
-  // check url parameters, get elements, add events, add content
+  // Check url parameters, get elements, add events, add content
   function initDoc() {
     var paramObj = max.parseQueryStr();
     msgForm = document.forms.ask;
@@ -517,6 +486,6 @@
       addNavMenu(true);
     }
   }
-  // initialize page on window load
+  // Initialize page on window load
   window.addEventListener('load', initDoc);
 }(window, document, max));
