@@ -1,37 +1,16 @@
-/*
-  Max Segale
-  Portfolio JS components
-*/
+// Portfolio JS components
 (function (window, document, max) {
-  'use strict';
-  var gallery = {},
-    project = {},
-    touchVals = {},
-    msgForm = null,
-    msgStatus = null,
-    backdrop = null,
-    clickBlock = null;
-  // Toggle backdrop
-  function toggleBackdrop() {
-    if (!backdrop) {
-      backdrop = max.newKid(document.body, 'div', 'backdrop');
-      backdrop.addEventListener('click', closeView);
-      document.body.classList.add('no_scroll');
-      project.box.addEventListener('touchmove', function () {
-        event.preventDefault();
-      });
-    } else {
-      document.body.removeChild(backdrop);
-      document.body.classList.remove('no_scroll');
-      backdrop = false;
-    }
-  }
+  let gallery = {};
+  let project = {};
+  let msgForm = null;
+  let msgStatus = null;
+  let backdrop = null;
+  let clickBlock = null;
   // Select project view image, select thumb, show caption
   function selectViewImg(imgNum) {
-    var imgObj = project.images[imgNum],
-      thumbObj = project.thumbs[imgNum],
-      theClass = 'selected',
-      maxWidth = imgObj.box.parentNode.offsetWidth;
+    const imgObj = project.images[imgNum];
+    const thumbObj = project.thumbs[imgNum];
+    const theClass = 'selected';
     project.selectNum = imgNum;
     if (project.selectImg) {
       project.selectImg.classList.remove(theClass);
@@ -48,30 +27,9 @@
     }
     project.caption.innerHTML = project.images[imgNum].caption;
   }
-  // Common child image div
-  function newImg(imgParent, imgObj) {
-    var img = max.newKid(imgParent, 'div', {
-        style: {backgroundImage: 'url(' + imgObj.link + ')'}
-      });
-    return img;
-  }
-  // Add project view image
-  function viewImg(imgObj, imgNum) {
-    var img = newImg(project.imgBox, imgObj);
-    project.images[imgNum].box = img;
-  }
-  // Add project view thumbnail
-  function viewThumb(imgObj, imgNum) {
-    var thumb = newImg(project.thumbBox, imgObj);
-    thumb.title = imgObj.caption;
-    thumb.addEventListener('click', function () {
-      selectViewImg(imgNum);
-    });
-    project.thumbs.push(thumb);
-  }
   // Select next image in project
   function nextImg() {
-    var nextNum = project.selectNum + 1;
+    const nextNum = project.selectNum + 1;
     if (nextNum < project.images.length) {
       selectViewImg(nextNum);
     } else {
@@ -80,8 +38,8 @@
   }
   // Select previous image in project
   function prevImg() {
-    var nextNum = project.selectNum - 1,
-      lastNum = project.images.length - 1;
+    const nextNum = project.selectNum - 1;
+    const lastNum = project.images.length - 1;
     if (nextNum >= 0) {
       selectViewImg(nextNum);
     } else {
@@ -90,16 +48,24 @@
   }
   // Nav project view with keyboard
   function keyCheck() {
-    var keyCode = event.keyCode || event.which;
+    const keyCode = event.keyCode || event.which;
     if (keyCode === 39) {
       nextImg();
     } else if (keyCode === 37) {
       prevImg();
     }
   }
+  // Remove pop-up backdrop
+  function removeBackdrop() {
+    if (backdrop) {
+      document.body.classList.remove('no_scroll');
+      document.body.removeChild(backdrop);
+      backdrop = false;
+    }
+  }
   // Remove project view
   function closeView() {
-    var theClass = 'see_thru';
+    const theClass = 'see_thru';
     project.box.classList.add(theClass);
     project.closeBtn.classList.add(theClass);
     backdrop.classList.add(theClass);
@@ -110,13 +76,42 @@
         document.body.removeChild(project.closeBtn);
         project = {};
         window.removeEventListener('keydown', keyCheck);
-        toggleBackdrop();
+        removeBackdrop();
       }
     });
   }
+  // Add pop-up backdrop
+  function addBackdrop() {
+    backdrop = max.newKid(document.body, 'div', 'backdrop');
+    backdrop.addEventListener('click', closeView);
+    document.body.classList.add('no_scroll');
+    project.box.addEventListener('touchmove', function () {
+      event.preventDefault();
+    });
+  }
+  // Common child image div
+  function newImg(imgParent, imgObj) {
+    return max.newKid(imgParent, 'div', {
+      style: {backgroundImage: 'url(' + imgObj.link + ')'}
+    });
+  }
+  // Add project view image
+  function viewImg(imgObj, imgNum) {
+    const img = newImg(project.imgBox, imgObj);
+    project.images[imgNum].box = img;
+  }
+  // Add project view thumbnail
+  function viewThumb(imgObj, imgNum) {
+    const thumb = newImg(project.thumbBox, imgObj);
+    thumb.title = imgObj.caption;
+    thumb.addEventListener('click', function () {
+      selectViewImg(imgNum);
+    });
+    project.thumbs.push(thumb);
+  }
   // Add project view
   function viewProject(pObj, imgObj, imgNum) {
-    var multiImg = true;
+    let multiImg = true;
     if (pObj.images.length === 1) {
       multiImg = false;
     }
@@ -150,25 +145,25 @@
     if (multiImg) {
       window.addEventListener('keydown', keyCheck);
     }
-    toggleBackdrop();
+    addBackdrop();
   }
   // Create project list item
   function addProject(pObj) {
-    var pItem = max.newKid(gallery.list, 'li', pObj.tags[0], [
-        ['div', 'info', [
-          ['span', {
-            className: 'name',
-            onclick: function () {
-              viewProject(pObj, pObj.images[0], 0);
-            }
-          }, pObj.name],
-          ['br'],
-          ['span', false, pObj.summary]
-        ]]
-      ]),
-      pImages = max.newKid(pItem, 'div', 'images');
+    const pItem = max.newKid(gallery.list, 'li', pObj.tags[0], [
+      ['div', 'info', [
+        ['span', {
+          className: 'name',
+          onclick: function () {
+            viewProject(pObj, pObj.images[0], 0);
+          }
+        }, pObj.name],
+        ['br'],
+        ['span', false, pObj.summary]
+      ]]
+    ]);
+    const pImages = max.newKid(pItem, 'div', 'images');
     pObj.images.forEach(function (imgObj, imgNum) {
-      var img = max.newKid(pImages, 'div', 'image', [
+      const img = max.newKid(pImages, 'div', 'image', [
         ['img', {
           src: imgObj.link,
           alt: imgObj.caption
@@ -180,8 +175,8 @@
     });
   }
   // Check parameters, get projects object, create list
-  function getProjects(pNum, pTag, pTagName) {
-    var paramObj = {};
+  function getProjects(pNum, pTag) {
+    const paramObj = {};
     if (pNum) {
       paramObj.project = pNum;
     }
@@ -189,7 +184,7 @@
       paramObj.tag = pTag;
     }
     max.request('GET', 'handle-projects.php', paramObj, function (XHR) {
-      var projObj = JSON.parse(XHR.responseText);
+      const projObj = JSON.parse(XHR.responseText);
       gallery.list.innerHTML = '';
       gallery.list.classList.add('projects');
       gallery.title.innerHTML = projObj.category;
@@ -199,7 +194,7 @@
   }
   // Check message status
   function checkMessage(XHR) {
-    var returnObj = JSON.parse(XHR.responseText);
+    const returnObj = JSON.parse(XHR.responseText);
     msgForm.send.disabled = false;
     msgStatus.innerHTML = returnObj.status;
     if (returnObj.sent) {
@@ -211,12 +206,12 @@
   }
   // Form submit AJAX
   function sendMessage() {
-    var email = msgForm.elements.email.value,
-      message = msgForm.elements.message.value,
-      paramObj = {
-        from: email,
-        question: message
-      };
+    const email = msgForm.elements.email.value;
+    const message = msgForm.elements.message.value;
+    const paramObj = {
+      from: email,
+      question: message
+    };
     event.preventDefault();
     msgForm.send.disabled = true;
     max.request('POST', 'send-message.php', paramObj, checkMessage);
@@ -224,36 +219,36 @@
   }
   // Create nav menu and project categories display
   function addNavMenu (showCatItems, catTag) {
-    var menuOpen = false,
-      subMenuOpen = false,
-      subMenuWasOpen = false,
-      menuBoxes = {
-        title: document.querySelector('#menu_title'),
-        list:document.querySelector('#menu_list'),
-        subTitle: document.querySelector('#sub_title'),
-        subList:document.querySelector('#sub_menu_list'),
-        btn: document.querySelector('#menu_btn')
-      },
-      infoBoxes = {
-        holder: document.querySelector('#nav_boxes'),
-        about: document.querySelector('#about'),
-        contact: document.querySelector('#contact')
-      },
-      navItems = {},
-      selectInfo = null,
-      selectItem = null,
-      selectTag = null;
+    const menuBoxes = {
+      title: document.querySelector('#menu_title'),
+      list:document.querySelector('#menu_list'),
+      subTitle: document.querySelector('#sub_title'),
+      subList:document.querySelector('#sub_menu_list'),
+      btn: document.querySelector('#menu_btn')
+    };
+    const infoBoxes = {
+      holder: document.querySelector('#nav_boxes'),
+      about: document.querySelector('#about'),
+      contact: document.querySelector('#contact')
+    };
+    let menuOpen = false;
+    let subMenuOpen = false;
+    let subMenuWasOpen = false;
+    let navItems = {};
+    let selectInfo = null;
+    let selectItem = null;
+    let selectTag = null;
     // Check nav box transition
-    infoBoxes['holder'].addEventListener('transitionend', function () {
+    infoBoxes.holder.addEventListener('transitionend', function () {
       if (event.propertyName === 'height') {
-        if (infoBoxes['holder'].style.height !== '0px') {
-          infoBoxes['holder'].style.height = 'initial';
+        if (infoBoxes.holder.style.height !== '0px') {
+          infoBoxes.holder.style.height = 'initial';
         }
       }
     });
     // Display nav selection
     function selectNavItem(itemName) {
-      var theClass = 'selected';
+      const theClass = 'selected';
       if (selectItem) {
         selectItem.classList.remove(theClass);
       }
@@ -266,15 +261,15 @@
     }
     // Close info boxes
     function noInfo() {
-      infoBoxes['holder'].style.height = 0;
+      infoBoxes.holder.style.height = 0;
     }
     // Display info box selection
     function showInfo(itemName) {
-      var infoHeight = null;
+      let infoHeight = null;
       if (selectInfo) {
         // Set height before close for transition
         infoHeight = infoBoxes[selectInfo].offsetHeight;
-        infoBoxes['holder'].style.height = infoHeight + 'px';
+        infoBoxes.holder.style.height = infoHeight + 'px';
         infoBoxes[selectInfo].classList.remove('show');
       }
       if (itemName) {
@@ -283,7 +278,7 @@
         infoBoxes[itemName].classList.add('show');
         // Set height for transition, remove after for resize
         infoHeight = infoBoxes[itemName].offsetHeight;
-        infoBoxes['holder'].style.height = infoHeight + 'px';
+        infoBoxes.holder.style.height = infoHeight + 'px';
         selectInfo = itemName;
       } else {
         selectInfo = false;
@@ -309,6 +304,21 @@
         }
       }
     }
+    // Toggle tags sub menu
+    function toggleSubMenu(isClosed) {
+      if (subMenuOpen || isClosed === true) {
+        subMenuOpen = false;
+        menuBoxes.subList.classList.remove('open');
+        menuBoxes.subTitle.classList.remove('selected');
+      } else {
+        subMenuOpen = true;
+        menuBoxes.subList.classList.add('open');
+        menuBoxes.subTitle.classList.add('selected');
+        if (!menuOpen) {
+          openMenu(true);
+        }
+      }
+    }
     // Toggle small screen nav menu
     function toggleMenu(isClosed) {
       if (menuOpen || isClosed === true) {
@@ -326,21 +336,6 @@
         }
       }
     }
-    // Toggle tags sub menu
-    function toggleSubMenu(isClosed) {
-      if (subMenuOpen || isClosed === true) {
-        subMenuOpen = false;
-        menuBoxes.subList.classList.remove('open');
-        menuBoxes.subTitle.classList.remove('selected');
-      } else {
-        subMenuOpen = true;
-        menuBoxes.subList.classList.add('open');
-        menuBoxes.subTitle.classList.add('selected');
-        if (!menuOpen) {
-          openMenu(true);
-        }
-      }
-    }
     // Select item, display info selection
     function clickNavItem(itemName) {
       if (selectItem !== event.target) {
@@ -353,8 +348,8 @@
     }
     // Append new item to nav list
     function addNavItem(itemName) {
-      var item = max.newKid(menuBoxes.list, 'li'),
-        itemBox = max.newKid(item, 'div', 'heading', itemName);
+      const item = max.newKid(menuBoxes.list, 'li');
+      const itemBox = max.newKid(item, 'div', 'heading', itemName);
       itemBox.addEventListener('click', function () {
         clickNavItem(itemName);
         toggleMenu(true);
@@ -372,7 +367,7 @@
     }
     // Select sub menu item
     function selectSubItem(theTag) {
-      var tagItem = navItems[theTag];
+      const tagItem = navItems[theTag];
       if (selectTag) {
         selectTag.classList.remove('selected');
       }
@@ -392,8 +387,8 @@
     }
     // Append new item to sub menu
     function addTagItem(tagObj) {
-      var attrObj = {title: tagObj.name},
-        item = max.newKid(menuBoxes.subList, 'li', attrObj, tagObj.short);
+      const attrObj = {title: tagObj.name};
+      const item = max.newKid(menuBoxes.subList, 'li', attrObj, tagObj.short);
       navItems[tagObj.tag] = item;
       item.addEventListener('click', function () {
         clickTagItem(tagObj);
@@ -401,31 +396,30 @@
     }
     // Show category image after it loads
     function showImg() {
-      var img = event.target;
-      img.classList.add('show');
+      event.target.classList.add('show');
     }
     // Append new item to category display
     function addCatItem(catObj) {
-      var item = max.newKid(gallery.list, 'li', false, [
-          ['div', 'type', [
-            ['div', 'text', [
-              ['h3', 'cat_name', catObj.name],
-              ['br'],
-              ['h4', 'cat_summ', catObj.summary]
-            ]]
+      const item = max.newKid(gallery.list, 'li', false, [
+        ['div', 'type', [
+          ['div', 'text', [
+            ['h3', 'cat_name', catObj.name],
+            ['br'],
+            ['h4', 'cat_summ', catObj.summary]
           ]]
-        ]),
-        rowWrap = max.newKid(item, 'div', 'row_wrap'),
-        imgRow = max.newKid(rowWrap, 'div', 'row');
+        ]]
+      ]);
+      const rowWrap = max.newKid(item, 'div', 'row_wrap');
+      const imgRow = max.newKid(rowWrap, 'div', 'row');
       item.addEventListener('click', function () {
         clickTagItem(catObj);
       });
       catObj.images.forEach(function (imgObj) {
-        var catImg = max.newKid(imgRow, 'img', {
-            className: 'cat_list_img',
-            src: imgObj.link,
-            alt: imgObj.caption
-          });
+        const catImg = max.newKid(imgRow, 'img', {
+          className: 'cat_list_img',
+          src: imgObj.link,
+          alt: imgObj.caption
+        });
         catImg.addEventListener('load', showImg);
       });
       setTimeout(function () {
@@ -437,22 +431,22 @@
       gallery.list.classList.add('categories');
       items.categories.forEach(addCatItem);
     }
+    // Get portfolio info object
+    function getInfo(passFn) {
+      max.request('GET', 'handle-nav-items.php', false, function (XHR) {
+        const items = JSON.parse(XHR.responseText);
+        gallery.list.innerHTML = '';
+        if (passFn) {
+          passFn(items);
+        }
+      });
+    }
     // Reset nav menu and gallery list
     function resetPage() {
       selectSubItem();
       clearGallery();
       toggleMenu(true);
       getInfo(fillCatList);
-    }
-    // Get portfolio info object
-    function getInfo(passFn) {
-      max.request('GET', 'handle-nav-items.php', false, function (XHR) {
-        var items = JSON.parse(XHR.responseText);
-        gallery.list.innerHTML = '';
-        if (passFn) {
-          passFn(items);
-        }
-      });
     }
     // Create nav items, add events, show items
     function initMenu(items) {
@@ -474,7 +468,7 @@
   }
   // Check url parameters, get elements, add events, add content
   function initDoc() {
-    var paramObj = max.parseQueryStr();
+    const paramObj = max.parseQueryStr();
     msgForm = document.forms.ask;
     msgStatus = document.querySelector('#msg_status');
     gallery.title = document.querySelector('#gallery_title');

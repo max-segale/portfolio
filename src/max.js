@@ -1,10 +1,6 @@
-/*
-  Max Segale
-  Common JS functions
-*/
-var max = (function (window, document) {
-  'use strict';
-  // recursive check of attributes to apply to element
+// Common JS functions
+const max = (function (window, document) {
+  // Recursive check of attributes to apply to element
   function objElAtr(element, atrObj, parentAtr) {
     Object.keys(atrObj).forEach(function (atr) {
       if (typeof atrObj[atr] === 'object') {
@@ -16,7 +12,7 @@ var max = (function (window, document) {
       }
     });
   }
-  // process request state changes
+  // Process request state changes
   function stateChange(XHR, passFn, failFn, waitFn) {
     if (waitFn) {
       waitFn(XHR);
@@ -32,12 +28,12 @@ var max = (function (window, document) {
     }
   }
   return {
-    // encoded ajax request with callback functions
+    // Encoded ajax request with callback functions
     request: function (method, path, paramObj, passFn, failFn, waitFn) {
-      var XHR = new XMLHttpRequest();
-      var theParams = '';
-      var sendURL = '';
-      var sendString = '';
+      const XHR = new XMLHttpRequest();
+      let theParams = '';
+      let sendURL = '';
+      let sendString = '';
       if (paramObj) {
         Object.keys(paramObj).forEach(function (param, p) {
           if (p > 0) {
@@ -61,9 +57,9 @@ var max = (function (window, document) {
       XHR.setRequestHeader('Cache-Control', 'no-cache');
       XHR.send(sendString);
     },
-    // create new element, apply attributes, add to parent
+    // Create new element, apply attributes, add to parent
     newKid: function (elParent, elType, elAtrs, elInner) {
-      var element = document.createElement(elType);
+      const element = document.createElement(elType);
       if (elAtrs) {
         if (typeof elAtrs === 'string') {
           element.className = elAtrs;
@@ -83,35 +79,35 @@ var max = (function (window, document) {
       }
       return element;
     },
-    // add multiple new elements to parent
+    // Add multiple new elements to parent
     newKids: function (elParent, kids) {
-      var elements = [];
-      var thisObj = this;
+      const elements = [];
+      const thisObj = this;
       kids.forEach(function (el) {
-        var element = thisObj.newKid(elParent, el[0], el[1], el[2]);
+        const element = thisObj.newKid(elParent, el[0], el[1], el[2]);
         elements.push(element);
       });
       return elements;
     },
-    // calculate size as percentage of total width for auto resize
+    // Calculate size as percentage of total width for auto resize
     relativeSize: function (widthPx, heightPx, maxWidthPx) {
-      var widthPct = widthPx * 100 / maxWidthPx;
-      var heightPct = widthPct * heightPx / widthPx;
+      const widthPct = widthPx * 100 / maxWidthPx;
+      const heightPct = widthPct * heightPx / widthPx;
       return {
         width: widthPct,
         height: heightPct
       };
     },
-    // parse query string and return parameter object
+    // Parse query string and return parameter object
     parseQueryStr: function () {
-      var paramStr = window.location.search.substr(1);
-      var paramArray = paramStr.split('&');
-      var paramObj = {};
+      const paramStr = window.location.search.substr(1);
+      const paramArray = paramStr.split('&');
+      const paramObj = {};
       if (paramStr.length === 0) {
         return null;
       }
       paramArray.forEach(function (param) {
-        var valPair = param.split('=');
+        const valPair = param.split('=');
         paramObj[valPair[0]] = decodeURIComponent(valPair[1]);
       });
       return paramObj;

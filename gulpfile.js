@@ -8,6 +8,7 @@ const autoprefixer = require('autoprefixer');
 const rename = require('gulp-rename');
 const beautify = require('gulp-beautify');
 const concat = require('gulp-concat');
+const babel = require("gulp-babel");
 
 // Delete existing content before build
 function clean() {
@@ -47,6 +48,13 @@ function styles() {
 function scripts() {
   return gulp.src('src/*.js')
     .pipe(concat('scripts.js'))
+    .pipe(babel({
+      comments: false,
+      minified: true
+    }))
+    .pipe(beautify.js({
+      indent_size: 2
+    }))
     .pipe(gulp.dest('public'));
 }
 
