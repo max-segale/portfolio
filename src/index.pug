@@ -16,7 +16,7 @@ html(lang='en')
     title #{myName} 👨🏻‍💻 Portfolio
     link(rel='stylesheet' type='text/css' href='style.css')
     script(type='text/javascript' src='scripts.js')
-  body(ontouchstart)
+  body
     .wrapper
       header
         nav
@@ -42,7 +42,7 @@ html(lang='en')
               span Some exciting projects are in development right now so stay tuned for cool updates!
             p
               span I built this site using HTML5/Pug, CSS3/Sass, JavaScript, MySQL, and PHP.
-            a(href='https://github.com/max-segale/portfolio/tree/master/src' target='_blank')
+            a(href='https://github.com/max-segale/portfolio/tree/master/src' target='_blank' rel='noopener')
               .btn View Source Code
           .nav_box#contact
             h2.heading.heavy Contact
@@ -51,17 +51,21 @@ html(lang='en')
               p
                 a(href='tel:(908)752-0639')
                   span.u_line 908.752.0639
-                  span.emoji 📱
+                  span(role='img' aria-label='mobile phone') 📱
                 br
                 a(href='mailto:maxsegale@me.com')
                   span.u_line maxsegale@me.com
-                  span.emoji 📨
+                  span(role='img' aria-label='incoming envelope') 📨
             .message_box
               form(name='ask')
                 span Any questions? Please ask.
-                  span.emoji 💬
-                input(type='email' name='email' placeholder='Your Email Address' maxlength='100' required)
-                textarea(name='message' placeholder='Your Question' maxlength='255' rows='3' required)
+                  span(role='img' aria-label='speech balloon') 💬
+                label
+                  span Your Email Address
+                  input(type='email' name='email' placeholder='Your Email Address' maxlength='100' required)
+                label
+                  span Your Question
+                  textarea(name='message' placeholder='Your Question' maxlength='255' rows='3' required)
                 .send_row
                   input.btn(type='submit' name='send' value='Send')
                   .status#msg_status
@@ -70,6 +74,5 @@ html(lang='en')
           ul#gallery_list
             li.loading
     footer
-      noscript ⚠️ Please enable JavaScript in your browser settings.
       .copyright
         span &copy; #{myName} <?= date('Y') ?>

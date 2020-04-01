@@ -1,26 +1,21 @@
-/*
-  Max Segale
-  Portfolio style sheet
-*/
-
-// set responsive breakpoints
+// Set responsive breakpoints
 $smallWidth: 375px;
 $midWidth: 568px;
 $bigWidth: 724px;
 $fullWidth: 1024px;
 
-// set fonts and colors
+// Set fonts and colors
 $fontFam: "Helvetica Neue", "Helvetica", sans-serif;
 $fontColor: rgba(0, 0, 0, 1);
 $backColor: rgba(255, 255, 255, 1);
 $boxColor: rgba(222, 222, 222, 1);
-$midColor: rgba(150, 150, 150, 1);
+$midColor: rgba(140, 140, 140, 1);
 $blueColor: rgba(10, 132, 255, 1);
 $blackTran: rgba(0, 0, 0, 0.8);
 $greyTran: rgba(50, 50, 50, 0.96);
 $whiteTran: rgba(255, 255, 255, 0.96);
 
-// background images
+// Background images
 $imgSelf: 'img/me.jpg';
 $imgLoad: 'img/icons/max-segale.svg';
 $imgMenu: 'img/icons/menu-24px.svg';
@@ -32,7 +27,7 @@ $imgRightW: 'img/icons/right-24px-w.svg';
 $imgCloseB: 'img/icons/close-24px-b.svg';
 $imgCloseW: 'img/icons/close-24px-w.svg';
 
-// initial styles
+// Initial styles
 * {
   margin: 0;
   border: 0;
@@ -40,7 +35,7 @@ $imgCloseW: 'img/icons/close-24px-w.svg';
   box-sizing: border-box;
 }
 
-// tag styles
+// Tag styles
 html, body {
   text-align: left;
   font-size: 16px;
@@ -71,7 +66,7 @@ img {
   display: block;
 }
 
-// general classes
+// General classes
 .heading {
   display: block;
   font-size: 1.25rem;
@@ -123,7 +118,7 @@ img {
   overflow: hidden;
 }
 
-// page structure
+// Page structure
 .wrapper {
   min-height: 100vh;
   padding: 2vh 0 5vh;
@@ -132,7 +127,7 @@ img {
   overflow: hidden;
 }
 
-// header section
+// Header section
 header {
   position: sticky;
   z-index: 25;
@@ -158,11 +153,12 @@ header {
     .slash {
       display: none;
       color: $midColor;
+      padding: 0 0 0 5px;
     }
   }
 }
 
-// nav menu section
+// Nav menu section
 .menu_box {
   height: 0;
   z-index: 30;
@@ -200,7 +196,7 @@ ul.menu {
       line-height: 45px;
       margin: 0;
       span {
-        padding: 0 25px 0 10px;
+        padding: 0 25px 0 5px;
         cursor: pointer;
         background: url($imgRightB) right center no-repeat;
         &:active {
@@ -230,7 +226,7 @@ ul.menu {
   }
 }
 
-// tags sub-menu
+// Tags sub-menu
 ul.menu > li.sub_menu_box {
   margin: 0;
 }
@@ -243,7 +239,7 @@ ul.sub_menu {
   }
   > li {
     margin: 0 0 10px;
-    padding: 0 0 0 20px;
+    padding: 0 0 0 15px;
     cursor: pointer;
     &:active, &.selected {
       text-decoration: underline;
@@ -251,7 +247,7 @@ ul.sub_menu {
   }
 }
 
-// nav menu icon
+// Nav menu icon
 .menu_btn {
   display: none;
   width: 30px;
@@ -272,7 +268,7 @@ ul.sub_menu {
   }
 }
 
-// hidden nav content
+// Hidden nav content
 .nav_boxes {
   width: 100%;
   height: 0;
@@ -306,10 +302,10 @@ ul.sub_menu {
       float: left;
     }
     .profile_pic {
-      width: 120px;
-      height: 120px;
-      margin: 0 0 10px 10px;
-      border-radius: 60px;
+      width: 100px;
+      height: 100px;
+      margin: 0 0 0 10px;
+      border-radius: 50px;
       float: right;
       background: url($imgSelf) center center / cover no-repeat;
       transition: transform 1000ms ease;
@@ -321,7 +317,7 @@ ul.sub_menu {
   }
 }
 
-// message form
+// Message form
 form[name='ask'] {
   input, textarea {
     display: block;
@@ -349,6 +345,11 @@ form[name='ask'] {
     margin: 5px 10px 0 0;
     font-size: 1rem;
   }
+  label {
+    span {
+      display: none;
+    }
+  }
   .send_row {
     display: flex;
     flex-flow: row nowrap;
@@ -359,7 +360,7 @@ form[name='ask'] {
   }
 }
 
-// content area
+// Content area
 .content {
   > .heading {
     margin: 4vh 0 0;
@@ -375,7 +376,7 @@ form[name='ask'] {
   }
 }
 
-// categories display
+// Categories display
 .categories {
   li {
     height: 15vw;
@@ -402,7 +403,7 @@ form[name='ask'] {
         color: $fontColor;
         > .cat_name {
           display: inline-block;
-          font-size: 2rem;
+          font-size: 1.5rem;
           font-weight: 900;
           text-decoration: underline;
           text-transform: uppercase;
@@ -411,7 +412,7 @@ form[name='ask'] {
           display: inline-block;
           margin: 0;
           font-weight: 400;
-          font-size: 1.5rem;
+          font-size: 1rem;
         }
         > * {
           padding: 0 10px;
@@ -475,7 +476,7 @@ form[name='ask'] {
   }
 }
 
-// projects display
+// Projects display
 .projects {
   li {
     position: relative;
@@ -492,6 +493,7 @@ form[name='ask'] {
       }
     }
     .images {
+      border: 1px solid $backColor;
       display: flex;
       flex-flow: row wrap;
       justify-content: center;
@@ -499,7 +501,7 @@ form[name='ask'] {
       > .image {
         //height: 125px;
         cursor: pointer;
-        //border: 1px solid $backColor;
+        border: 1px solid $backColor;
         flex: 0 0 100%;
         //position: relative;
         //transition: height 500ms linear, flex 125ms linear;
@@ -521,7 +523,7 @@ form[name='ask'] {
   }
 }
 
-// project pop-up view
+// Project pop-up view
 .project {
   width: 100%;
   max-height: 100%;
@@ -620,7 +622,7 @@ form[name='ask'] {
   background: url($imgCloseW) center center / 100% no-repeat;
 }
 
-// loading view
+// Loading view
 .loading {
   width: 100%;
   height: 100vh;
@@ -644,19 +646,32 @@ footer {
   }
 }
 
-// sm size layout
+// Small size layout
 @media (min-width: $smallWidth) {
   header > nav .slash {
     display: block;
   }
   .nav_boxes .nav_box {
-    //padding: 0 15px;
+    .profile_pic {
+      width: 120px;
+      height: 120px;
+      border-radius: 60px;
+      margin-left: 20px;
+    }
   }
-  .nav_box .profile_pic {
-    width: 144px;
-    height: 144px;
-    border-radius: 72px;
-    //margin-left: 20px;
+  .categories {
+    li {
+      .type {
+        .text {
+          > .cat_name {
+            font-size: 2rem;
+          }
+          > .cat_summ {
+            font-size: 1.5rem;
+          }
+        }
+      }
+    }
   }
   .content > .heading {
     //margin-left: 20px;
@@ -666,7 +681,7 @@ footer {
   }
 }
 
-// md size layout
+// Medium size layout
 @media (min-width: $midWidth) {
   html, body {
     font-size: 18px;
@@ -733,7 +748,7 @@ footer {
     margin: 0;
     border: 0;
   }
-  .nav_box {
+  .nav_boxes .nav_box {
     .profile_pic {
       width: 200px;
       height: 200px;
@@ -760,7 +775,7 @@ footer {
   }
 }
 
-// lg size layout
+// Large size layout
 @media (min-width: $bigWidth) {
   header nav,
   .nav_boxes,
@@ -791,10 +806,6 @@ footer {
   ul.menu > li.sub_title {
     flex: 0 0 0;
   }*/
-  .categories li .text {
-    //margin-left: 10px;
-    //border-radius: 5px;
-  }
   .projects li .images > .image {
     //height: 175px;
     flex: 0 0 33.3333%;
@@ -814,7 +825,7 @@ footer {
   }
 }
 
-// animation frames
+// Animation frames
 @keyframes fromLeft {
   0% {
     left: -100%;
