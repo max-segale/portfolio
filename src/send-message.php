@@ -15,7 +15,7 @@ $warnMsg = "⚠️ Please complete the form.";
 // Create assoc array
 $jsonArray = [];
 
-// Validate message
+// Check if message is blank
 if (trim($message) !== '') {
 
   // Wrap lines at 70 charcaters
@@ -40,6 +40,8 @@ if (trim($message) !== '') {
     $jsonArray['status'] = $failMsg;
   }
 } else {
+
+  // Form not complete
   $jsonArray['sent'] = 0;
   $jsonArray['status'] = $warnMsg;
 }
