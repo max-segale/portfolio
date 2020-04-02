@@ -60,12 +60,8 @@ html(lang='en')
               form(name='ask')
                 span Any questions? Please ask.
                   span(role='img' aria-label='speech balloon') 💬
-                label
-                  span Your Email Address
-                  input(type='email' name='email' placeholder='Your Email Address' maxlength='100' required)
-                label
-                  span Your Question
-                  textarea(name='message' placeholder='Your Question' maxlength='255' rows='3' required)
+                input(type='email' name='email' placeholder='Your Email Address' maxlength='254' required)
+                textarea(name='question' placeholder='Your Question' maxlength='1000' rows='3' required)
                 .send_row
                   input.btn(type='submit' name='send' value='Send')
                   .status#msg_status

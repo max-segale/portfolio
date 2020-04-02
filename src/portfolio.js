@@ -207,10 +207,10 @@
   // Form submit AJAX
   function sendMessage() {
     const email = msgForm.elements.email.value;
-    const message = msgForm.elements.message.value;
+    const question = msgForm.elements.question.value;
     const paramObj = {
       from: email,
-      question: message
+      message: question
     };
     event.preventDefault();
     msgForm.send.disabled = true;

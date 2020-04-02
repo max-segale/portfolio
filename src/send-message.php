@@ -3,27 +3,32 @@
 // Set content as json
 header('Content-Type: application/json; charset=UTF-8');
 
-// Set email destination
-$toEmail = 'info@maxsegale.com';
-
 // Get post variables
 $from = $_POST['from'];
-$message = $_POST['question'];
-
-// Create assoc array
-$jsonArray = [];
+$message = $_POST['message'];
 
 // Status return options
 $passMsg = "✅ Success. Thank you.";
 $failMsg = "❌ Error. Please try again.";
 $warnMsg = "⚠️ Please complete the form.";
 
+// Create assoc array
+$jsonArray = [];
+
 // Validate message
 if (trim($message) !== '') {
 
-  // Compose message
-  $subject = "New Question";
-  $headers = "From: $from";
+  // Wrap lines at 70 charcaters
+  $message = wordwrap($message, 70);
+
+  // Set email destination
+  $toEmail = 'info@maxsegale.com';
+
+  // Set email subject
+  $subject = "New Portfolio Question";
+
+  // Set email headers
+  $headers .= "From: $from";
 
   // Send email
   $jsonArray['sent'] = mail($toEmail, $subject, $message, $headers);
