@@ -1,14 +1,15 @@
 // Set modules
 const gulp = require('gulp');
-const del = require('del');
 const pug = require('gulp-pug');
 const sass = require('gulp-sass');
 const postcss = require('gulp-postcss');
-const autoprefixer = require('autoprefixer');
 const rename = require('gulp-rename');
 const beautify = require('gulp-beautify');
 const concat = require('gulp-concat');
 const babel = require("gulp-babel");
+const del = require('del');
+const autoprefixer = require('autoprefixer');
+const browserSync = require('browser-sync').create();
 
 // Delete existing content before build
 function clean() {
@@ -41,7 +42,8 @@ function styles() {
     .pipe(beautify.css({
       indent_size: 2
     }))
-    .pipe(gulp.dest('public'));
+    .pipe(gulp.dest('public'))
+    .pipe(browserSync.stream());
 }
 
 // Merge js into single script
@@ -80,12 +82,19 @@ function fav() {
     .pipe(gulp.dest('public'));
 }
 
+function serve() {
+  browserSync.init({
+    proxy: 'localhost/portfolio/public'
+  });
+}
+
 // Use clean build as default script
 exports.default = gulp.series(
   clean,
   gulp.parallel(
     pages, styles, scripts, php, images, fav
-  )
+  ),
+  serve
 );
 
 // Watch for file updates
