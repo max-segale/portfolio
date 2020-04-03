@@ -13,7 +13,7 @@ $midColor: rgba(140, 140, 140, 1);
 $blueColor: rgba(10, 132, 255, 1);
 $blackTran: rgba(0, 0, 0, 0.8);
 $greyTran: rgba(50, 50, 50, 0.96);
-$whiteTran: rgba(255, 255, 255, 0.96);
+$whiteTran: rgba(255, 255, 255, 0.75);
 
 // Background images
 $imgSelf: 'img/me.jpg';
@@ -36,7 +36,11 @@ $imgCloseW: 'img/icons/close-24px-w.svg';
 }
 
 // Tag styles
+html {
+  scroll-behavior: smooth;
+}
 html, body {
+  //min-height: 100vh;
   text-align: left;
   font-size: 16px;
   font-family: $fontFam;
@@ -134,13 +138,16 @@ header {
   top: 0;
   padding: 10px 0;
   background-color: $whiteTran;
-  > nav {
+  backdrop-filter: blur(32px);
+  nav {
+    max-width: $fullWidth;
+    margin: 0 auto;
+    padding: 0 10px;
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
     align-items: baseline;
     white-space: nowrap;
-    padding: 0 10px;
     .title {
       font-size: 1.5rem;
       font-weight: 700;
@@ -270,8 +277,9 @@ ul.sub_menu {
 
 // Hidden nav content
 .nav_boxes {
-  width: 100%;
   height: 0;
+  max-width: $fullWidth;
+  margin: 0 auto;
   position: relative;
   overflow: hidden;
   transition: height 500ms ease-in;
@@ -363,15 +371,16 @@ form[name='ask'] {
 // Content area
 .content {
   > .heading {
-    margin: 4vh 0 0;
+    max-width: $fullWidth;
+    margin: 4vh auto 0;
     padding: 0 20px;
-    position: relative;
-    left: -100vw;
-    opacity: 0;
-    transition: left 500ms ease-out, opacity 500ms linear;
+    //position: relative;
+    //left: -100vw;
+    //opacity: 0;
+    //transition: left 500ms ease-out, opacity 500ms linear;
     &.show {
-      left: 0;
-      opacity: 1;
+      //left: 0;
+      //opacity: 1;
     }
   }
 }
@@ -393,8 +402,9 @@ form[name='ask'] {
       max-height: 250px;
     }
     .type {
-      width: 100%;
       height: 0;
+      max-width: $fullWidth;
+      margin: 0 auto;
       position: relative;
       z-index: 15;
       animation: fromLeft 1s ease-out;
@@ -416,7 +426,7 @@ form[name='ask'] {
         }
         > * {
           padding: 0 10px;
-          background-color: rgba(255, 255, 255, 0.5);
+          background-color: $whiteTran;
           transition: color 250ms ease, background 250ms ease;
           backdrop-filter: blur(32px);
         }
@@ -479,16 +489,15 @@ form[name='ask'] {
 // Projects display
 .projects {
   li {
-    position: relative;
     padding: 10px 0 4vh 0;
     animation: projItem 500ms ease-out;
     .info {
+      max-width: $fullWidth;
+      margin: 0 auto 10px;
       padding: 0 20px;
-      margin: 0 0 10px 0;
       .name {
         font-size: 1.2rem;
         font-style: italic;
-        text-decoration: underline;
         cursor: pointer;
       }
     }
@@ -498,24 +507,16 @@ form[name='ask'] {
       flex-flow: row wrap;
       justify-content: center;
       align-items: center;
-      > .image {
-        //height: 125px;
-        cursor: pointer;
-        border: 1px solid $backColor;
+      .image {
         flex: 0 0 100%;
-        //position: relative;
-        //transition: height 500ms linear, flex 125ms linear;
+        border: 1px solid $backColor;
+        position: relative;
+        cursor: pointer;
         animation: fadeIn 500ms linear;
-        &:hover {
-          //flex: 51 0 0;
-        }
-        &:active {
-          //flex: 52 0 0;
-        }
         img {
           width: 100%;
           height: 100%;
-          object-fit: contain;
+          object-fit: cover;
           object-position: center center;
         }
       }
@@ -526,7 +527,7 @@ form[name='ask'] {
 // Project pop-up view
 .project {
   width: 100%;
-  max-height: 100%;
+  height: 100%;
   position: fixed;
   left: 50%;
   top: 50%;
@@ -538,26 +539,30 @@ form[name='ask'] {
   text-align: center;
   overflow: hidden;
   color: $backColor;
-  text-shadow: 0 1px 5px $blackTran;
   transform: translate(-50%, -50%);
   transition: opacity 500ms linear;
   animation: fadeIn 500ms linear;
+  > * {
+    flex: 0 1 0;
+  }
   .name {
+    margin: 10px 0;
     font-style: italic;
-    text-decoration: underline;
-    flex: 0 0 0;
+    line-height: 30px;
   }
   .ctl_box {
     width: 100%;
+    height: 30px;
+    max-width: $midWidth;
     display: flex;
     flex-flow: row nowrap;
     margin: 10px 0;
-    flex: 0 0 25px;
+    padding: 0 5px;
     .prev, .next {
-      height: 25px;
+      height: 100%;
       cursor: pointer;
       background: center center / 100% no-repeat;
-      flex: 0 0 25px;
+      flex: 0 0 30px;
     }
     .prev {
       background-image: url($imgLeftW);
@@ -568,45 +573,78 @@ form[name='ask'] {
     .caption {
       font-weight: 300;
       flex: 1 0 0;
+      line-height: 30px;
     }
   }
-  .img_box, .thumb_box {
+  .imgs_box, .thumbs_box {
     display: flex;
     flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
   }
-  .img_box {
+  .imgs_box {
     width: 100%;
-    flex: 1 0 50%;
-    > div {
-      background: center center / contain no-repeat;
-      flex: 0 0 0;
-      transition: flex 250ms linear;
+    height: 100%;
+    max-width: $fullWidth;
+    max-height: $fullWidth;
+    flex: 1 1 0;
+    > .img {
+      height: 100%;
+      flex: 0 1 0;
+      position: relative;
+      overflow: hidden;
+      opacity: 0;
+      transition: flex 250ms linear, opacity 250ms linear;
+      > img {
+        max-width: 100%;
+        max-height: 100%;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        object-position: center center;
+        object-fit: contain;
+        cursor: pointer;
+      }
       &.selected {
-        padding-top: 100%;
-        flex: 0 0 100%;
+        flex: 1 1 0;
+        opacity: 1;
       }
     }
   }
-  .thumb_box {
+  .thumbs_box {
     width: 100%;
-    margin: 10px 0;
+    max-width: $midWidth;
+    margin: 0 0 20px;
     padding: 0 10px;
-    flex: 0 0 40px;
-    > div {
-      height: 40px;
-      cursor: pointer;
+    > .thumb {
+      height: 30px;
+      flex: 9 0 0;
       margin-left: 10px;
-      border: 2px solid $backColor;
+      border: 1px solid $midColor;
       border-radius: 10px;
-      background: center center / 150% no-repeat;
-      flex: 4 0 0;
-      transition: flex 250ms linear, border 250ms linear;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      transition: flex 250ms linear;
+      > img {
+        width: 100%;
+        height: 100%;
+        object-position: center center;
+        object-fit: cover;
+        position: absolute;
+        left: 0;
+        top: 0;
+      }
       &:first-child {
         margin-left: 0;
       }
       &.selected {
-        border: 5px solid $blueColor;
-        flex: 5 0 0;
+        flex: 10 0 0;
+        border-color: white;
+        > img {
+          opacity: 0.5;
+        }
       }
     }
   }
@@ -648,8 +686,12 @@ footer {
 
 // Small size layout
 @media (min-width: $smallWidth) {
-  header > nav .slash {
-    display: block;
+  header nav {
+    padding-left: 20px;
+    padding-right: 20px;
+    .slash {
+      display: block;
+    }
   }
   .nav_boxes .nav_box {
     .profile_pic {
@@ -763,30 +805,21 @@ footer {
       margin: 10px 0 0;
     }
   }
-  .projects li .images > .image {
-    //height: 150px;
-    flex: 0 0 50%;
+  .projects li {
+    .images .image {
+      flex: 1 0 50%;
+    }
   }
   .project {
-    width: $midWidth;
-    .img_box {
-      max-width: 64vh;
+    //width: $midWidth;
+    .imgs_box {
+      //max-width: 64vh;
     }
   }
 }
 
 // Large size layout
 @media (min-width: $bigWidth) {
-  header nav,
-  .nav_boxes,
-  .categories li .type,
-  .content .heading,
-  .projects li .info,
-  footer {
-    width: $bigWidth;
-    margin-left: auto;
-    margin-right: auto;
-  }
   ul.menu > li {
     &.sub_title {
       flex: 15 0 0;
@@ -806,22 +839,20 @@ footer {
   ul.menu > li.sub_title {
     flex: 0 0 0;
   }*/
-  .projects li .images > .image {
-    //height: 175px;
-    flex: 0 0 33.3333%;
+  .projects li {
+    .images .image {
+      flex: 1 0 0;
+    }
   }
 }
 
-// full size layout
+// Full size layout
 @media (min-width: $fullWidth) {
   html, body {
-    //font-size: 20px;
+    font-size: 20px;
   }
-  .projects li .images > .image {
-    //height: 200px;
-  }
-  .project .img_box {
-    max-width: 80vh;
+  .project .imgs_box {
+    //max-width: 80vh;
   }
 }
 
