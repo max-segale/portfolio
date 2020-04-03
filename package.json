@@ -37,7 +37,6 @@
     "gulp-sass": "^4.0.2"
   },
   "browserslist": [
-    "defaults",
-    "cover 99%"
+    "defaults"
   ]
 }
