@@ -52,13 +52,13 @@ while ($project = $projects->fetch_object()) {
   // Loop photo rows, get size, add url path, add to new array
   $photoArray = [];
   while ($photo = $photos->fetch_object()) {
-    $photoLocalPath = $photoDirLocal . '/' . $photo->link;
+    $photoLocalPath = "img/$photo->link";
     if (file_exists($photoLocalPath)) {
       $imgSize = getimagesize($photoLocalPath);
       $photo->width = $imgSize[0];
       $photo->height = $imgSize[1];
     }
-    $photo->link = 'img/' . $photo->link;
+    $photo->link = $photoLocalPath;
     array_push($photoArray, $photo);
   }
 
