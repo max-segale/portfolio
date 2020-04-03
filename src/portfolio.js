@@ -66,16 +66,21 @@
   // Remove project view
   function closeView() {
     const theClass = 'see_thru';
+    // Fade to 0 opacity
     project.box.classList.add(theClass);
     project.closeBtn.classList.add(theClass);
     backdrop.classList.add(theClass);
     // Remove after transition is complete
-    backdrop.addEventListener('transitionend', function () {
+    backdrop.addEventListener('transitionend', () => {
       if (event.propertyName === 'opacity') {
+        // Remove project pop-up from DOM
         document.body.removeChild(project.box);
         document.body.removeChild(project.closeBtn);
+        // Clear project object
         project = {};
+        // Remove keyboard navigation
         window.removeEventListener('keydown', keyCheck);
+        // Remove backdrop
         removeBackdrop();
       }
     });
@@ -84,30 +89,37 @@
   function addBackdrop() {
     backdrop = max.newKid(document.body, 'div', 'backdrop');
     backdrop.addEventListener('click', closeView);
+    // Prevent scroll
     document.body.classList.add('no_scroll');
-    project.box.addEventListener('touchmove', function () {
+    project.box.addEventListener('touchmove', () => {
       event.preventDefault();
     });
   }
   // Common child image div
   function newImg(imgParent, imgObj) {
-    return max.newKid(imgParent, 'div', {
-      style: {backgroundImage: 'url(' + imgObj.link + ')'}
+    return max.newKid(imgParent, 'img', {
+      src: imgObj.link,
+      alt: imgObj.caption
     });
   }
   // Add project view image
-  function viewImg(imgObj, imgNum) {
-    const img = newImg(project.imgBox, imgObj);
-    project.images[imgNum].box = img;
+  function viewImg(imgObj, imgNum, imgMulti) {
+    const imgBox = max.newKid(project.imgsBox, 'div', 'img');
+    const img = newImg(imgBox, imgObj);
+    if (imgMulti) {
+      img.addEventListener('click', nextImg);
+    }
+    project.images[imgNum].box = imgBox;
   }
   // Add project view thumbnail
   function viewThumb(imgObj, imgNum) {
-    const thumb = newImg(project.thumbBox, imgObj);
-    thumb.title = imgObj.caption;
-    thumb.addEventListener('click', function () {
+    const thumbBox = max.newKid(project.thumbsBox, 'div', 'thumb');
+    const thumb = newImg(thumbBox, imgObj);
+    thumbBox.title = imgObj.caption;
+    thumbBox.addEventListener('click', () => {
       selectViewImg(imgNum);
     });
-    project.thumbs.push(thumb);
+    project.thumbs.push(thumbBox);
   }
   // Add project view
   function viewProject(pObj, imgObj, imgNum) {
@@ -115,11 +127,20 @@
     if (pObj.images.length === 1) {
       multiImg = false;
     }
+    // Add X close button
     project.closeBtn = max.newKid(document.body, 'div', 'project_close');
     project.closeBtn.addEventListener('click', closeView);
+    // Add project pop-up
     project.box = max.newKid(document.body, 'div', 'project', [
       ['div', 'name', pObj.name]
     ]);
+    // Add image view
+    project.imgsBox = max.newKid(project.box, 'div', 'imgs_box');
+    project.images = pObj.images;
+    pObj.images.forEach((obj, num) => {
+      viewImg(obj, num, multiImg)
+    });
+    // Add navigation controls
     project.navBox = max.newKid(project.box, 'div', 'ctl_box');
     if (multiImg) {
       project.prevBtn = max.newKid(project.navBox, 'div', 'prev');
@@ -130,18 +151,15 @@
       project.nextBtn = max.newKid(project.navBox, 'div', 'next');
       project.nextBtn.addEventListener('click', nextImg);
     }
-    project.imgBox = max.newKid(project.box, 'div', 'img_box');
+    // Add thumbnails
     if (multiImg) {
-      project.imgBox.addEventListener('click', nextImg);
-      project.thumbBox = max.newKid(project.box, 'div', 'thumb_box');
-    }
-    project.images = pObj.images;
-    project.thumbs = [];
-    pObj.images.forEach(viewImg);
-    if (multiImg) {
+      project.thumbs = [];
+      project.thumbsBox = max.newKid(project.box, 'div', 'thumbs_box');
       pObj.images.forEach(viewThumb);
     }
+    // Select first image
     selectViewImg(imgNum);
+    // Add keyboard navigation
     if (multiImg) {
       window.addEventListener('keydown', keyCheck);
     }
@@ -153,7 +171,7 @@
       ['div', 'info', [
         ['span', {
           className: 'name',
-          onclick: function () {
+          onclick: () => {
             viewProject(pObj, pObj.images[0], 0);
           }
         }, pObj.name],
@@ -162,14 +180,20 @@
       ]]
     ]);
     const pImages = max.newKid(pItem, 'div', 'images');
-    pObj.images.forEach(function (imgObj, imgNum) {
+    pObj.images.forEach((imgObj, imgNum) => {
       const img = max.newKid(pImages, 'div', 'image', [
         ['img', {
           src: imgObj.link,
           alt: imgObj.caption
         }]
       ]);
-      img.addEventListener('click', function () {
+      const imgRatio = imgObj.width / imgObj.height;
+      if (imgRatio < 1) {
+        img.classList.add('tall');
+      } else if (imgRatio > 2) {
+        img.classList.add('wide');
+      }
+      img.addEventListener('click', () => {
         viewProject(pObj, imgObj, imgNum);
       });
     });
@@ -183,7 +207,7 @@
     if (pTag) {
       paramObj.tag = pTag;
     }
-    max.request('GET', 'handle-projects.php', paramObj, function (XHR) {
+    max.request('GET', 'handle-projects.php', paramObj, (XHR) => {
       const projObj = JSON.parse(XHR.responseText);
       gallery.list.innerHTML = '';
       gallery.list.classList.add('projects');
@@ -200,7 +224,7 @@
     if (returnObj.sent) {
       msgForm.reset();
     }
-    setTimeout(function () {
+    setTimeout(() => {
       msgStatus.innerHTML = '';
     }, 5000);
   }
@@ -239,7 +263,7 @@
     let selectItem = null;
     let selectTag = null;
     // Check nav box transition
-    infoBoxes.holder.addEventListener('transitionend', function () {
+    infoBoxes.holder.addEventListener('transitionend', () => {
       if (event.propertyName === 'height') {
         if (infoBoxes.holder.style.height !== '0px') {
           infoBoxes.holder.style.height = 'initial';
@@ -350,18 +374,23 @@
     function addNavItem(itemName) {
       const item = max.newKid(menuBoxes.list, 'li');
       const itemBox = max.newKid(item, 'div', 'heading', itemName);
-      itemBox.addEventListener('click', function () {
+      itemBox.addEventListener('click', () => {
         clickNavItem(itemName);
         toggleMenu(true);
       });
     }
     // Clear nav selection and gallery
     function clearGallery() {
+
+      // Go to top of page
+      window.scrollTo(0, window.scrollX);
+
       gallery.title.innerHTML = '';
       gallery.title.classList.remove('show');
       gallery.list.innerHTML = '<li class="loading"></li>';
       gallery.list.classList.remove('categories');
       gallery.list.classList.remove('projects');
+
       selectNavItem();
       showInfo();
     }
@@ -390,7 +419,7 @@
       const attrObj = {title: tagObj.name};
       const item = max.newKid(menuBoxes.subList, 'li', attrObj, tagObj.short);
       navItems[tagObj.tag] = item;
-      item.addEventListener('click', function () {
+      item.addEventListener('click', () => {
         clickTagItem(tagObj);
       });
     }
@@ -411,10 +440,10 @@
       ]);
       const rowWrap = max.newKid(item, 'div', 'row_wrap');
       const imgRow = max.newKid(rowWrap, 'div', 'row');
-      item.addEventListener('click', function () {
+      item.addEventListener('click', () => {
         clickTagItem(catObj);
       });
-      catObj.images.forEach(function (imgObj) {
+      catObj.images.forEach((imgObj) => {
         const catImg = max.newKid(imgRow, 'img', {
           className: 'cat_list_img',
           src: imgObj.link,
@@ -422,7 +451,7 @@
         });
         catImg.addEventListener('load', showImg);
       });
-      setTimeout(function () {
+      setTimeout(() => {
         rowWrap.classList.add('sliding');
       }, 1000);
     }
@@ -433,7 +462,7 @@
     }
     // Get portfolio info object
     function getInfo(passFn) {
-      max.request('GET', 'handle-nav-items.php', false, function (XHR) {
+      max.request('GET', 'handle-nav-items.php', false, (XHR) => {
         const items = JSON.parse(XHR.responseText);
         gallery.list.innerHTML = '';
         if (passFn) {

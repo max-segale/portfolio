@@ -2,7 +2,7 @@
 const max = (function (window, document) {
   // Recursive check of attributes to apply to element
   function objElAtr(element, atrObj, parentAtr) {
-    Object.keys(atrObj).forEach(function (atr) {
+    Object.keys(atrObj).forEach((atr) => {
       if (typeof atrObj[atr] === 'object') {
         objElAtr(element, atrObj[atr], atr);
       } else if (parentAtr) {
@@ -35,7 +35,7 @@ const max = (function (window, document) {
       let sendURL = '';
       let sendString = '';
       if (paramObj) {
-        Object.keys(paramObj).forEach(function (param, p) {
+        Object.keys(paramObj).forEach((param, p) => {
           if (p > 0) {
             theParams += '&';
           }
@@ -49,7 +49,7 @@ const max = (function (window, document) {
         sendURL = path;
         sendString = theParams;
       }
-      XHR.onreadystatechange = function () {
+      XHR.onreadystatechange = () => {
         stateChange(XHR, passFn, failFn, waitFn);
       };
       XHR.open(method, sendURL, true);
@@ -83,7 +83,7 @@ const max = (function (window, document) {
     newKids: function (elParent, kids) {
       const elements = [];
       const thisObj = this;
-      kids.forEach(function (el) {
+      kids.forEach((el) => {
         const element = thisObj.newKid(elParent, el[0], el[1], el[2]);
         elements.push(element);
       });
@@ -106,7 +106,7 @@ const max = (function (window, document) {
       if (paramStr.length === 0) {
         return null;
       }
-      paramArray.forEach(function (param) {
+      paramArray.forEach((param) => {
         const valPair = param.split('=');
         paramObj[valPair[0]] = decodeURIComponent(valPair[1]);
       });
