@@ -88,14 +88,12 @@ img {
   padding: 5px 15px;
   color: $backColor;
   background-color: $blueColor;
-  transition: text-shadow 125ms linear, box-shadow 125ms linear;
+  transition: box-shadow 125ms linear;
   &:hover {
-    text-shadow: 0 1px 1px $blackTran;
-    box-shadow: inset 0 1px 3px 0 $blackTran;
+    box-shadow: inset 0 0 5px 0 $blackTran;
   }
   &:active {
-    text-shadow: 0 1px 3px $blackTran;
-    box-shadow: inset 0 1px 10px 0 $blackTran;
+    box-shadow: inset 0 0 10px 0 $blackTran;
   }
 }
 .backdrop, .click_block {
@@ -528,6 +526,7 @@ form[name='ask'] {
 .project {
   width: 100%;
   height: 100%;
+  padding: 4vh 0;
   position: fixed;
   left: 50%;
   top: 50%;
@@ -546,7 +545,6 @@ form[name='ask'] {
     flex: 0 1 0;
   }
   .name {
-    margin: 10px 0;
     font-style: italic;
     line-height: 30px;
   }
@@ -556,13 +554,12 @@ form[name='ask'] {
     max-width: $midWidth;
     display: flex;
     flex-flow: row nowrap;
-    margin: 10px 0;
-    padding: 0 5px;
+    padding: 0 10px;
     .prev, .next {
       height: 100%;
-      cursor: pointer;
       background: center center / 100% no-repeat;
       flex: 0 0 30px;
+      cursor: pointer;
     }
     .prev {
       background-image: url($imgLeftW);
@@ -587,6 +584,7 @@ form[name='ask'] {
     height: 100%;
     max-width: $fullWidth;
     max-height: $fullWidth;
+    margin: 2vh 0;
     flex: 1 1 0;
     > .img {
       height: 100%;
@@ -615,7 +613,7 @@ form[name='ask'] {
   .thumbs_box {
     width: 100%;
     max-width: $midWidth;
-    margin: 0 0 20px;
+    margin: 2vh 0;
     padding: 0 10px;
     > .thumb {
       height: 30px;
@@ -625,8 +623,8 @@ form[name='ask'] {
       border-radius: 10px;
       position: relative;
       overflow: hidden;
-      cursor: pointer;
       transition: flex 250ms linear;
+      cursor: pointer;
       > img {
         width: 100%;
         height: 100%;
@@ -656,8 +654,8 @@ form[name='ask'] {
   z-index: 300;
   right: 10px;
   top: 10px;
-  cursor: pointer;
   background: url($imgCloseW) center center / 100% no-repeat;
+  cursor: pointer;
 }
 
 // Loading view

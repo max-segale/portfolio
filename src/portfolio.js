@@ -55,14 +55,6 @@
       prevImg();
     }
   }
-  // Remove pop-up backdrop
-  function removeBackdrop() {
-    if (backdrop) {
-      document.body.classList.remove('no_scroll');
-      document.body.removeChild(backdrop);
-      backdrop = false;
-    }
-  }
   // Remove project view
   function closeView() {
     const theClass = 'see_thru';
@@ -81,18 +73,11 @@
         // Remove keyboard navigation
         window.removeEventListener('keydown', keyCheck);
         // Remove backdrop
-        removeBackdrop();
+        document.body.removeChild(backdrop);
+        backdrop = false;
+        // Enable scrolling
+        document.body.classList.remove('no_scroll');
       }
-    });
-  }
-  // Add pop-up backdrop
-  function addBackdrop() {
-    backdrop = max.newKid(document.body, 'div', 'backdrop');
-    backdrop.addEventListener('click', closeView);
-    // Prevent scroll
-    document.body.classList.add('no_scroll');
-    project.box.addEventListener('touchmove', () => {
-      event.preventDefault();
     });
   }
   // Common child image div
@@ -134,6 +119,11 @@
     project.box = max.newKid(document.body, 'div', 'project', [
       ['div', 'name', pObj.name]
     ]);
+    project.box.addEventListener('click', () => {
+      if (event.target === project.box || event.target.classList[0] === 'img') {
+        closeView();
+      }
+    });
     // Add image view
     project.imgsBox = max.newKid(project.box, 'div', 'imgs_box');
     project.images = pObj.images;
@@ -163,7 +153,13 @@
     if (multiImg) {
       window.addEventListener('keydown', keyCheck);
     }
-    addBackdrop();
+    // Add backdrop
+    backdrop = max.newKid(document.body, 'div', 'backdrop');
+    // Disable scroll
+    document.body.classList.add('no_scroll');
+    project.box.addEventListener('touchmove', () => {
+      event.preventDefault();
+    });
   }
   // Create project list item
   function addProject(pObj) {
