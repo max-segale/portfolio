@@ -51,15 +51,16 @@ html(lang='en')
               p
                 a(href='tel:(908)752-0639')
                   span.u 908.752.0639
-                  span(role='img' aria-label='mobile phone') 📱
+                  span.emoji(role='img' aria-label='mobile phone') 📱
                 br
                 a(href='mailto:maxsegale@me.com')
                   span.u maxsegale@me.com
-                  span(role='img' aria-label='incoming envelope') 📨
+                  span.emoji(role='img' aria-label='incoming envelope') 📨
             .message_box
               form(name='ask')
-                span Any questions? Please ask.
-                  span(role='img' aria-label='speech balloon') 💬
+                p
+                  span Any questions? Please ask.
+                  span.emoji(role='img' aria-label='speech balloon') 💬
                 input(type='email' name='email' placeholder='Your Email Address' maxlength='254' required)
                 textarea(name='question' placeholder='Your Question' maxlength='1000' rows='3' required)
                 .send_row

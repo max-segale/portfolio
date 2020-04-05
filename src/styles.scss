@@ -96,6 +96,9 @@ img {
     box-shadow: inset 0 0 10px 0 $blackTran;
   }
 }
+.emoji {
+  line-height: 0;
+}
 .backdrop, .click_block {
   width: 100%;
   height: 100%;
@@ -217,6 +220,7 @@ ul.menu {
       float: right;
       padding: 0 10px 0 30px;
       border-radius: 5px 0 0 5px;
+      text-align: right;
       cursor: pointer;
       transition: background-color 250ms linear;
       &:active {
@@ -755,7 +759,6 @@ footer {
       > div {
         float: none;
         text-align: center;
-        padding: 0;
         border-radius: 5px;
         //background-color: $boxColor;
         &.selected {
@@ -797,10 +800,10 @@ footer {
     .left {
       width: 50%;
       float: left;
-      padding-right: 20px;
+      padding: 0 15px 0 0;
     }
     .message_box {
-      margin: 10px 0 0;
+      padding: 0 0 0 15px;
     }
   }
   .projects li {
@@ -822,8 +825,11 @@ footer {
     &.sub_title {
       flex: 15 0 0;
     }
-    > div.selected {
-      background-position: 5px center;
+    > div {
+      padding: 0;
+      &.selected {
+        background-position: 5px center;
+      }
     }
   }
   /*.menu_box ul.menu > li.sub_menu_box {
