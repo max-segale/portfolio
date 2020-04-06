@@ -1,6 +1,7 @@
 -
   const myName = 'Max Segale';
-  const siteDesc = 'A portfolio of work from ' + myName + ', full stack web developer and graphic designer.';
+  const siteDesc = `A portfolio of work from ${myName}, full stack web developer and graphic designer.`;
+  const myEmail = 'info@maxsegale.com';
 
 doctype html
 html(lang='en')
@@ -49,12 +50,8 @@ html(lang='en')
             .left
               p Please contact me about any new projects or job opportunities.
               p
-                a(href='tel:(908)752-0639')
-                  span.u 908.752.0639
-                  span.emoji(role='img' aria-label='mobile phone') 📱
-                br
-                a(href='mailto:maxsegale@me.com')
-                  span.u maxsegale@me.com
+                a(href='mailto:' + myEmail)
+                  span.u.c #{myEmail}
                   span.emoji(role='img' aria-label='incoming envelope') 📨
             .message_box
               form(name='ask')
@@ -67,7 +64,6 @@ html(lang='en')
                   input.btn(type='submit' name='send' value='Send')
                   .status#msg_status
         .content
-          span.heading.b#gallery_title
           ul#gallery_list
             li.loading
     footer
