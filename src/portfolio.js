@@ -5,7 +5,6 @@
   let msgForm = null;
   let msgStatus = null;
   let backdrop = null;
-  let clickBlock = null;
   // Select project view image, select thumb, show caption
   function selectViewImg(imgNum) {
     const imgObj = project.images[imgNum];
@@ -163,19 +162,17 @@
   }
   // Create project list item
   function addProject(pObj) {
-    const pItem = max.newKid(gallery.list, 'li', pObj.tags[0], [
-      ['div', 'info', [
-        ['span', {
-          className: 'name',
-          onclick: () => {
-            viewProject(pObj, pObj.images[0], 0);
-          }
-        }, pObj.name],
-        ['br'],
-        ['span', false, pObj.summary]
-      ]]
+    const pItem = max.newKid(gallery.list, 'li', pObj.tags[0]);
+    const infoBox = max.newKid(pItem, 'div', 'info', [
+      ['span', 'name u', pObj.name],
+      ['p', false, pObj.summary]
     ]);
     const pImages = max.newKid(pItem, 'div', 'images');
+    if (pObj.link) {
+      max.newKid(infoBox, 'span', 'link_out', [
+        ['a', {href: pObj.link, target: '_blank'}, 'View Website']
+      ]);
+    }
     pObj.images.forEach((imgObj, imgNum) => {
       const img = max.newKid(pImages, 'div', 'image', [
         ['img', {
@@ -184,9 +181,10 @@
         }]
       ]);
       const imgRatio = imgObj.width / imgObj.height;
-      if (imgRatio < 1) {
+      //console.log(imgRatio, imgObj.caption, pObj.name);
+      if (imgRatio < 0.75) {
         img.classList.add('tall');
-      } else if (imgRatio > 2) {
+      } else if (imgRatio > 1.5) {
         img.classList.add('wide');
       }
       img.addEventListener('click', () => {
@@ -207,8 +205,8 @@
       const projObj = JSON.parse(XHR.responseText);
       gallery.list.innerHTML = '';
       gallery.list.classList.add('projects');
-      gallery.title.innerHTML = projObj.category;
-      gallery.title.classList.add('show');
+      //gallery.title.innerHTML = projObj.category;
+      //gallery.title.classList.add('show');
       projObj.projects.forEach(addProject);
     });
   }
@@ -312,16 +310,10 @@
         menuOpen = true;
         menuBoxes.list.classList.add('open');
         menuBoxes.btn.classList.add('selected');
-        clickBlock = max.newKid(document.body, 'div', 'click_block');
-        clickBlock.addEventListener('click', toggleMenu);
       } else {
         menuOpen = false;
         menuBoxes.list.classList.remove('open');
         menuBoxes.btn.classList.remove('selected');
-        if (clickBlock) {
-          document.body.removeChild(clickBlock);
-          clickBlock = null;
-        }
       }
     }
     // Toggle tags sub menu
@@ -381,8 +373,8 @@
       // Go to top of page
       window.scrollTo(0, window.scrollX);
 
-      gallery.title.innerHTML = '';
-      gallery.title.classList.remove('show');
+      //gallery.title.innerHTML = '';
+      //gallery.title.classList.remove('show');
       gallery.list.innerHTML = '<li class="loading"></li>';
       gallery.list.classList.remove('categories');
       gallery.list.classList.remove('projects');
@@ -496,7 +488,7 @@
     const paramObj = max.parseQueryStr();
     msgForm = document.forms.ask;
     msgStatus = document.querySelector('#msg_status');
-    gallery.title = document.querySelector('#gallery_title');
+    //gallery.title = document.querySelector('#gallery_title');
     gallery.list = document.querySelector('#gallery_list');
     msgForm.addEventListener('submit', sendMessage);
     if (paramObj) {
