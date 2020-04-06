@@ -1,7 +1,7 @@
 -
   const myName = 'Max Segale';
-  const siteDesc = `A portfolio of work from ${myName}, full stack web developer and graphic designer.`;
   const myEmail = 'info@maxsegale.com';
+  const siteDesc = `A portfolio of work from ${myName}, full stack web developer and graphic designer.`;
 
 doctype html
 html(lang='en')
@@ -48,7 +48,8 @@ html(lang='en')
           .nav_box#contact
             h2.heading.b Contact
             .left
-              p Please contact me about any new projects or job opportunities.
+              p
+                span Please contact me about any new projects or job opportunities.
               p
                 a(href='mailto:' + myEmail)
                   span.u.c #{myEmail}
