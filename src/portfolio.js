@@ -169,8 +169,10 @@
     ]);
     const pImages = max.newKid(pItem, 'div', 'images');
     if (pObj.link) {
-      max.newKid(infoBox, 'span', 'link_out', [
-        ['a', {href: pObj.link, target: '_blank'}, 'View Website']
+      max.newKid(infoBox, 'p', 'link_out', [
+        ['a', {href: pObj.link, target: '_blank'}, [
+          ['span', false, 'Visit Website']
+        ]]
       ]);
     }
     pObj.images.forEach((imgObj, imgNum) => {

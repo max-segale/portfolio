@@ -477,10 +477,14 @@ form[name='ask'] {
         font-style: italic;
       }
       .link_out {
-        color: $blueColor;
-        font-size: 0.8rem;
         > a {
-          text-decoration: underline;
+          color: $blueColor;
+          &::after {
+            content: " »";
+          }
+          > span {
+            text-decoration: underline;
+          }
         }
       }
     }
