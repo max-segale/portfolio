@@ -172,21 +172,6 @@ ul.menu
   margin: 0 0 0 5px
   border-radius: 5px
 
-  &.open
-    color: $backColor
-    background-color: $blackTran
-    box-shadow: 0 0 0 5px $backColor
-    backdrop-filter: blur(32px)
-
-    > li
-      display: block
-
-      &.sub_title span
-        background-image: url($imgRightW)
-
-        &.selected
-          background-image: url($imgMoreW)
-
   > li
     display: none
     margin: 0 0 10px
@@ -227,6 +212,21 @@ ul.menu
         color: $fontColor
         background: $backColor url($imgCloseB) left center / contain no-repeat
 
+  &.open
+    color: $backColor
+    background-color: $blackTran
+    box-shadow: 0 0 0 5px $backColor
+    backdrop-filter: blur(32px)
+
+    > li
+      display: block
+
+      &.sub_title span
+        background-image: url($imgRightW)
+
+        &.selected
+          background-image: url($imgMoreW)
+
 // Tags sub-menu
 ul.menu > li.sub_menu_box
   margin: 0
@@ -236,9 +236,6 @@ ul.sub_menu
   overflow: hidden
   float: left
 
-  &.open
-    height: initial
-
   > li
     margin: 0 0 10px
     padding: 0 0 0 15px
@@ -246,6 +243,9 @@ ul.sub_menu
 
     &:active, &.selected
       text-decoration: underline
+
+  &.open
+    height: initial
 
 // Nav menu icon
 .menu_btn
@@ -288,15 +288,6 @@ ul.sub_menu
     transform: translateY(100%)
     transition: transform 500ms linear, opacity 500ms linear
 
-    &.show
-      position: relative
-      z-index: 2
-      opacity: 1
-      transform: translateY(0%)
-
-      .profile_pic
-        animation: spinRight 500ms linear
-
     > div
       overflow: hidden
 
@@ -315,6 +306,15 @@ ul.sub_menu
 
       &:active
         transform: rotate(360deg)
+
+    &.show
+      position: relative
+      z-index: 2
+      opacity: 1
+      transform: translateY(0%)
+
+      .profile_pic
+        animation: spinRight 500ms linear
 
 // Message form
 form[name='ask']
@@ -395,21 +395,6 @@ form[name='ask']
           transition: color 250ms ease, background 250ms ease
           backdrop-filter: blur(32px)
 
-    &:hover
-
-      .text
-
-        > *
-          background-color: $backColor
-
-    &:active
-
-      .text
-
-        > *
-          color: $backColor
-          background-color: $fontColor
-
     .row_wrap
       width: 100%
       height: 100%
@@ -446,6 +431,21 @@ form[name='ask']
             opacity: 0.5
             transform: translateX(0)
 
+    &:hover
+
+      .text
+
+        > *
+          background-color: $backColor
+
+    &:active
+
+      .text
+
+        > *
+          color: $backColor
+          background-color: $fontColor
+
 // Projects display
 .projects
 
@@ -468,11 +468,11 @@ form[name='ask']
         > a
           color: $blueColor
 
-          &::after
-            content: " »"
-
           > span
             text-decoration: underline
+
+          &::after
+            content: " »"
 
     .images
       max-width: $fullWidth
@@ -695,6 +695,27 @@ footer
     flex-flow: row wrap
     align-items: baseline
 
+    > li
+      display: block
+      margin: 0 10px 0 0
+      flex: 10 0 0
+
+      > div
+        float: none
+        text-align: center
+        border-radius: 5px
+
+        &.selected
+          color: $backColor
+          background: $blackTran url($imgCloseW) left center / 24px 24px no-repeat
+
+      &:last-child
+        margin: 0
+
+      &.sub_menu_box
+        flex: 0 0 100%
+        order: 4
+
     &.open
       color: initial
       background-color: initial
@@ -707,36 +728,9 @@ footer
         &.selected
           background-image: url($imgMoreB)
 
-    > li
-      display: block
-      margin: 0 10px 0 0
-      flex: 10 0 0
-
-      &:last-child
-        margin: 0
-
-      &.sub_menu_box
-        flex: 0 0 100%
-        order: 4
-
-      > div
-        float: none
-        text-align: center
-        border-radius: 5px
-
-        &.selected
-          color: $backColor
-          background: $blackTran url($imgCloseW) left center / 24px 24px no-repeat
-
   ul.sub_menu
     border-radius: 5px
     margin-left: 10px
-
-    &.open
-      color: $backColor
-      background-color: $blackTran
-      box-shadow: 0 0 0 5px $backColor
-      backdrop-filter: blur(32px)
 
     > li
       margin: 10px 0
@@ -744,6 +738,12 @@ footer
 
       &:last-child
         margin: 10px 0
+
+    &.open
+      color: $backColor
+      background-color: $blackTran
+      box-shadow: 0 0 0 5px $backColor
+      backdrop-filter: blur(32px)
 
   .menu_btn
     width: 0
@@ -781,14 +781,14 @@ footer
 
   ul.menu > li
 
-    &.sub_title
-      flex: 15 0 0
-
     > div
       padding: 5px 0
 
       &.selected
         background-position: 5px center
+
+    &.sub_title
+      flex: 15 0 0
 
 // Full size layout
 @media (min-width: $fullWidth)
