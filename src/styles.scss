@@ -789,7 +789,10 @@ footer {
   .projects li {
     .images .image {
       flex: 1 0 50%;
-      &:first-child {
+      &:first-child:not(.tall) {
+        flex: 1 0 100%;
+      }
+      &.wide {
         flex: 1 0 100%;
       }
     }
