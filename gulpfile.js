@@ -31,9 +31,9 @@ function pages() {
     .pipe(gulp.dest('public'));
 }
 
-// Create style sheet from SCSS
+// Create style sheet from SASS
 function styles() {
-  return gulp.src('src/*.scss')
+  return gulp.src('src/*.sass')
     .pipe(sass())
     .pipe(postcss([
       autoprefixer()
@@ -90,6 +90,6 @@ exports.default = gulp.series(
 
 // Watch for file updates
 gulp.watch('src/*.pug', pages);
-gulp.watch('src/*.scss', styles);
+gulp.watch('src/*.sass', styles);
 gulp.watch('src/*.js', scripts);
 gulp.watch('src/*.php', php);

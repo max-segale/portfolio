@@ -1,0 +1,879 @@
+// Set responsive breakpoints
+$smallWidth: 375px
+$midWidth: 568px
+$bigWidth: 724px
+$fullWidth: 1024px
+
+// Set fonts and colors
+$fontFam: "Helvetica Neue", "Helvetica", sans-serif
+$fontColor: rgba(0, 0, 0, 1)
+$backColor: rgba(255, 255, 255, 1)
+$boxColor: rgba(222, 222, 222, 1)
+$midColor: rgba(140, 140, 140, 1)
+$blueColor: rgba(10, 132, 255, 1)
+$blackTran: rgba(0, 0, 0, 0.8)
+$greyTran: rgba(50, 50, 50, 0.96)
+$whiteTran: rgba(255, 255, 255, 0.75)
+
+// Background images
+$imgSelf: 'img/me.jpg'
+$imgLoad: 'img/icons/max-segale.svg'
+$imgMenu: 'img/icons/menu-24px.svg'
+$imgMoreB: 'img/icons/more-24px-b.svg'
+$imgMoreW: 'img/icons/more-24px-w.svg'
+$imgRightB: 'img/icons/right-24px-b.svg'
+$imgRightW: 'img/icons/right-24px-w.svg'
+$imgCloseB: 'img/icons/close-24px-b.svg'
+$imgCloseW: 'img/icons/close-24px-w.svg'
+$imgForwardW: 'img/icons/forward-24px.svg'
+$imgBackW: 'img/icons/back-24px.svg'
+
+// Global properties
+*
+  margin: 0
+  border: 0
+  padding: 0
+  box-sizing: border-box
+
+// Tag properties
+html
+  scroll-behavior: smooth
+
+html, body
+  text-align: left
+  font-size: 16px
+  font-family: $fontFam
+  color: $fontColor
+  background-color: $backColor
+  text-size-adjust: none
+  user-select: none
+  -webkit-touch-callout: none
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0)
+
+h1, h2, h3, h4
+  display: inline
+  font-size: inherit
+  font-weight: inherit
+
+a
+  text-decoration: none
+  color: inherit
+
+p
+  margin: 10px 0
+
+ul
+  list-style: none
+
+img
+  display: block
+
+// General classes
+.heading
+  display: block
+  font-size: 1.25rem
+  text-transform: capitalize
+
+.b
+  font-weight: 700
+
+.u
+  text-decoration: underline
+
+.c
+  color: $blueColor
+
+.btn
+  cursor: pointer
+  border-radius: 5px
+  padding: 5px 15px
+  color: $backColor
+  background-color: $blueColor
+  transition: box-shadow 125ms linear
+
+  &:hover
+    box-shadow: inset 0 0 5px 0 $blackTran
+
+  &:active
+    box-shadow: inset 0 0 10px 0 $blackTran
+
+.emoji
+  line-height: 0
+
+.backdrop
+  width: 100%
+  height: 100%
+  position: fixed
+  left: 0
+  top: 0
+  z-index: 100
+  background: $greyTran
+  backdrop-filter: blur(32px)
+  transition: opacity 500ms linear
+  animation: fadeIn 500ms linear
+
+.see_thru
+  opacity: 0
+
+.no_scroll
+  overflow: hidden
+
+// Page structure
+.wrapper
+  min-height: 100vh
+  padding: 2vh 0 5vh
+
+.container
+  overflow: hidden
+
+// Header section
+header
+  position: sticky
+  z-index: 25
+  top: 0
+  padding: 10px 0
+  background-color: $whiteTran
+  backdrop-filter: blur(32px)
+
+  nav
+    max-width: $fullWidth
+    margin: 0 auto
+    padding: 0 10px
+    display: flex
+    flex-flow: row nowrap
+    justify-content: space-between
+    align-items: baseline
+    white-space: nowrap
+
+    .title
+      font-size: 1.5rem
+      font-weight: 700
+      margin-right: 5px
+      cursor: pointer
+
+      &:active
+        text-decoration: underline
+
+    .slash
+      display: none
+      color: $midColor
+      padding: 0 0 0 5px
+
+// Nav menu section
+.menu_box
+  height: 0
+  z-index: 30
+  text-transform: capitalize
+  flex: 1 0 0
+
+ul.menu
+  display: flex
+  flex-flow: column nowrap
+  margin: 0 0 0 5px
+  border-radius: 5px
+
+  &.open
+    color: $backColor
+    background-color: $blackTran
+    box-shadow: 0 0 0 5px $backColor
+    backdrop-filter: blur(32px)
+
+    > li
+      display: block
+
+      &.sub_title span
+        background-image: url($imgRightW)
+
+        &.selected
+          background-image: url($imgMoreW)
+
+  > li
+    display: none
+    margin: 0 0 10px
+
+    &:last-child
+      margin: 0 0 20px
+
+    &.sub_title
+      display: block
+      line-height: 45px
+      margin: 0
+
+      span
+        padding: 0 25px 0 5px
+        cursor: pointer
+        background: url($imgRightB) right center no-repeat
+
+        &:active
+          text-decoration: underline
+
+        &.selected
+          text-decoration: underline
+          background-image: url($imgMoreB)
+
+    > div
+      float: right
+      padding: 0 10px 0 30px
+      border-radius: 5px 0 0 5px
+      text-align: right
+      cursor: pointer
+      transition: background-color 250ms linear
+
+      &:active
+        color: $backColor
+        background-color: $midColor
+
+      &.selected
+        color: $fontColor
+        background: $backColor url($imgCloseB) left center / contain no-repeat
+
+// Tags sub-menu
+ul.menu > li.sub_menu_box
+  margin: 0
+
+ul.sub_menu
+  height: 0
+  overflow: hidden
+  float: left
+
+  &.open
+    height: initial
+
+  > li
+    margin: 0 0 10px
+    padding: 0 0 0 15px
+    cursor: pointer
+
+    &:active, &.selected
+      text-decoration: underline
+
+// Nav menu icon
+.menu_btn
+  display: none
+  width: 30px
+  height: 30px
+  cursor: pointer
+  margin-left: 5px
+  border: 2px solid $fontColor
+  border-radius: 5px
+  background: url($imgMenu) center center / contain no-repeat
+
+  &:active
+    background-color: $boxColor
+
+  &.show
+    display: block
+
+  &.selected
+    background: $blackTran url($imgCloseW) center center / contain no-repeat
+
+// Hidden nav content
+.nav_boxes
+  height: 0
+  max-width: $fullWidth
+  margin: 0 auto
+  position: relative
+  overflow: hidden
+  transition: height 500ms ease-in
+
+  .nav_box
+    width: 100%
+    position: absolute
+    left: 0
+    top: 0
+    z-index: 1
+    overflow: hidden
+    opacity: 0
+    padding: 4vh 20px
+    transform: translateY(100%)
+    transition: transform 500ms linear, opacity 500ms linear
+
+    &.show
+      position: relative
+      z-index: 2
+      opacity: 1
+      transform: translateY(0%)
+
+      .profile_pic
+        animation: spinRight 500ms linear
+
+    > div
+      overflow: hidden
+
+    .btn
+      float: left
+
+    .profile_pic
+      width: 100px
+      height: 100px
+      margin: 0 0 0 10px
+      border-radius: 50px
+      float: right
+      background: url($imgSelf) center center / cover no-repeat
+      transition: transform 1000ms ease
+      animation: spinLeft 500ms linear
+
+      &:active
+        transform: rotate(360deg)
+
+// Message form
+form[name='ask']
+
+  input, textarea
+    display: block
+    border-radius: 5px
+    font-family: $fontFam
+    box-shadow: none
+    outline: none
+    appearance: none
+
+  input[type='email'], textarea
+    width: 100%
+    margin-top: 5px
+    border: 2px solid $boxColor
+    padding: 4px 0 3px 10px
+    font-size: 0.8rem
+    resize: none
+    color: $fontColor
+    background-color: $boxColor
+
+  input[type='email']:focus, textarea:focus
+    border: 2px solid $fontColor
+    background-color: $backColor
+
+  input[type='submit']
+    margin: 5px 10px 0 0
+    font-size: 1rem
+
+  .send_row
+    display: flex
+    flex-flow: row nowrap
+    align-items: baseline
+
+    .status
+      font-size: 0.8rem
+
+// Categories display
+.categories
+
+  li
+    height: 25vh
+    position: relative
+    overflow: hidden
+    margin: 4vh 0 0 0
+    background: $boxColor
+    cursor: pointer
+
+    .type
+      height: 0
+      max-width: $fullWidth
+      margin: 0 auto
+      position: relative
+      z-index: 15
+      animation: fromLeft 1s ease-out
+
+      .text
+        padding: 10px
+        color: $fontColor
+
+        > .cat_name
+          display: inline-block
+          font-size: 1.5rem
+          font-weight: 900
+          text-decoration: underline
+          text-transform: uppercase
+
+        > .cat_summ
+          display: inline-block
+          margin: 0
+          font-weight: 400
+          font-size: 1rem
+
+        > *
+          padding: 0 10px
+          background-color: $whiteTran
+          transition: color 250ms ease, background 250ms ease
+          backdrop-filter: blur(32px)
+
+    &:hover
+
+      .text
+
+        > *
+          background-color: $backColor
+
+    &:active
+
+      .text
+
+        > *
+          color: $backColor
+          background-color: $fontColor
+
+    .row_wrap
+      width: 100%
+      height: 100%
+      position: absolute
+      right: 0
+      top: 0
+
+      &.sliding
+        will-change: width
+        animation: sliderWrap 15000ms linear infinite alternate
+
+        .row
+          will-change: transform
+          animation: sliderRow 15000ms linear infinite alternate
+
+      .row
+        height: 100%
+        position: absolute
+        z-index: 10
+        display: flex
+        flex-flow: row nowrap
+
+        .cat_list_img
+          max-width: 0
+          height: 100%
+          display: block
+          opacity: 0
+          margin: 0 5px 0 0
+          transform: translateX(100vw)
+          transition: transform 1s ease-out, max-width 1s linear, opacity 2s linear
+
+          &.show
+            max-width: 9999px
+            opacity: 0.5
+            transform: translateX(0)
+
+// Projects display
+.projects
+
+  li
+    margin: 10vh 0 0
+    animation: projItem 500ms ease-out
+    position: relative
+
+    .info
+      max-width: $fullWidth
+      margin: 0 auto 10px
+      padding: 0 20px
+
+      .name
+        font-size: 1.2rem
+        font-style: italic
+
+      .link_out
+
+        > a
+          color: $blueColor
+
+          &::after
+            content: " »"
+
+          > span
+            text-decoration: underline
+
+    .images
+      max-width: $fullWidth
+      margin: 0 auto
+      border: 2px solid $boxColor
+      background: $boxColor
+      display: flex
+      flex-flow: row wrap
+      justify-content: center
+      align-items: stretch
+
+      .image
+        flex: 0 0 100%
+        border: 2px solid $boxColor
+        overflow: hidden
+        cursor: pointer
+        animation: fadeIn 500ms linear
+
+        img
+          max-width: 100%
+          max-height: 100%
+          margin: 0 auto
+          object-fit: contain
+          object-position: center center
+
+// Project pop-up view
+.project
+  width: 100%
+  height: 100%
+  padding: 4vh 0
+  position: fixed
+  left: 50%
+  top: 50%
+  z-index: 200
+  display: flex
+  flex-flow: column nowrap
+  justify-content: space-between
+  align-items: center
+  text-align: center
+  overflow: hidden
+  color: $backColor
+  transform: translate(-50%, -50%)
+  transition: opacity 500ms linear
+  animation: fadeIn 500ms linear
+
+  > *
+    flex: 0 1 0
+
+  .name
+    font-style: italic
+    line-height: 30px
+
+  .ctl_box
+    width: 100%
+    height: 30px
+    max-width: $midWidth
+    display: flex
+    flex-flow: row nowrap
+    padding: 0 10px
+
+    .prev, .next
+      height: 100%
+      background: center center / 100% no-repeat
+      flex: 0 0 30px
+      cursor: pointer
+
+    .prev
+      background-image: url($imgBackW)
+
+    .next
+      background-image: url($imgForwardW)
+
+    .caption
+      font-weight: 300
+      flex: 1 0 0
+      line-height: 30px
+
+  .imgs_box, .thumbs_box
+    display: flex
+    flex-flow: row nowrap
+    justify-content: center
+    align-items: center
+
+  .imgs_box
+    width: 100%
+    height: 100%
+    margin: 2vh 0
+    flex: 1 1 0
+
+    > .img
+      height: 100%
+      flex: 0 1 0
+      position: relative
+      overflow: hidden
+      opacity: 0
+      transition: flex 250ms linear, opacity 250ms linear
+
+      > img
+        max-width: 100%
+        max-height: 100%
+        position: absolute
+        left: 50%
+        top: 50%
+        transform: translate(-50%, -50%)
+        object-position: center center
+        object-fit: contain
+        cursor: pointer
+
+      &.selected
+        flex: 1 1 0
+        opacity: 1
+
+  .thumbs_box
+    width: 100%
+    max-width: $midWidth
+    margin: 2vh 0
+    padding: 0 10px
+
+    > .thumb
+      height: 30px
+      flex: 9 0 0
+      margin-left: 10px
+      border: 1px solid $midColor
+      border-radius: 10px
+      position: relative
+      overflow: hidden
+      transition: flex 250ms linear
+      cursor: pointer
+
+      > img
+        width: 100%
+        height: 100%
+        object-position: center center
+        object-fit: cover
+        position: absolute
+        left: 0
+        top: 0
+
+      &:first-child
+        margin-left: 0
+
+      &.selected
+        flex: 10 0 0
+        border-color: white
+
+        > img
+          opacity: 0.5
+
+.project_close
+  width: 30px
+  height: 30px
+  position: fixed
+  z-index: 300
+  right: 10px
+  top: 10px
+  background: url($imgCloseW) center center / 100% no-repeat
+  cursor: pointer
+
+// Loading view
+.loading
+  width: 100%
+  height: 100vh
+  position: fixed
+  left: 0
+  top: 0
+  z-index: 50
+  opacity: 0.25
+  background: url($imgLoad) center center / 125px no-repeat
+  animation: loadPulse 750ms ease infinite alternate
+
+// Footer section
+footer
+  padding: 0 0 5vh
+  text-align: center
+
+  .copyright
+    font-size: 0.75rem
+    font-weight: 300
+    color: $midColor
+
+// Small size layout
+@media (min-width: $smallWidth)
+
+  header nav
+    padding-left: 20px
+    padding-right: 20px
+
+    .slash
+      display: block
+
+  .nav_boxes .nav_box
+
+    .profile_pic
+      width: 120px
+      height: 120px
+      border-radius: 60px
+      margin-left: 20px
+
+  .categories
+
+    li
+
+      .type
+
+        .text
+
+          > .cat_name
+            font-size: 2rem
+
+          > .cat_summ
+            font-size: 1.5rem
+
+// Medium size layout
+@media (min-width: $midWidth)
+
+  html, body
+    font-size: 18px
+
+  ul.menu
+    flex-flow: row wrap
+    align-items: baseline
+
+    &.open
+      color: initial
+      background-color: initial
+      box-shadow: none
+      backdrop-filter: none
+
+      > li.sub_title span
+        background-image: url($imgRightB)
+
+        &.selected
+          background-image: url($imgMoreB)
+
+    > li
+      display: block
+      margin: 0 10px 0 0
+      flex: 10 0 0
+
+      &:last-child
+        margin: 0
+
+      &.sub_menu_box
+        flex: 0 0 100%
+        order: 4
+
+      > div
+        float: none
+        text-align: center
+        border-radius: 5px
+
+        &.selected
+          color: $backColor
+          background: $blackTran url($imgCloseW) left center / 24px 24px no-repeat
+
+  ul.sub_menu
+    border-radius: 5px
+    margin-left: 10px
+
+    &.open
+      color: $backColor
+      background-color: $blackTran
+      box-shadow: 0 0 0 5px $backColor
+      backdrop-filter: blur(32px)
+
+    > li
+      margin: 10px 0
+      padding: 0 20px
+
+      &:last-child
+        margin: 10px 0
+
+  .menu_btn
+    width: 0
+    margin: 0
+    border: 0
+
+  .nav_boxes .nav_box
+
+    .profile_pic
+      width: 200px
+      height: 200px
+      border-radius: 100px
+
+    .left
+      width: 50%
+      float: left
+      padding: 0 15px 0 0
+
+    .message_box
+      padding: 0 0 0 15px
+
+  .projects li
+
+    .images .image
+      flex: 1 0 50%
+
+      &:first-child:not(.tall)
+        flex: 1 0 100%
+
+      &.wide
+        flex: 1 0 100%
+
+// Large size layout
+@media (min-width: $bigWidth)
+
+  ul.menu > li
+
+    &.sub_title
+      flex: 15 0 0
+
+    > div
+      padding: 5px 0
+
+      &.selected
+        background-position: 5px center
+
+// Full size layout
+@media (min-width: $fullWidth)
+
+  html, body
+    font-size: 20px
+
+  .menu_box ul.menu > li.sub_menu_box
+    margin: 0 10px 0 0
+    flex: 1 0 0
+    order: initial
+
+  .menu_box ul.sub_menu
+    float: none
+
+    > li
+      margin: 5px 0 10px
+      font-size: 1.25rem
+
+  ul.menu > li.sub_title
+    flex: 0 0 0
+
+// Animation frames
+@keyframes fromLeft
+
+  0%
+    left: -100%
+
+  100%
+    left: 0
+
+@keyframes sliderWrap
+
+  0%
+    width: 100%
+
+  100%
+    width: 0%
+
+@keyframes sliderRow
+
+  0%
+    transform: translateX(0)
+
+  100%
+    transform: translateX(-100%)
+
+@keyframes fadeIn
+
+  0%
+    opacity: 0
+
+  100%
+    opacity: 1
+
+@keyframes spinLeft
+
+  0%
+    transform: rotate(0deg)
+
+  100%
+    transform: rotate(-360deg)
+
+@keyframes spinRight
+
+  0%
+    transform: rotate(-360deg)
+
+  100%
+    transform: rotate(0deg)
+
+@keyframes loadPulse
+
+  0%
+    opacity: 0.25
+    background-size: 100px
+
+  100%
+    opacity: 0.1
+    background-size: 125px
+
+@keyframes projItem
+
+  0%
+    left: 100%
+
+  100%
+    left: 0
