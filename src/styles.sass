@@ -431,20 +431,12 @@ form[name='ask']
             opacity: 0.5
             transform: translateX(0)
 
-    &:hover
+    &:hover .text > *
+      background-color: $backColor
 
-      .text
-
-        > *
-          background-color: $backColor
-
-    &:active
-
-      .text
-
-        > *
-          color: $backColor
-          background-color: $fontColor
+    &:active .text > *
+      color: $backColor
+      background-color: $fontColor
 
 // Projects display
 .projects
@@ -671,19 +663,13 @@ footer
       border-radius: 60px
       margin-left: 20px
 
-  .categories
+  .categories li .type .text
 
-    li
+    > .cat_name
+      font-size: 2rem
 
-      .type
-
-        .text
-
-          > .cat_name
-            font-size: 2rem
-
-          > .cat_summ
-            font-size: 1.5rem
+    > .cat_summ
+      font-size: 1.5rem
 
 // Medium size layout
 @media (min-width: $midWidth)
@@ -765,16 +751,14 @@ footer
     .message_box
       padding: 0 0 0 15px
 
-  .projects li
+  .projects li .images .image
+    flex: 1 0 50%
 
-    .images .image
-      flex: 1 0 50%
+    &:first-child:not(.tall)
+      flex: 1 0 100%
 
-      &:first-child:not(.tall)
-        flex: 1 0 100%
-
-      &.wide
-        flex: 1 0 100%
+    &.wide
+      flex: 1 0 100%
 
 // Large size layout
 @media (min-width: $bigWidth)
