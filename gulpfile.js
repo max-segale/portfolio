@@ -20,7 +20,7 @@ function pages() {
   return gulp.src('src/*.pug')
     .pipe(pug())
     .pipe(beautify.html({
-      indent_size: 2,
+      indent_size: 4,
       indent_inner_html: true,
       inline: [],
       extra_liners: []
@@ -39,7 +39,7 @@ function styles() {
       autoprefixer()
     ]))
     .pipe(beautify.css({
-      indent_size: 2
+      indent_size: 4
     }))
     .pipe(gulp.dest('public'))
 }
@@ -53,7 +53,7 @@ function scripts() {
       minified: true
     }))
     .pipe(beautify.js({
-      indent_size: 2
+      indent_size: 4
     }))
     .pipe(gulp.dest('public'));
 }
