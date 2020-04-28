@@ -141,8 +141,8 @@
       project.nextBtn.addEventListener('click', nextImg);
     }
     // Add thumbnails
+    project.thumbs = [];
     if (multiImg) {
-      project.thumbs = [];
       project.thumbsBox = max.newKid(project.box, 'div', 'thumbs_box');
       pObj.images.forEach(viewThumb);
     }
@@ -158,7 +158,7 @@
     document.body.classList.add('no_scroll');
     project.box.addEventListener('touchmove', () => {
       event.preventDefault();
-    });
+    }, {passive: true});
   }
   // Create project list item
   function addProject(pObj) {
