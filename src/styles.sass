@@ -414,11 +414,11 @@ form[name='ask']
 
       &.sliding
         will-change: width
-        //animation: sliderWrap 15000ms linear infinite alternate
+        animation: sliderWrap 15000ms linear infinite alternate
 
         .row
           will-change: transform
-          //animation: sliderRow 15000ms linear infinite alternate
+          animation: sliderRow 15000ms linear infinite alternate
 
       .row
         height: 100%
@@ -477,17 +477,9 @@ form[name='ask']
             content: " »"
 
     .images
-      border: 2px solid $boxColor
-      background: $boxColor
-      display: flex
-      flex-flow: row wrap
-      justify-content: center
-      align-items: stretch
 
       .image
-        flex: 0 0 100%
-        border: 2px solid $boxColor
-        overflow: hidden
+        margin: 0 0 5px
         cursor: pointer
         animation: fadeIn 500ms linear
 
@@ -496,6 +488,8 @@ form[name='ask']
           max-height: 100%
           object-fit: contain
           object-position: center center
+          border-radius: 5px
+          box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2)
 
 // Project pop-up view
 .project
@@ -596,6 +590,7 @@ form[name='ask']
       margin-left: 10px
       border: 1px solid $midColor
       border-radius: 10px
+      background: $fontColor
       position: relative
       overflow: hidden
       transition: flex 250ms linear
@@ -615,7 +610,7 @@ form[name='ask']
 
       &.selected
         flex: 10 0 0
-        border-color: white
+        border-color: $backColor
 
         > img
           opacity: 0.5
