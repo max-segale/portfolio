@@ -11,10 +11,5 @@ $catArray = [
     'Graphic Design',
     'Designs',
     'Logos, Branding, Merch'
-  ],
-  'print' => [
-    'Printmaking',
-    'Prints',
-    'Screen Prints, Posters'
   ]
 ];
