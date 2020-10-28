@@ -1,3 +1,5 @@
+'use strict';
+
 // Set modules
 const gulp = require('gulp');
 const pug = require('gulp-pug');
@@ -10,6 +12,10 @@ const babel = require("gulp-babel");
 const del = require('del');
 const autoprefixer = require('autoprefixer');
 
+const dataHero = require('./src/data/featured.json');
+
+sass.compiler = require('node-sass');
+
 // Delete existing content before build
 function clean() {
   return del('public/**/*');
@@ -17,8 +23,13 @@ function clean() {
 
 // Create HTML pages from Pug, use .php ext
 function pages() {
-  return gulp.src('src/*.pug')
-    .pipe(pug())
+  return gulp.src('src/pages/*.pug')
+    .pipe(pug({
+        locals: {
+          featured: dataHero
+        }
+      })
+    )
     .pipe(beautify.html({
       indent_size: 4,
       indent_inner_html: true,
@@ -31,23 +42,26 @@ function pages() {
     .pipe(gulp.dest('public'));
 }
 
-// Create style sheet from SASS
+// Create style sheet from Sass
 function styles() {
-  return gulp.src('src/*.sass')
-    .pipe(sass())
+  return gulp.src('src/styles/main.sass')
+    .pipe(sass().on('error', sass.logError))
     .pipe(postcss([
       autoprefixer()
     ]))
     .pipe(beautify.css({
       indent_size: 4
     }))
-    .pipe(gulp.dest('public'))
+    .pipe(rename({
+      basename: 'style'
+    }))
+    .pipe(gulp.dest('public'));
 }
 
 // Merge js into single script
 function scripts() {
-  return gulp.src('src/*.js')
-    .pipe(concat('scripts.js'))
+  return gulp.src('src/scripts/*.js')
+    .pipe(concat('main.js'))
     .pipe(babel({
       comments: false,
       minified: true
@@ -60,7 +74,7 @@ function scripts() {
 
 // Copy action and data handlers
 function php() {
-  return gulp.src('src/*.php')
+  return gulp.src('src/actions/*.php')
     .pipe(gulp.dest('public'));
 }
 
@@ -89,7 +103,7 @@ exports.default = gulp.series(
 );
 
 // Watch for file updates
-gulp.watch('src/*.pug', pages);
-gulp.watch('src/*.sass', styles);
-gulp.watch('src/*.js', scripts);
-gulp.watch('src/*.php', php);
+gulp.watch('src/**/*.pug', pages);
+gulp.watch('src/**/*.sass', styles);
+gulp.watch('src/**/*.js', scripts);
+gulp.watch('src/**/*.php', php);

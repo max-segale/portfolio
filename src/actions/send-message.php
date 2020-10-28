@@ -8,9 +8,9 @@ $from = $_POST['from'];
 $message = $_POST['message'];
 
 // Status return options
-$passMsg = "✅ Success. Thank you.";
-$failMsg = "❌ Error. Please try again.";
-$warnMsg = "⚠️ Please complete the form.";
+$passMsg = "Success. Thank you.";
+$failMsg = "Error. Please try again.";
+$warnMsg = "Please complete the form.";
 
 // Create assoc array
 $jsonArray = [];

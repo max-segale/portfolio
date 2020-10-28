@@ -1,0 +1,51 @@
+{
+  "images": [
+    [{
+      "link": "img\/max-segale_dbb-screen-2.png",
+      "caption": "Home page"
+    }, {
+      "link": "img\/max-segale_instorama-save-landscape.png",
+      "caption": "Save your new images"
+    }, {
+      "link": "img\/max-segale_undermine-screen-2.png",
+      "caption": "Store page"
+    }, {
+      "link": "img\/max-segale_dbb-screen-mobile.png",
+      "caption": "Mobile layout"
+    }, {
+      "link": "img\/max-segale_instorama-home-portrait.png",
+      "caption": "Select your panorama"
+    }, {
+      "link": "img\/max-segale_instorama-crop-landscape.png",
+      "caption": "Adjust photo cropping"
+    }, {
+      "link": "img\/max-segale_tf5-screen-1.png",
+      "caption": "Home page"
+    }, {
+      "link": "img\/max-segale_lig-screen-1.png",
+      "caption": "Let It Grow Farm website"
+    }],
+    [{
+      "link": "img\/max-segale_undermine-logo.jpg",
+      "caption": "Undermine logo"
+    }, {
+      "link": "img\/max-segale_elp-revolution.png",
+      "caption": "ELP promo graphic"
+    }, {
+      "link": "img\/max-segale_et-logo.png",
+      "caption": "Logo design"
+    }, {
+      "link": "img\/max-segale_elp-banner.png",
+      "caption": "ELP logo banner"
+    }, {
+      "link": "img\/max-segale_undermine-eye.jpg",
+      "caption": "Pyramid logo"
+    }, {
+      "link": "img\/max-segale_elp-logo.png",
+      "caption": "ELP logo in color"
+    }, {
+      "link": "img\/max-segale_undermine-vomit-deck.jpg",
+      "caption": "Vomit graphic printed on deck"
+    }]
+  ]
+}
