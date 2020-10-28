@@ -3,6 +3,7 @@
 header
   height: 20vh
   max-height: 10rem
+  overflow: hidden
   padding: 5vh 0
 
   .container
@@ -77,6 +78,7 @@ header
 .intro
   margin-top: 10vh
   animation: fadeIn 1s linear
+  overflow: hidden
 
   .picture
     width: 30vw
@@ -130,6 +132,21 @@ header
         object-position: center center
         border-radius: .25rem
         box-shadow: 0 0 .2rem 0 rgba(0, 0, 0, 0.2)
+
+    @media (min-width: $xlWidth)
+      display: flex
+      flex-flow: row nowrap
+      justify-content: space-around
+      align-items: flex-start
+
+      .info
+        margin: 0
+        flex: 4 0 0
+        position: sticky
+        top: 4rem
+
+      .images
+        flex: 10 0 0
 
 // Message form
 form[name='ask']

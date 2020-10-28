@@ -10,7 +10,9 @@
     color: $backColor
     background-color: $blueColor
 
-html
+html, body
+  width: 100%
+  height: 100%
   text-align: left
   font-size: 16px
   font-family: $fontFam
@@ -20,6 +22,12 @@ html
   text-size-adjust: none
   -webkit-touch-callout: none
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0)
+
+  @media (min-width: $mdWidth)
+    font-size: 18px
+
+  @media (min-width: $xlWidth)
+    font-size: 20px
 
 h1, h2, h3, h4, h5, h6
   display: inline
