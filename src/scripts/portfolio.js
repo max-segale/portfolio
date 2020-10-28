@@ -6,27 +6,30 @@
   let gallery = null;
   let msgForm = null;
   let msgStatus = null;
-  let backdrop = null;
 
-  // Select project view image, select thumb, show caption
+  // Show selected image in project modal
   function selectViewImg(imgNum) {
     const imgObj = project.images[imgNum];
     const thumbObj = project.thumbs[imgNum];
     const theClass = 'selected';
     project.selectNum = imgNum;
+    // Check for previous image to deselect
     if (project.selectImg) {
       project.selectImg.classList.remove(theClass);
-      project.selectImg.style.paddingTop = '';
     }
-    imgObj.box.classList.add(theClass);
-    project.selectImg = imgObj.box;
+    // Check for previous thumbanil to deselect
     if (project.selectThumb) {
       project.selectThumb.classList.remove(theClass);
     }
+    // Select current image
+    imgObj.box.classList.add(theClass);
+    project.selectImg = imgObj.box;
+    // Select current thumbnail, if available
     if (thumbObj) {
       thumbObj.classList.add(theClass);
       project.selectThumb = thumbObj;
     }
+    // Show current image caption
     project.caption.innerHTML = project.images[imgNum].caption;
   }
 
@@ -36,6 +39,7 @@
     if (nextNum < project.images.length) {
       selectViewImg(nextNum);
     } else {
+      // If at last image, go to first image
       selectViewImg(0);
     }
   }
@@ -47,12 +51,13 @@
     if (nextNum >= 0) {
       selectViewImg(nextNum);
     } else {
+      // If at first image, go to last image
       selectViewImg(lastNum);
     }
   }
 
   // Navigate project images with keyboard
-  function keyCheck() {
+  function keyCheck(event) {
     const keyCode = event.keyCode || event.which;
     if (keyCode === 39) {
       // Right arrow
@@ -69,27 +74,25 @@
     // Fade to 0 opacity
     project.box.classList.add(theClass);
     project.closeBtn.classList.add(theClass);
-    backdrop.classList.add(theClass);
+    project.backdrop.classList.add(theClass);
     // Remove after transition is complete
-    backdrop.addEventListener('transitionend', () => {
+    project.backdrop.addEventListener('transitionend', (event) => {
       if (event.propertyName === 'opacity') {
         // Remove project pop-up from DOM
         document.body.removeChild(project.box);
         document.body.removeChild(project.closeBtn);
+        document.body.removeChild(project.backdrop);
         // Clear project object
         project = {};
         // Remove keyboard navigation
         window.removeEventListener('keydown', keyCheck);
-        // Remove backdrop
-        document.body.removeChild(backdrop);
-        backdrop = false;
-        // Enable scrolling
+        // Re-enable scrolling
         document.body.classList.remove('no-scroll');
       }
     });
   }
 
-  // Common child image div
+  // Create image
   function newImg(imgParent, imgObj) {
     return max.newKid(imgParent, 'img', {
       src: imgObj.link,
@@ -97,7 +100,7 @@
     });
   }
 
-  // Add project view image
+  // Add image to project modal
   function viewImg(imgObj, imgNum, imgMulti) {
     const imgBox = max.newKid(project.imgsBox, 'div', 'img');
     const img = newImg(imgBox, imgObj);
@@ -107,18 +110,18 @@
     project.images[imgNum].box = imgBox;
   }
 
-  // Add project view thumbnail
+  // Add thumbnail to project modal
   function viewThumb(imgObj, imgNum) {
     const thumbBox = max.newKid(project.thumbsBox, 'div', 'thumb');
     const thumb = newImg(thumbBox, imgObj);
     thumbBox.title = imgObj.caption;
-    thumbBox.addEventListener('click', () => {
+    thumbBox.addEventListener('click', (event) => {
       selectViewImg(imgNum);
     });
     project.thumbs.push(thumbBox);
   }
 
-  // Add project view
+  // Create project modal
   function viewProject(pObj, imgObj, imgNum) {
     let multiImg = true;
     if (pObj.images.length === 1) {
@@ -127,23 +130,23 @@
     // Add X close button
     project.closeBtn = max.newKid(document.body, 'div', 'modal-close');
     project.closeBtn.addEventListener('click', closeView);
-    // Add project pop-up
+    // Add project view
     project.box = max.newKid(document.body, 'div', 'modal-project', [
-      ['div', 'name', pObj.name]
+      ['h4', 'heading-3 name', pObj.name]
     ]);
-    project.box.addEventListener('click', () => {
+    project.box.addEventListener('click', (event) => {
       if (event.target === project.box || event.target.classList[0] === 'img') {
         closeView();
       }
     });
-    // Add image view
-    project.imgsBox = max.newKid(project.box, 'div', 'imgs_box');
+    // Add images
+    project.imgsBox = max.newKid(project.box, 'div', 'images-row');
     project.images = pObj.images;
     pObj.images.forEach((obj, num) => {
       viewImg(obj, num, multiImg)
     });
     // Add navigation controls
-    project.navBox = max.newKid(project.box, 'div', 'ctl_box');
+    project.navBox = max.newKid(project.box, 'div', 'ctrl-row');
     if (multiImg) {
       project.prevBtn = max.newKid(project.navBox, 'div', 'prev');
       project.prevBtn.addEventListener('click', prevImg);
@@ -156,7 +159,7 @@
     // Add thumbnails
     project.thumbs = [];
     if (multiImg) {
-      project.thumbsBox = max.newKid(project.box, 'div', 'thumbs_box');
+      project.thumbsBox = max.newKid(project.box, 'div', 'thumbs-row');
       pObj.images.forEach(viewThumb);
     }
     // Select first image
@@ -166,10 +169,10 @@
       window.addEventListener('keydown', keyCheck);
     }
     // Add backdrop
-    backdrop = max.newKid(document.body, 'div', 'modal-backdrop');
+    project.backdrop = max.newKid(document.body, 'div', 'modal-backdrop');
     // Disable scroll
     document.body.classList.add('no-scroll');
-    project.box.addEventListener('touchmove', () => {
+    project.box.addEventListener('touchmove', (event) => {
       event.preventDefault();
     }, {passive: true});
   }
@@ -182,6 +185,7 @@
       ['p', false, pObj.summary]
     ]);
     const pImages = max.newKid(pBox, 'div', 'images');
+    // Add link to website, if available
     if (pObj.link) {
       max.newKid(infoBox, 'p', 'link-out', [
         ['a', {href: pObj.link, target: '_blank', rel: 'noopener'}, [
@@ -189,6 +193,7 @@
         ]]
       ]);
     }
+    // Add project images
     pObj.images.forEach((imgObj, imgNum) => {
       const img = max.newKid(pImages, 'div', 'image-box', [
         ['img', {
@@ -196,30 +201,36 @@
           alt: imgObj.caption
         }]
       ]);
+      // Check the image aspect ratio
       const imgRatio = imgObj.width / imgObj.height;
       if (imgRatio < 0.75) {
         img.classList.add('tall');
       } else if (imgRatio > 1.5) {
         img.classList.add('wide');
       }
-      img.addEventListener('click', () => {
+      // Move to next image if clicked
+      img.addEventListener('click', (event) => {
         viewProject(pObj, imgObj, imgNum);
       });
     });
   }
 
-  // Check parameters, get projects object, create list
+  // Get data and create projects
   function getProjects(paramObj) {
     const pObj = {};
+    // Check if URL parameters are being used
     if (paramObj && paramObj.p) {
       pObj.project = paramObj.p;
     }
     if (paramObj && paramObj.tag) {
       pObj.tag = paramObj.tag;
     }
+    // Request projects json data
     max.request('GET', 'handle-projects.php', pObj, (XHR) => {
       const projObj = JSON.parse(XHR.responseText);
+      // Make sure gallery empty
       gallery.innerHTML = '';
+      // Add new projects
       projObj.projects.forEach(addProject);
     });
   }
@@ -227,41 +238,48 @@
   // Check message status
   function checkMessage(XHR) {
     const returnObj = JSON.parse(XHR.responseText);
+    // Re-endable submit button
     msgForm.send.disabled = false;
+    // Display message status
     msgStatus.innerHTML = returnObj.status;
+    // Reset form, if successful
     if (returnObj.sent) {
       msgForm.reset();
     }
+    // Clear message
     setTimeout(() => {
       msgStatus.innerHTML = '';
     }, 5000);
   }
 
-  // Form submit AJAX
-  function sendMessage() {
+  // Form submit via AJAX
+  function sendMessage(event) {
     const email = msgForm.elements.email.value;
     const question = msgForm.elements.question.value;
     const paramObj = {
       from: email,
       message: question
     };
+    // Stop page from refresh
     event.preventDefault();
+    // Disable submit button
     msgForm.send.disabled = true;
+    // Send message
     max.request('POST', 'send-message.php', paramObj, checkMessage);
     return false;
   }
 
-  function checkHeroImg(row, xOffset, direction) {
-    //if (xOffset * -1 <= row.offsetWidth - window.innerWidth) {
-      row.style.[direction] = xOffset + 'px';
-    //}
+  // Slide hero image rows
+  function moveHeroImgs(row, xOffset, direction) {
+    row.style.[direction] = xOffset + 'px';
   }
 
   // Handle scroll position
   function checkScroll(e) {
     const xPos = window.scrollY * -2;
-    checkHeroImg(heroImg1, xPos, 'left');
-    checkHeroImg(heroImg2, xPos, 'right');
+    // Use scroll position to move hero images
+    moveHeroImgs(heroImg1, xPos, 'left');
+    moveHeroImgs(heroImg2, xPos, 'right');
   }
 
   // Initialize page
