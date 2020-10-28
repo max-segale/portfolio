@@ -5,59 +5,29 @@
   height: 100%
   padding: 4vh 0
   position: fixed
-  left: 50%
-  top: 50%
+  left: 0
+  top: 0
   z-index: 200
   display: flex
   flex-flow: column nowrap
   justify-content: space-between
   align-items: center
+  color: $backColor
   text-align: center
   overflow: hidden
-  color: $backColor
-  transform: translate(-50%, -50%)
   transition: opacity 500ms linear
   animation: fadeIn 1s linear
 
   > *
     flex: 0 1 0
 
-  .name
-    font-style: italic
-    line-height: 30px
-
-  .ctl_box
-    width: 100%
-    height: 30px
-    max-width: $smWidth
-    display: flex
-    flex-flow: row nowrap
-    padding: 0 10px
-
-    .prev, .next
-      height: 100%
-      background: center center / 100% no-repeat
-      flex: 0 0 30px
-      cursor: pointer
-
-    .prev
-      background-image: url(img/icons/back.svg)
-
-    .next
-      background-image: url(img/icons/forward.svg)
-
-    .caption
-      font-weight: 300
-      flex: 1 0 0
-      line-height: 30px
-
-  .imgs_box, .thumbs_box
+  .images-row, .thumbs-row
     display: flex
     flex-flow: row nowrap
     justify-content: center
     align-items: center
 
-  .imgs_box
+  .images-row
     width: 100%
     height: 100%
     margin: 2vh 0
@@ -86,18 +56,42 @@
         flex: 1 1 0
         opacity: 1
 
-  .thumbs_box
+  .ctrl-row
+    width: 100%
+    height: 1.5rem
+    max-width: $smWidth
+    display: flex
+    flex-flow: row nowrap
+    padding: 0 .5rem
+
+    .prev, .next
+      height: 100%
+      background: center center / 100% no-repeat
+      flex: 0 0 1.5rem
+      cursor: pointer
+
+    .prev
+      background-image: url(img/icons/back.svg)
+
+    .next
+      background-image: url(img/icons/forward.svg)
+
+    .caption
+      flex: 1 0 0
+      line-height: 1.5rem
+
+  .thumbs-row
     width: 100%
     max-width: $smWidth
-    margin: 2vh 0
-    padding: 0 10px
+    margin: 2vh 0 0
+    padding: 0 .5rem
 
     > .thumb
-      height: 30px
+      height: 1.5rem
       flex: 9 0 0
-      margin-left: 10px
-      border: 1px solid $midColor
-      border-radius: 10px
+      margin-left: .5rem
+      border: 2px solid $midColor
+      border-radius: .5rem
       background: $fontColor
       position: relative
       overflow: hidden
@@ -124,12 +118,12 @@
           opacity: 0.5
 
 .modal-close
-  width: 30px
-  height: 30px
+  width: 1.5rem
+  height: 1.5rem
   position: fixed
   z-index: 300
-  right: 10px
-  top: 10px
+  right: .5rem
+  top: .5rem
   background: url(img/icons/close.svg) center center / 100% no-repeat
   cursor: pointer
 
