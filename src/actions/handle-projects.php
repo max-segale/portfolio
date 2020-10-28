@@ -1,6 +1,5 @@
 <?php
 
-require_once 'categories.php';
 require_once '../info.php';
 require_once '../../common/functions.php';
 
@@ -85,9 +84,6 @@ while ($project = $projects->fetch_object()) {
   // Add project object to array
   array_push($jsonArray[$arrayName], $project);
 }
-
-// Add project category name
-$jsonArray['category'] = $catArray[$tagName][0];
 
 // Print assoc array as encoded json
 echo json_encode($jsonArray);
