@@ -80,6 +80,9 @@ header
   animation: fadeIn 1s linear
 
   .picture
+    position: relative
+    float: right
+    overflow: hidden
     width: 30vw
     height: 30vw
     max-width: 12em
@@ -87,8 +90,16 @@ header
     margin: 0 0 1rem 1rem
     border-radius: 50%
     background: $midColor
-    float: right
     animation: rollIn 2s ease-out
+
+    img
+      position: absolute
+      left: 0
+      top: 0
+      width: 100%
+      height: 100%
+      object-fit: cover
+      object-position: center
 
 // Project gallery section
 .gallery
