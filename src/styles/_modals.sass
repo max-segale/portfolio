@@ -11,7 +11,7 @@
   flex-flow: column nowrap
   justify-content: space-between
   align-items: center
-  color: $backColor
+  color: $lightColor
   text-align: center
   overflow: hidden
   transition: opacity 500ms linear
@@ -91,7 +91,7 @@
       margin-left: .5rem
       border: 2px solid $midColor
       border-radius: .5rem
-      background: $fontColor
+      background: $darkColor
       position: relative
       overflow: hidden
       transition: flex 250ms linear
@@ -111,7 +111,7 @@
 
       &.selected
         flex: 10 0 0
-        border-color: $backColor
+        border-color: $lightColor
 
         > img
           opacity: 0.5
@@ -133,7 +133,7 @@
   left: 0
   top: 0
   z-index: 100
-  background: $greyTran
+  background: $midTrans
   backdrop-filter: blur(32px)
   transition: opacity 500ms linear
   animation: fadeIn 500ms linear
