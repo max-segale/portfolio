@@ -6,6 +6,7 @@
 
 doctype html
 html(lang='en')
+
   head
     meta(charset='UTF-8')
     meta(name='description' content=siteDesc)
@@ -17,7 +18,9 @@ html(lang='en')
     title #{myName}
     link(rel='stylesheet' type='text/css' href='style.css')
     script(type='text/javascript' src='main.js')
+
   body
+
     header#top
       .container
         .logo
@@ -25,21 +28,23 @@ html(lang='en')
             path(d='M96,0a96,96,0,1,0,96,96A96,96,0,0,0,96,0Zm0,174a78,78,0,1,1,78-78A78.09,78.09,0,0,1,96,174Z')
             polygon(points='96.73 85.99 76.04 48.87 48 48.87 48 143.13 68.16 143.13 67.23 69.43 90.33 111.36 101.81 111.36 124.77 69.7 123.7 143.13 144 143.13 144 48.87 117.43 48.87 96.73 85.99')
         h1.heading-2.title Portfolio
+
     section.hero
       .container.headline
         h2.heading-1 Hello, my name is Max
         h3.heading-2 I specialize in front-end web development and UI/UX design
       .image-row.left#hero-images-1
         each image in heroImages[0]
-          img(src='img/' + image.file alt=image.caption)
+          img(src='images/' + image.file alt=image.caption)
       .image-row.right#hero-images-2
         each image in heroImages[1]
-          img(src='img/' + image.file alt=image.caption)
+          img(src='images/' + image.file alt=image.caption)
+
     section.intro
       .container
         h3.heading-2 About
         .picture(title='Hello, World!')
-          img(src='img/me.jpg' alt=myName)
+          img(src='images/me.jpg' alt='A photo of me')
         p
           span I work as a full-stack web developer and graphic designer.
           span I specialize in front-end development and UI/UX design.
@@ -51,22 +56,24 @@ html(lang='en')
         p
           a(href='https://github.com/max-segale/portfolio/tree/master' target='_blank' rel='noopener')
             span View Source Code
-            span.emoji(role='img' aria-label='Tools') 🛠
+            span.emoji(role='img' aria-label='Source icon') &#x1F6E0;
         p
           span Please contact me about any new projects or job opportunities.
         p
           a(href='mailto:' + myEmail)
             span #{myEmail}
-            span.emoji(role='img' aria-label='Envelope') 📨
+            span.emoji(role='img' aria-label='Email icon') &#x1F4E8;
+
     section.gallery
       h3.heading-2.title Projects
       #gallery
+
     footer
       .container
         form(name='ask')
           p
             span Any questions? Please ask.
-            span.emoji(role='img' aria-label='Message') 💬
+            span.emoji(role='img' aria-label='Message icon') &#x1F4AC;
           input(type='email' name='email' placeholder='Your Email Address' maxlength='254' required)
           textarea(name='question' placeholder='Your Question' maxlength='1000' rows='1' required)
           button(type='submit' name='send') Send
@@ -75,6 +82,6 @@ html(lang='en')
           p
             a(href="#top")
               span Scroll to top
-              span.emoji(role='img' aria-label='Up') ☝️
+              span.emoji(role='img' aria-label='Scroll up icon') &#x261D;
         .copyright
           span &copy; #{myName} <?= date('Y') ?>

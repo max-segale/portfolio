@@ -51,7 +51,7 @@ while ($project = $projects->fetch_object()) {
   // Loop photo rows, get size, add url path, add to new array
   $photoArray = [];
   while ($photo = $photos->fetch_object()) {
-    $photoLocalPath = "img/$photo->link";
+    $photoLocalPath = "images/$photo->link";
     if (file_exists($photoLocalPath)) {
       $imgSize = getimagesize($photoLocalPath);
       $photo->width = $imgSize[0];
@@ -71,15 +71,6 @@ while ($project = $projects->fetch_object()) {
     WHERE project_id = '$project->id'
     ORDER BY name";
   $tags = sqlQuery($selectTags);
-
-  // Loop tag rows, add to new array
-  $tagArray = [];
-  while ($tag = $tags->fetch_object()) {
-    array_push($tagArray, $tag->name);
-  }
-
-  // Add tag array to project object
-  $project->{'tags'} = $tagArray;
 
   // Add project object to array
   array_push($jsonArray[$arrayName], $project);

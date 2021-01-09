@@ -85,7 +85,7 @@ function images() {
       'assets/**/*.png',
       'assets/**/*.svg'
     ])
-    .pipe(gulp.dest('public/img'));
+    .pipe(gulp.dest('public/images'));
 }
 
 // Copy favicon

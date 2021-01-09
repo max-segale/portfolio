@@ -89,7 +89,6 @@ header
     max-height: 12em
     margin: 0 0 1rem 1rem
     border-radius: 50%
-    background: $midColor
     animation: rollIn 2s ease-out
 
     img
@@ -100,6 +99,10 @@ header
       height: 100%
       object-fit: cover
       object-position: center
+      transition: transform .5s ease
+
+      &:hover
+        transform: rotate(-180deg)
 
 // Project gallery section
 .gallery
