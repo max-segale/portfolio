@@ -14,7 +14,7 @@ const autoprefixer = require('autoprefixer');
 
 const dataHero = require('./src/data/featured.json');
 
-sass.compiler = require('node-sass');
+sass.compiler = require('sass');
 
 // Delete existing content before build
 function clean() {

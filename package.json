@@ -34,9 +34,10 @@
     "gulp-pug": "^4.0.1",
     "gulp-rename": "^1.4.0",
     "gulp-sass": "^4.1.0",
-    "node-sass": "^4.14.1"
+    "sass": "^1.32.2"
   },
   "browserslist": [
     "defaults"
-  ]
+  ],
+  "dependencies": {}
 }
