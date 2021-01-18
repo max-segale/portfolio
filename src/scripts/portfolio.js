@@ -92,20 +92,33 @@
     });
   }
 
+  // Add specific classes to images
+  function addImgClasses(imgObj, img) {
+    // Mimic iPhone screen corners
+    if (imgObj.type === 'IPHONE') {
+      if (imgObj.width > imgObj.height) {
+        img.classList.add('iphone-corners-l');
+      } else {
+        img.classList.add('iphone-corners-p');
+      }
+    }
+  }
+
   // Create image
   function newImg(imgParent, imgObj) {
     return max.newKid(imgParent, 'img', {
-      src: imgObj.link,
+      src: imgObj.file,
       alt: imgObj.caption
     });
   }
 
   // Add image to project modal
   function viewImg(imgObj, imgNum, imgMulti) {
-    const imgBox = max.newKid(project.imgsBox, 'div', 'img');
+    const imgBox = max.newKid(project.imgsBox, 'div', 'image');
     const img = newImg(imgBox, imgObj);
+    addImgClasses(imgObj, img);
     if (imgMulti) {
-      img.addEventListener('click', nextImg);
+      imgBox.addEventListener('click', nextImg);
     }
     project.images[imgNum].box = imgBox;
   }
@@ -132,7 +145,7 @@
     project.closeBtn.addEventListener('click', closeView);
     // Add project view
     project.box = max.newKid(document.body, 'div', 'modal-project', [
-      ['h4', 'heading-3 name', pObj.name]
+      ['h4', 'heading-3 name', pObj.title]
     ]);
     project.box.addEventListener('click', (event) => {
       if (event.target === project.box || event.target.classList[0] === 'img') {
@@ -143,7 +156,7 @@
     project.imgsBox = max.newKid(project.box, 'div', 'images-row');
     project.images = pObj.images;
     pObj.images.forEach((obj, num) => {
-      viewImg(obj, num, multiImg)
+      viewImg(obj, num, multiImg);
     });
     // Add navigation controls
     project.navBox = max.newKid(project.box, 'div', 'ctrl-row');
@@ -181,8 +194,8 @@
   function addProject(pObj) {
     const pBox = max.newKid(gallery, 'div', 'project');
     const infoBox = max.newKid(pBox, 'div', 'info', [
-      ['h4', 'heading-3 name', pObj.name],
-      ['p', false, pObj.summary]
+      ['h4', 'heading-3 name', pObj.title],
+      ['p', false, pObj.description]
     ]);
     const pImages = max.newKid(pBox, 'div', 'images');
     // Add link to website, if available
@@ -195,19 +208,16 @@
     }
     // Add project images
     pObj.images.forEach((imgObj, imgNum) => {
-      const img = max.newKid(pImages, 'div', 'image-box', [
-        ['img', {
-          src: imgObj.link,
-          alt: imgObj.caption
-        }]
-      ]);
-      // Check the image aspect ratio
+      const imgBox = max.newKid(pImages, 'div', 'image-box');
+      const img = newImg(imgBox, imgObj);
       const imgRatio = imgObj.width / imgObj.height;
+      // Check image aspect ratio
       if (imgRatio < 0.75) {
-        img.classList.add('tall');
+        imgBox.classList.add('tall');
       } else if (imgRatio > 1.5) {
-        img.classList.add('wide');
+        imgBox.classList.add('wide');
       }
+      addImgClasses(imgObj, img);
       // Move to next image if clicked
       img.addEventListener('click', (event) => {
         viewProject(pObj, imgObj, imgNum);
