@@ -134,17 +134,27 @@ header
       &::after
         content: ' \00bb'
 
+    .images
+      display: flex
+      flex-flow: row wrap
+      align-items: flex-start
+      justify-content: flex-start
+      padding: .25rem
+
     .image-box
-      margin: 0 .25rem .25rem
-      cursor: pointer
+      flex: 1 1 100%
+      padding: .25rem
+
+      &.tall
+        flex: 1 1 50%
 
       img
         max-width: 100%
         max-height: 100%
         object-fit: contain
         object-position: center center
-        border-radius: .25rem
-        box-shadow: 0 0 .2rem 0 rgba(0, 0, 0, 0.2)
+        box-shadow: 0 0 .4rem 0 rgba(0, 0, 0, .4)
+        cursor: pointer
 
     @media (min-width: $lgWidth)
       display: flex
@@ -160,6 +170,10 @@ header
 
       .images
         flex: 10 0 0
+        padding: .5rem
+
+      .image-box
+        padding: .5rem
 
 // Message form
 form[name='ask']
