@@ -1,5 +1,5 @@
 # Portfolio
-The selected freelance works of
+A collection of personal projects by:
 ```
 $$\      $$\                            $$$$$$\                                $$\           
 $$$\    $$$ |                          $$  __$$\                               $$ |          
