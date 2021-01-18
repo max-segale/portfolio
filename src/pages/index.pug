@@ -1,6 +1,7 @@
 - 
   const myName = 'Max Segale';
   const myEmail = 'info@maxsegale.com';
+  const siteTitle = `${myName} | Portfolio`;
   const siteDesc = `A portfolio of work from ${myName}, web developer and designer.`;
   const heroImages = locals.featured.images;
 
@@ -15,12 +16,11 @@ html(lang='en')
     meta(name='viewport' content='width=device-width, initial-scale=1')
     meta(name='apple-mobile-web-app-capable' content='yes')
     meta(http-equiv='X-UA-Compatible' content='IE=edge')
-    title #{myName}
+    title #{siteTitle}
     link(rel='stylesheet' type='text/css' href='style.css')
     script(type='text/javascript' src='main.js')
 
   body
-
     header#top
       .container
         .logo
