@@ -81,11 +81,10 @@ function php() {
 // Copy images
 function images() {
   return gulp.src([
-      'assets/**/*.jpg',
-      'assets/**/*.png',
-      'assets/**/*.svg'
+      'src/assets/images/*',
+      'src/assets/icons/*'
     ])
-    .pipe(gulp.dest('public/images'));
+    .pipe(gulp.dest('public'));
 }
 
 // Copy favicon
