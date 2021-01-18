@@ -16,7 +16,7 @@ $jsonArray = [$arrayName => []];
 
 // Query projects based on parameters
 $sqlSelect = "
-  SELECT projects.id, projects.name, projects.summary, projects.link";
+  SELECT projects.id, projects.title, projects.description, projects.link";
 $sqlFrom = "
   FROM projects";
 $sqlWhere = "
@@ -32,18 +32,17 @@ if ($projectId != '') {
   $sqlWhere .= "
     AND project_tags.name = '$tagName'";
 }
-$sqlStatement = $sqlSelect . $sqlFrom . $sqlWhere . $sqlOrder;
-$projects = sqlQuery($sqlStatement);
+$selectProjects = $sqlSelect . $sqlFrom . $sqlWhere . $sqlOrder;
+$projects = sqlQuery($selectProjects);
 
 // Loop project rows
 while ($project = $projects->fetch_object()) {
 
   // Query project photos
   $selectPhotos = "
-    SELECT id, link, caption
+    SELECT id, type, file, caption
     FROM project_media
-    WHERE project_id = '$project->id'
-      AND type = 'PHOTO'
+    WHERE projects_id = '$project->id'
       AND (status IS NULL OR status <> 'HIDE')
     ORDER BY date DESC";
   $photos = sqlQuery($selectPhotos);
@@ -51,13 +50,11 @@ while ($project = $projects->fetch_object()) {
   // Loop photo rows, get size, add url path, add to new array
   $photoArray = [];
   while ($photo = $photos->fetch_object()) {
-    $photoLocalPath = "images/$photo->link";
-    if (file_exists($photoLocalPath)) {
-      $imgSize = getimagesize($photoLocalPath);
+    if (file_exists($photo->file)) {
+      $imgSize = getimagesize($photo->file);
       $photo->width = $imgSize[0];
       $photo->height = $imgSize[1];
     }
-    $photo->link = $photoLocalPath;
     array_push($photoArray, $photo);
   }
 
