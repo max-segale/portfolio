@@ -12,13 +12,13 @@ const babel = require("gulp-babel");
 const del = require('del');
 const autoprefixer = require('autoprefixer');
 
-const dataHero = require('./src/data/featured.json');
+const dataFeatured = require('./src/data/featured.json');
 
 sass.compiler = require('sass');
 
 // Delete existing content before build
 function clean() {
-  return del('public/**/*');
+  return del('public/*');
 }
 
 // Create HTML pages from Pug, use .php ext
@@ -26,7 +26,7 @@ function pages() {
   return gulp.src('src/pages/*.pug')
     .pipe(pug({
         locals: {
-          featured: dataHero
+          featured: dataFeatured
         }
       })
     )
