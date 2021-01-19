@@ -148,9 +148,6 @@ header
       padding: .25rem
       cursor: pointer
 
-      &.tall
-        flex: 1 1 50%
-
       img
         max-width: 100%
         max-height: 100%
@@ -160,6 +157,9 @@ header
 
       &::after
         @extend .image-glass
+
+      &.tall
+        flex: 1 1 50%
 
     @media (min-width: $lgWidth)
       display: flex
