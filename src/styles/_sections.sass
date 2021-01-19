@@ -135,6 +135,7 @@ header
         content: ' \00bb'
 
     .images
+      @extend .no-select
       display: flex
       flex-flow: row wrap
       align-items: flex-start
@@ -142,8 +143,10 @@ header
       padding: .25rem
 
     .image-box
+      position: relative
       flex: 1 1 100%
       padding: .25rem
+      cursor: pointer
 
       &.tall
         flex: 1 1 50%
@@ -154,7 +157,9 @@ header
         object-fit: contain
         object-position: center center
         box-shadow: 0 0 .4rem 0 rgba(0, 0, 0, .4)
-        cursor: pointer
+
+      &::after
+        @extend .image-glass
 
     @media (min-width: $lgWidth)
       display: flex

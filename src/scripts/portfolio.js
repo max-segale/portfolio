@@ -219,7 +219,7 @@
       }
       addImgClasses(imgObj, img);
       // Move to next image if clicked
-      img.addEventListener('click', (event) => {
+      imgBox.addEventListener('click', (event) => {
         viewProject(pObj, imgObj, imgNum);
       });
     });
