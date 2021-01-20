@@ -1,0 +1,17 @@
+-
+  function addImgClass(image) {
+    let imgClass = null;
+    if (image.type === 'IPHONE') {
+      if (image.width > image.height) {
+        imgClass = 'iphone-corners-l';
+      } else {
+        imgClass = 'iphone-corners-p';
+      }
+    }
+    return imgClass;
+  };
+
+mixin mediaRow(id, rowClass, items)
+  .image-row(id=id class=rowClass)
+    each image in items
+      img(class=addImgClass(image) src=image.file alt=image.caption)
