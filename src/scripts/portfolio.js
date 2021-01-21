@@ -281,7 +281,9 @@
 
   // Slide hero image rows
   function moveHeroImgs(row, xOffset, direction) {
-    row.style.[direction] = xOffset + 'px';
+    if ((row.offsetWidth + xOffset) >= 0) {
+      row.style.[direction] = xOffset + 'px';
+    }
   }
 
   // Handle scroll position
