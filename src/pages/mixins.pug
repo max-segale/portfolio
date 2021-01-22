@@ -11,7 +11,8 @@
     return imgClass;
   };
 
-mixin mediaRow(id, rowClass, items)
-  .image-row(id=id class=rowClass)
-    each image in items
-      img(class=addImgClass(image) src=image.file alt=image.caption)
+mixin mediaRow(rowId, rowClass, rowItems)
+  .image-row(id=rowId class=rowClass)
+    each image in rowItems
+      .image-box
+        img(class=addImgClass(image) src=image.file alt=image.caption)
