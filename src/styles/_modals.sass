@@ -12,7 +12,7 @@
   flex-flow: column nowrap
   justify-content: space-between
   align-items: center
-  color: $lightColor
+  color: $colorLight
   text-align: center
   overflow: hidden
   transition: opacity 500ms linear
@@ -94,9 +94,9 @@
       height: 1.5rem
       flex: 9 0 0
       margin-left: .5rem
-      border: 2px solid $lightColor
+      border: 2px solid $colorLight
       border-radius: .5rem
-      background: $lightColor
+      background: $colorLight
       position: relative
       overflow: hidden
       transition: flex 250ms linear
@@ -116,7 +116,7 @@
 
       &.selected
         flex: 10 0 0
-        border-color: $accentColor
+        border-color: $colorAccent
 
 .modal-close
   width: 1.5rem
@@ -135,7 +135,7 @@
   left: 0
   top: 0
   z-index: 100
-  background: $midTrans
+  background: $colorMidTrans
   backdrop-filter: blur(32px)
   transition: opacity 500ms linear
   animation: fadeIn 500ms linear

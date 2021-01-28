@@ -30,7 +30,7 @@ header
   position: relative
   height: 100vw
   max-height: 50vh
-  background: $boxColor
+  background: $colorBox
   overflow: hidden
 
   .headline
@@ -44,7 +44,7 @@ header
 
     *
       padding: .5rem
-      background: $lightTrans
+      background: $colorLightTrans
       backdrop-filter: blur(32px)
 
   .image-row
@@ -84,7 +84,8 @@ header
 
     img
       height: 100%
-      box-shadow: 0 0 .2rem 0 rgba(0, 0, 0, .4)
+      background: $colorShadow
+      box-shadow: 0 0 .2rem 0 $colorShadow
       will-change: opacity, transform
 
     &::after
@@ -143,7 +144,7 @@ header
         margin: 1rem 0
 
     .link-out > a
-      color: $accentColor
+      color: $colorAccent
 
       > span
         text-decoration: underline
@@ -170,7 +171,8 @@ header
         max-height: 100%
         object-fit: contain
         object-position: center center
-        box-shadow: 0 0 .4rem 0 rgba(0, 0, 0, .4)
+        background: $colorShadow
+        box-shadow: 0 0 .4rem 0 $colorShadow
 
       &::after
         @extend .image-glass
@@ -209,17 +211,17 @@ form[name='ask']
     width: 100%
     display: block
     border: none
-    color: $darkColor
-    background-color: $lightColor
+    color: $colorDark
+    background-color: $colorLight
 
   input[type='email']:focus, textarea:focus
-    background-color: $boxColor
+    background-color: $colorBox
 
   input[type='email']
     padding: .5rem 0
 
   textarea
-    border-top: 2px solid $boxColor
+    border-top: 2px solid $colorBox
     padding: .5rem 0
     resize: none
 
@@ -243,4 +245,4 @@ footer
     font-size: 0.75rem
     font-weight: 300
     text-align: center
-    color: $midColor
+    color: $colorMid
