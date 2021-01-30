@@ -98,6 +98,7 @@ header
   animation: fadeIn 1s linear
 
   .picture
+    @extend .no-select
     position: relative
     float: right
     overflow: hidden
@@ -119,7 +120,11 @@ header
       object-position: center
       transition: transform .5s ease
 
-      &:hover
+    &::after
+      @extend .image-glass
+
+    &:hover
+      img
         transform: rotate(-180deg)
 
 // Project gallery section
