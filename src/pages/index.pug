@@ -3,7 +3,7 @@
   const myEmail = 'info@maxsegale.com';
   const siteTitle = `${myName} | Portfolio`;
   const siteDesc = `A portfolio of work from ${myName}, web developer and designer.`;
-  const featuredImages = locals.featured.media;
+  const heroMedia = locals.hero.media;
 
 include mixins
 
@@ -35,8 +35,8 @@ html(lang='en')
       .container.headline
         h2.heading-1 Hello, my name is Max
         h3.heading-2 I am a front-end web developer and designer
-      +mediaRow('hero-images-1', 'left', featuredImages[0])
-      +mediaRow('hero-images-2', 'right', featuredImages[1])
+      +mediaRow('hero-images-1', 'left', heroMedia[0])
+      +mediaRow('hero-images-2', 'right', heroMedia[1])
 
     section.intro
       .container
