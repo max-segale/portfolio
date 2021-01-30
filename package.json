@@ -34,6 +34,8 @@
     "gulp-pug": "^4.0.1",
     "gulp-rename": "^1.4.0",
     "gulp-sass": "^4.1.0",
+    "image-size": "^0.9.3",
+    "mysql": "^2.18.1",
     "sass": "^1.32.2"
   },
   "browserslist": [
