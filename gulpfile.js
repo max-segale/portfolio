@@ -1,6 +1,6 @@
 'use strict';
 
-// Set modules
+// Include modules
 const gulp = require('gulp');
 const pug = require('gulp-pug');
 const sass = require('gulp-sass');
@@ -11,10 +11,39 @@ const concat = require('gulp-concat');
 const babel = require("gulp-babel");
 const del = require('del');
 const autoprefixer = require('autoprefixer');
+const sizeOf = require('image-size');
+const mysql = require('mysql');
+const sqlConnection = require('./sql-connection.json');
+const sqlData = {
+  media: []
+};
 
-const dataFeatured = require('./src/data/featured.json');
-
+// Choose Sass compiler
 sass.compiler = require('sass');
+
+// Get dimensions of images
+function imagesSizes(images) {
+  let imgDims = null;
+  images.forEach((image) => {
+    imgDims = sizeOf(`./src/assets/images/${image.file}`);
+    image.width = imgDims.width;
+    image.height = imgDims.height;
+  });
+  return images;
+}
+
+// Get featured images from database
+function sqlQuery(callbackFn) {
+  const connection = mysql.createConnection(sqlConnection);
+  connection.connect();
+  connection.query('SELECT type, file, caption FROM project_media', (error, results, fields) => {
+    sqlData.media[0] = imagesSizes(results);
+  });
+  connection.query('SELECT type, file, caption FROM project_media', (error, results, fields) => {
+    sqlData.media[1] = imagesSizes(results);
+  });
+  connection.end(callbackFn);
+}
 
 // Delete existing content before build
 function clean() {
@@ -23,10 +52,10 @@ function clean() {
 
 // Create HTML pages from Pug, use .php ext
 function pages() {
-  return gulp.src('src/pages/*.pug')
+  return gulp.src('src/pages/index.pug')
     .pipe(pug({
         locals: {
-          featured: dataFeatured
+          hero: sqlData
         }
       })
     )
@@ -93,8 +122,8 @@ function fav() {
     .pipe(gulp.dest('public'));
 }
 
-// Use clean build as default script
 exports.default = gulp.series(
+  sqlQuery,
   clean,
   gulp.parallel(
     pages, styles, scripts, php, images, fav
