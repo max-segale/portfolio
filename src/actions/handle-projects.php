@@ -16,7 +16,7 @@ $jsonArray = [$arrayName => []];
 
 // Query projects based on parameters
 $sqlSelect = "
-  SELECT projects.id, projects.title, projects.description, projects.link";
+  SELECT projects.id, projects.title, projects.description, projects.link, projects.cta";
 $sqlFrom = "
   FROM projects";
 $sqlWhere = "
