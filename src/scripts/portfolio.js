@@ -198,11 +198,15 @@
       ['p', false, pObj.description]
     ]);
     const pImages = max.newKid(pBox, 'div', 'images');
+    let linkText = 'Visit Website';
+    if (pObj.cta) {
+      linkText = pObj.cta;
+    }
     // Add link to website, if available
     if (pObj.link) {
       max.newKid(infoBox, 'p', 'link-out', [
         ['a', {href: pObj.link, target: '_blank', rel: 'noopener'}, [
-          ['span', false, 'Visit Website']
+          ['span', false, linkText]
         ]]
       ]);
     }
