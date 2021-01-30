@@ -158,6 +158,9 @@
     pObj.images.forEach((obj, num) => {
       viewImg(obj, num, multiImg);
     });
+    if (multiImg) {
+      project.imgsBox.classList.add('multi');
+    }
     // Add navigation controls
     project.navBox = max.newKid(project.box, 'div', 'ctrl-row');
     if (multiImg) {
