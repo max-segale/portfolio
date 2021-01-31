@@ -298,9 +298,12 @@
   // Handle scroll position
   function checkScroll(e) {
     const xPos = window.scrollY * -2;
-    // Use scroll position to move hero images
-    moveHeroImgs(heroImg1, xPos, 'left');
-    moveHeroImgs(heroImg2, xPos, 'right');
+    // Stop moving rows if they have already scrolled out of view
+    if ((heroImg2.getBoundingClientRect().top + heroImg2.offsetHeight) >= 0) {
+      // Use scroll position to move hero images
+      moveHeroImgs(heroImg1, xPos, 'left');
+      moveHeroImgs(heroImg2, xPos, 'right');
+    }
   }
 
   // Initialize page
