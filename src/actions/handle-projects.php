@@ -1,10 +1,25 @@
 <?php
 
-require_once '../info.php';
-require_once '../../common/functions.php';
-
 // Set content as json
 header('Content-Type: application/json; charset=UTF-8');
+
+// MySQL query
+function sqlQuery($statement) {
+  global $sqlConnection;
+  $mysqli = new mysqli(
+    $sqlConnection->host,
+    $sqlConnection->user,
+    $sqlConnection->password,
+    $sqlConnection->database
+  );
+  if ($result = $mysqli->query($statement)) {
+    return $result;
+  }
+  $mysqli->close();
+}
+
+// Get SQL credentials from JSON file
+$sqlConnection = json_decode(file_get_contents('../sql-connection.json'));
 
 // Get parameters
 $projectId = $_REQUEST['project'];
