@@ -8,7 +8,6 @@ header('Content-Type: application/json; charset=UTF-8');
 
 // Get parameters
 $projectId = $_REQUEST['project'];
-$tagName = $_REQUEST['tag'];
 
 // Create projects array
 $arrayName = 'projects';
@@ -20,17 +19,12 @@ $sqlSelect = "
 $sqlFrom = "
   FROM projects";
 $sqlWhere = "
-  WHERE projects.status IS NULL";
+  WHERE (projects.status IS NULL OR projects.status <> 'HIDE')";
 $sqlOrder = "
   ORDER BY date DESC";
 if ($projectId != '') {
   $sqlWhere .= "
     AND projects.id = '$projectId'";
-} else if ($tagName != '') {
-  $sqlFrom .= "
-    LEFT JOIN project_tags ON projects.id = project_tags.project_id";
-  $sqlWhere .= "
-    AND project_tags.name = '$tagName'";
 }
 $selectProjects = $sqlSelect . $sqlFrom . $sqlWhere . $sqlOrder;
 $projects = sqlQuery($selectProjects);
@@ -60,14 +54,6 @@ while ($project = $projects->fetch_object()) {
 
   // Add photo array to project object
   $project->{'images'} = $photoArray;
-
-  // Query project tags
-  $selectTags = "
-    SELECT name
-    FROM project_tags
-    WHERE project_id = '$project->id'
-    ORDER BY name";
-  $tags = sqlQuery($selectTags);
 
   // Add project object to array
   array_push($jsonArray[$arrayName], $project);
