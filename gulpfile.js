@@ -14,8 +14,10 @@ const autoprefixer = require('autoprefixer');
 const sizeOf = require('image-size');
 const mysql = require('mysql');
 const sqlConnection = require('./sql-connection.json');
-const sqlData = {
-  media: []
+const localData = {
+  hero: {
+    media: []
+  }
 };
 
 // Choose Sass compiler
@@ -32,17 +34,35 @@ function imagesSizes(images) {
   return images;
 }
 
-// Get featured images from database
-function sqlQuery(callbackFn) {
+// Compose SQL statements
+function sqlStatement(mediaStatus, orderDir) {
+  return `
+    SELECT project_media.type, project_media.file, project_media.caption
+    FROM project_media
+      RIGHT JOIN hero_media ON project_media.id = hero_media.project_media_id
+    WHERE hero_media.status = '${mediaStatus}'
+    ORDER BY hero_media.order ${orderDir}
+  `;
+}
+
+// Add results to local data, double the length
+function sqlResult(rowResults, rowNum) {
+  let row = imagesSizes(rowResults);
+  row = row.concat(row);
+  localData.hero.media[rowNum] = row;
+}
+
+// Get featured media from database
+function sqlData(cb) {
   const connection = mysql.createConnection(sqlConnection);
   connection.connect();
-  connection.query('SELECT type, file, caption FROM project_media', (error, results, fields) => {
-    sqlData.media[0] = imagesSizes(results);
+  connection.query(sqlStatement('ROW_1', 'ASC'), (error, results, fields) => {
+    sqlResult(results, 0);
   });
-  connection.query('SELECT type, file, caption FROM project_media', (error, results, fields) => {
-    sqlData.media[1] = imagesSizes(results);
+  connection.query(sqlStatement('ROW_2', 'DESC'), (error, results, fields) => {
+    sqlResult(results, 1);
   });
-  connection.end(callbackFn);
+  connection.end(cb);
 }
 
 // Delete existing content before build
@@ -54,9 +74,7 @@ function clean() {
 function pages() {
   return gulp.src('src/pages/index.pug')
     .pipe(pug({
-        locals: {
-          hero: sqlData
-        }
+        locals: localData
       })
     )
     .pipe(beautify.html({
@@ -101,7 +119,7 @@ function scripts() {
     .pipe(gulp.dest('public'));
 }
 
-// Copy action and data handlers
+// Copy actions and handlers
 function php() {
   return gulp.src('src/actions/*.php')
     .pipe(gulp.dest('public'));
@@ -123,7 +141,7 @@ function fav() {
 }
 
 exports.default = gulp.series(
-  sqlQuery,
+  sqlData,
   clean,
   gulp.parallel(
     pages, styles, scripts, php, images, fav
