@@ -17,4 +17,4 @@ mixin mediaRow(rowId, rowClass, rowItems)
   .image-row(id=rowId class=rowClass)
     each image in rowItems
       .image-box
-        img(class=addImgClass(image) src=image.file alt=image.caption)
+        img(class=addImgClass(image) src=image.file alt=image.caption width=image.width height=image.height)
