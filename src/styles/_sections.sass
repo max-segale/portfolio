@@ -1,7 +1,6 @@
 // Header section
 header
-  height: 20vh
-  max-height: 10rem
+  height: 25vh
   padding: 5vh 0
   overflow: hidden
 
@@ -26,10 +25,9 @@ header
     animation: headerText 2s ease-out
 
 // Hero section
-.hero
+section.hero
   position: relative
-  height: 100vw
-  max-height: 50vh
+  height: 50vh
   background: $colorBox
   overflow: hidden
 
@@ -83,6 +81,7 @@ header
     padding: .25rem
 
     img
+      width: auto
       height: 100%
       background: $colorShadow
       box-shadow: 0 0 .2rem 0 $colorShadow
@@ -92,10 +91,14 @@ header
       @extend .image-glass
 
 // Intro section
-.intro
-  margin-top: 10vh
+section.intro
+  display: flex
+  flex-flow: row nowrap
+  justify-content: center
+  align-items: center
+  min-height: 100vh
+  padding: 25vh 0
   overflow: hidden
-  animation: fadeIn 1s linear
 
   .picture
     @extend .no-select
@@ -108,7 +111,6 @@ header
     max-height: 12em
     margin: 0 0 1rem 1rem
     border-radius: 50%
-    animation: rollIn 2s ease-out
 
     img
       position: absolute
@@ -128,9 +130,7 @@ header
         transform: rotate(-180deg)
 
 // Project gallery section
-.gallery
-  margin-top: 10vh
-  animation: fadeIn 1s linear
+section.gallery
 
   .title
     max-width: $lgWidth
@@ -139,7 +139,7 @@ header
 
   .project
     max-width: $lgWidth
-    margin: 0 auto 10vh
+    margin: 0 auto 15vh
 
     .info
       margin: 0 0 .5rem
@@ -238,8 +238,7 @@ form[name='ask']
 
 // Footer section
 footer
-  padding: 10vh 0 5vh
-  animation: fadeIn 1s linear
+  padding: 0 0 5vh
 
   .to-top
     margin: 10vh 0
