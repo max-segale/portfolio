@@ -100,6 +100,9 @@ section.intro
   padding: 25vh 0
   overflow: hidden
 
+  .container
+    max-width: $lgWidth
+
   .picture
     @extend .no-select
     position: relative
@@ -109,7 +112,7 @@ section.intro
     height: 30vw
     max-width: 12em
     max-height: 12em
-    margin: 0 0 1rem 1rem
+    margin: 0 0 1rem 2rem
     border-radius: 50%
 
     img
@@ -128,6 +131,9 @@ section.intro
     &:hover
       img
         transform: rotate(-180deg)
+
+    @media (min-width: $lgWidth)
+      margin-left: 2.5rem
 
 // Project gallery section
 section.gallery
@@ -185,7 +191,7 @@ section.gallery
       &.tall
         flex: 1 1 50%
 
-    @media (min-width: $lgWidth)
+    @media (min-width: $mdWidth)
       display: flex
       flex-flow: row nowrap
       justify-content: space-around
@@ -195,7 +201,7 @@ section.gallery
         margin: 0
         flex: 4 0 0
         position: sticky
-        top: 4rem
+        top: 0
 
       .images
         flex: 10 0 0
@@ -203,6 +209,10 @@ section.gallery
 
       .image-box
         padding: .5rem
+
+    @media (min-width: $lgWidth)
+      .info
+        top: 5vh
 
 // Message form
 form[name='ask']
@@ -238,6 +248,7 @@ form[name='ask']
 
 // Footer section
 footer
+  margin: 25vh 0 0
   padding: 0 0 5vh
 
   .to-top
