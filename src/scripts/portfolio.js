@@ -101,6 +101,8 @@
       } else {
         img.classList.add('iphone-corners-p');
       }
+    } else if (imgObj.type === 'MAC') {
+      img.classList.add('mac-corners');
     }
   }
 
