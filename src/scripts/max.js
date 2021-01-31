@@ -1,5 +1,6 @@
 // Common JS functions
 const max = (function (window, document) {
+
   // Recursive check of attributes to apply to element
   function objElAtr(element, atrObj, parentAtr) {
     Object.keys(atrObj).forEach((atr) => {
@@ -12,6 +13,7 @@ const max = (function (window, document) {
       }
     });
   }
+
   // Process request state changes
   function stateChange(XHR, passFn, failFn, waitFn) {
     if (waitFn) {
@@ -27,7 +29,9 @@ const max = (function (window, document) {
       }
     }
   }
+
   return {
+
     // Encoded ajax request with callback functions
     request: function (method, path, paramObj, passFn, failFn, waitFn) {
       const XHR = new XMLHttpRequest();
@@ -57,6 +61,7 @@ const max = (function (window, document) {
       XHR.setRequestHeader('Cache-Control', 'no-cache');
       XHR.send(sendString);
     },
+
     // Create new element, apply attributes, add to parent
     newKid: function (elParent, elType, elAtrs, elInner) {
       const element = document.createElement(elType);
@@ -79,6 +84,7 @@ const max = (function (window, document) {
       }
       return element;
     },
+
     // Add multiple new elements to parent
     newKids: function (elParent, kids) {
       const elements = [];
@@ -89,6 +95,7 @@ const max = (function (window, document) {
       });
       return elements;
     },
+
     // Calculate size as percentage of total width for auto resize
     relativeSize: function (widthPx, heightPx, maxWidthPx) {
       const widthPct = widthPx * 100 / maxWidthPx;
@@ -98,6 +105,7 @@ const max = (function (window, document) {
         height: heightPct
       };
     },
+
     // Parse query string and return parameter object
     parseQueryStr: function () {
       const paramStr = window.location.search.substr(1);
@@ -112,5 +120,7 @@ const max = (function (window, document) {
       });
       return paramObj;
     }
+
   };
+
 }(window, document));

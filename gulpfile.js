@@ -1,4 +1,6 @@
-// Set modules
+'use strict';
+
+// Include modules
 const gulp = require('gulp');
 const pug = require('gulp-pug');
 const sass = require('gulp-sass');
@@ -9,16 +11,72 @@ const concat = require('gulp-concat');
 const babel = require("gulp-babel");
 const del = require('del');
 const autoprefixer = require('autoprefixer');
+const sizeOf = require('image-size');
+const mysql = require('mysql');
+const sqlConnection = require('./sql-connection.json');
+const localData = {
+  hero: {
+    media: []
+  }
+};
+
+// Choose Sass compiler
+sass.compiler = require('sass');
+
+// Get dimensions of images
+function imagesSizes(images) {
+  let imgDims = null;
+  images.forEach((image) => {
+    imgDims = sizeOf(`./src/assets/images/${image.file}`);
+    image.width = imgDims.width;
+    image.height = imgDims.height;
+  });
+  return images;
+}
+
+// Compose SQL statements
+function sqlStatement(mediaStatus, orderDir) {
+  return `
+    SELECT project_media.type, project_media.file, project_media.caption
+    FROM project_media
+      RIGHT JOIN hero_media ON project_media.id = hero_media.project_media_id
+    WHERE hero_media.status = '${mediaStatus}'
+    ORDER BY hero_media.order ${orderDir}
+  `;
+}
+
+// Add results to local data, double the length
+function sqlResult(rowResults, rowNum) {
+  let row = imagesSizes(rowResults);
+  row = row.concat(row);
+  localData.hero.media[rowNum] = row;
+}
+
+// Get featured media from database
+function sqlData(cb) {
+  const connection = mysql.createConnection(sqlConnection);
+  connection.connect();
+  connection.query(sqlStatement('ROW_1', 'ASC'), (error, results, fields) => {
+    sqlResult(results, 0);
+  });
+  connection.query(sqlStatement('ROW_2', 'DESC'), (error, results, fields) => {
+    sqlResult(results, 1);
+  });
+  connection.end(cb);
+}
 
 // Delete existing content before build
 function clean() {
-  return del('public/**/*');
+  return del('public/*');
 }
 
 // Create HTML pages from Pug, use .php ext
 function pages() {
-  return gulp.src('src/*.pug')
-    .pipe(pug())
+  return gulp.src('src/pages/index.pug')
+    .pipe(pug({
+        locals: localData
+      })
+    )
     .pipe(beautify.html({
       indent_size: 4,
       indent_inner_html: true,
@@ -31,23 +89,26 @@ function pages() {
     .pipe(gulp.dest('public'));
 }
 
-// Create style sheet from SASS
+// Create style sheet from Sass
 function styles() {
-  return gulp.src('src/*.sass')
-    .pipe(sass())
+  return gulp.src('src/styles/main.sass')
+    .pipe(sass().on('error', sass.logError))
     .pipe(postcss([
       autoprefixer()
     ]))
     .pipe(beautify.css({
       indent_size: 4
     }))
-    .pipe(gulp.dest('public'))
+    .pipe(rename({
+      basename: 'style'
+    }))
+    .pipe(gulp.dest('public'));
 }
 
 // Merge js into single script
 function scripts() {
-  return gulp.src('src/*.js')
-    .pipe(concat('scripts.js'))
+  return gulp.src('src/scripts/*.js')
+    .pipe(concat('main.js'))
     .pipe(babel({
       comments: false,
       minified: true
@@ -58,20 +119,19 @@ function scripts() {
     .pipe(gulp.dest('public'));
 }
 
-// Copy action and data handlers
+// Copy actions and handlers
 function php() {
-  return gulp.src('src/*.php')
+  return gulp.src('src/actions/*.php')
     .pipe(gulp.dest('public'));
 }
 
 // Copy images
 function images() {
   return gulp.src([
-      'assets/**/*.jpg',
-      'assets/**/*.png',
-      'assets/**/*.svg'
+      'src/assets/images/*',
+      'src/assets/icons/*'
     ])
-    .pipe(gulp.dest('public/img'));
+    .pipe(gulp.dest('public'));
 }
 
 // Copy favicon
@@ -80,8 +140,8 @@ function fav() {
     .pipe(gulp.dest('public'));
 }
 
-// Use clean build as default script
 exports.default = gulp.series(
+  sqlData,
   clean,
   gulp.parallel(
     pages, styles, scripts, php, images, fav
@@ -89,7 +149,7 @@ exports.default = gulp.series(
 );
 
 // Watch for file updates
-gulp.watch('src/*.pug', pages);
-gulp.watch('src/*.sass', styles);
-gulp.watch('src/*.js', scripts);
-gulp.watch('src/*.php', php);
+gulp.watch('src/**/*.pug', pages);
+gulp.watch('src/**/*.sass', styles);
+gulp.watch('src/**/*.js', scripts);
+gulp.watch('src/**/*.php', php);

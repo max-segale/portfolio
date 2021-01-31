@@ -12,6 +12,7 @@
 /assets
 /public
 info.php
+sql-connection.json
 
 # misc
 .DS_Store

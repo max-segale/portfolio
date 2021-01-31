@@ -1,0 +1,144 @@
+// Project pop-up view
+.modal-project
+  @extend .no-select
+  width: 100%
+  height: 100%
+  padding: 4vh 0
+  position: fixed
+  left: 0
+  top: 0
+  z-index: 200
+  display: flex
+  flex-flow: column nowrap
+  justify-content: space-between
+  align-items: center
+  color: $colorLight
+  text-align: center
+  overflow: hidden
+  transition: opacity 500ms linear
+  animation: fadeIn 1s linear
+
+  > *
+    flex: 0 1 0
+
+  .images-row, .thumbs-row
+    display: flex
+    flex-flow: row nowrap
+    justify-content: center
+    align-items: center
+
+  .images-row
+    width: 100%
+    height: 100%
+    margin: 2vh 0
+    padding: 0 2vw
+    flex: 1 1 0
+
+    .image
+      height: 100%
+      flex: 0 1 0
+      position: relative
+      overflow: hidden
+      opacity: 0
+      transition: flex 250ms linear, opacity 250ms linear
+
+      img
+        max-width: 100%
+        max-height: 100%
+        position: absolute
+        left: 50%
+        top: 50%
+        transform: translate(-50%, -50%)
+        object-position: center center
+        object-fit: contain
+
+      &::after
+        @extend .image-glass
+
+      &.selected
+        flex: 1 1 0
+        opacity: 1
+
+    &.multi
+      .image
+        cursor: pointer
+
+  .ctrl-row
+    width: 100%
+    height: 1.5rem
+    max-width: $smWidth
+    display: flex
+    flex-flow: row nowrap
+    padding: 0 .5rem
+
+    .prev, .next
+      height: 100%
+      background: no-repeat center center / 100%
+      flex: 0 0 1.5rem
+      cursor: pointer
+
+    .prev
+      background-image: url('back.svg')
+
+    .next
+      background-image: url('forward.svg')
+
+    .caption
+      flex: 1 0 0
+      line-height: 1.5rem
+
+  .thumbs-row
+    width: 100%
+    max-width: $smWidth
+    margin: 2vh 0 0
+    padding: 0 .5rem
+
+    .thumb
+      height: 1.5rem
+      flex: 9 0 0
+      margin-left: .5rem
+      border: 2px solid $colorLight
+      border-radius: .5rem
+      background: $colorLight
+      position: relative
+      overflow: hidden
+      transition: flex 250ms linear
+      cursor: pointer
+
+      img
+        width: 100%
+        height: 100%
+        object-position: center center
+        object-fit: cover
+        position: absolute
+        left: 0
+        top: 0
+
+      &:first-child
+        margin-left: 0
+
+      &.selected
+        flex: 10 0 0
+        border-color: $colorAccent
+
+.modal-close
+  width: 1.5rem
+  height: 1.5rem
+  position: fixed
+  z-index: 300
+  right: .5rem
+  top: .5rem
+  background: url('close.svg') no-repeat center center / 100%
+  cursor: pointer
+
+.modal-backdrop
+  width: 100%
+  height: 100%
+  position: fixed
+  left: 0
+  top: 0
+  z-index: 100
+  background: $colorMidTrans
+  backdrop-filter: blur(32px)
+  transition: opacity 500ms linear
+  animation: fadeIn 500ms linear

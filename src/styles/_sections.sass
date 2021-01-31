@@ -1,0 +1,263 @@
+// Header section
+header
+  height: 25vh
+  padding: 5vh 0
+  overflow: hidden
+
+  .container
+    height: 100%
+    display: flex
+    flex-flow: row nowrap
+    align-items: center
+    justify-content: flex-start
+
+  .logo
+    height: 100%
+
+    svg
+      height: 100%
+      will-change: transform
+      animation: headerLogo 2s ease-out
+
+  .title
+    margin: 0 0 0 2rem
+    will-change: opacity, transform
+    animation: headerText 2s ease-out
+
+// Hero section
+section.hero
+  position: relative
+  height: 50vh
+  background: $colorBox
+  overflow: hidden
+
+  .headline
+    height: 100%
+    display: flex
+    flex-flow: column nowrap
+    justify-content: center
+    align-items: flex-start
+    position: relative
+    z-index: 1
+
+    *
+      padding: .5rem
+      background: $colorLightTrans
+      backdrop-filter: blur(32px)
+
+  .image-row
+    @extend .no-select
+    position: absolute
+    z-index: 0
+    height: 50%
+    display: flex
+    flex-flow: row nowrap
+    align-items: stretch
+
+    &.left
+      left: 0
+      top: 0
+      padding: .25rem .25rem 0
+      justify-content: flex-start
+      will-change: left
+
+      img
+        animation: heroImgLeft 2s ease-out
+
+    &.right
+      right: 0
+      bottom: 0
+      padding: 0 .25rem .25rem
+      justify-content: flex-end
+      will-change: right
+
+      img
+        animation: heroImgRight 2s ease-out
+
+  .image-box
+    position: relative
+    height: 100%
+    flex: 0 0 0
+    padding: .25rem
+
+    img
+      width: auto
+      height: 100%
+      background: $colorShadow
+      box-shadow: 0 0 .2rem 0 $colorShadow
+      will-change: opacity, transform
+
+    &::after
+      @extend .image-glass
+
+// Intro section
+section.intro
+  display: flex
+  flex-flow: row nowrap
+  justify-content: center
+  align-items: center
+  min-height: 100vh
+  padding: 25vh 0
+  overflow: hidden
+
+  .container
+    max-width: $lgWidth
+
+  .picture
+    @extend .no-select
+    position: relative
+    float: right
+    overflow: hidden
+    width: 30vw
+    height: 30vw
+    max-width: 12em
+    max-height: 12em
+    margin: 0 0 1rem 2rem
+    border-radius: 50%
+
+    img
+      position: absolute
+      left: 0
+      top: 0
+      width: 100%
+      height: 100%
+      object-fit: cover
+      object-position: center
+      transition: transform .5s ease
+
+    &::after
+      @extend .image-glass
+
+    &:hover
+      img
+        transform: rotate(-180deg)
+
+    @media (min-width: $lgWidth)
+      margin-left: 2.5rem
+
+// Project gallery section
+section.gallery
+
+  .title
+    max-width: $lgWidth
+    margin: 0 auto
+    padding: 0 1rem
+
+  .project
+    max-width: $lgWidth
+    margin: 0 auto 15vh
+
+    .info
+      margin: 0 0 .5rem
+      padding: 0 1rem
+
+      .name
+        margin: 1rem 0
+
+    .link-out > a
+      color: $colorAccent
+
+      > span
+        text-decoration: underline
+
+      &::after
+        content: ' \00bb'
+
+    .images
+      @extend .no-select
+      display: flex
+      flex-flow: row wrap
+      align-items: flex-start
+      justify-content: flex-start
+      padding: .25rem
+
+    .image-box
+      position: relative
+      flex: 1 1 100%
+      padding: .25rem
+      cursor: pointer
+
+      img
+        max-width: 100%
+        max-height: 100%
+        object-fit: contain
+        object-position: center center
+        background: $colorShadow
+        box-shadow: 0 0 .4rem 0 $colorShadow
+
+      &::after
+        @extend .image-glass
+
+      &.tall
+        flex: 1 1 50%
+
+    @media (min-width: $mdWidth)
+      display: flex
+      flex-flow: row nowrap
+      justify-content: space-around
+      align-items: flex-start
+
+      .info
+        margin: 0
+        flex: 4 0 0
+        position: sticky
+        top: 0
+
+      .images
+        flex: 10 0 0
+        padding: .5rem
+
+      .image-box
+        padding: .5rem
+
+    @media (min-width: $lgWidth)
+      .info
+        top: 5vh
+
+// Message form
+form[name='ask']
+  max-width: $smWidth
+  margin: 0 auto
+
+  &, > *
+    text-align: center
+
+  input[type='email'], textarea
+    width: 100%
+    display: block
+    border: none
+    color: $colorDark
+    background-color: $colorLight
+
+  input[type='email']:focus, textarea:focus
+    background-color: $colorBox
+
+  input[type='email']
+    padding: .5rem 0
+
+  textarea
+    border-top: 2px solid $colorBox
+    padding: .5rem 0
+    resize: none
+
+  button
+    margin: .5rem 0
+
+  .status
+    height: 0
+
+// Footer section
+footer
+  margin: 25vh 0 0
+  padding: 0 0 5vh
+
+  .to-top
+    margin: 10vh 0
+    text-align: center
+
+  .copyright
+    margin: 10vh 0 0
+    font-size: 0.75rem
+    font-weight: 300
+    text-align: center
+    color: $colorMid
