@@ -134,17 +134,11 @@ function images() {
     .pipe(gulp.dest('public'));
 }
 
-// Copy favicon
-function fav() {
-  return gulp.src('assets/icons/fav/*.ico')
-    .pipe(gulp.dest('public'));
-}
-
 exports.default = gulp.series(
   sqlData,
   clean,
   gulp.parallel(
-    pages, styles, scripts, php, images, fav
+    pages, styles, scripts, php, images
   )
 );
 
