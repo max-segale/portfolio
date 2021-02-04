@@ -120,16 +120,24 @@ function scripts() {
 }
 
 // Copy actions and handlers
-function php() {
+function actions() {
   return gulp.src('src/actions/*.php')
     .pipe(gulp.dest('public'));
 }
 
-// Copy images
-function images() {
+// Copy image assets
+function assets() {
   return gulp.src([
-      'src/assets/images/*',
-      'src/assets/icons/*'
+      'src/assets/icons/*',
+      'src/assets/images/*'
+    ])
+    .pipe(gulp.dest('public'));
+}
+
+// Copy apache files
+function apache() {
+  return gulp.src([
+      'src/apache/.htaccess'
     ])
     .pipe(gulp.dest('public'));
 }
@@ -138,7 +146,7 @@ exports.default = gulp.series(
   sqlData,
   clean,
   gulp.parallel(
-    pages, styles, scripts, php, images
+    pages, styles, scripts, actions, assets, apache
   )
 );
 
@@ -146,4 +154,3 @@ exports.default = gulp.series(
 gulp.watch('src/**/*.pug', pages);
 gulp.watch('src/**/*.sass', styles);
 gulp.watch('src/**/*.js', scripts);
-gulp.watch('src/**/*.php', php);

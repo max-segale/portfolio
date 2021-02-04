@@ -16,9 +16,11 @@ html(lang='en')
     meta(name='author' content=myName)
     meta(name='copyright' content=myName)
     meta(name='viewport' content='width=device-width, initial-scale=1')
-    meta(name='apple-mobile-web-app-capable' content='yes')
-    meta(http-equiv='X-UA-Compatible' content='IE=edge')
     title #{siteTitle}
+    link(rel='apple-touch-icon' sizes='180x180' href='apple-touch-icon.png')
+    link(rel='icon' type='image/png' sizes='32x32' href='favicon-32x32.png')
+    link(rel='icon' type='image/png' sizes='16x16' href='favicon-16x16.png')
+    link(rel='mask-icon' href='max-segale-logo.svg' color='#0a84ff')
     link(rel='stylesheet' type='text/css' href='style.css')
     script(type='text/javascript' src='main.js')
 
@@ -26,9 +28,7 @@ html(lang='en')
     header#top
       .container
         .logo
-          svg(xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192' role='img' aria-label='Max Segale logo')
-            path(d='M96,0a96,96,0,1,0,96,96A96,96,0,0,0,96,0Zm0,174a78,78,0,1,1,78-78A78.09,78.09,0,0,1,96,174Z')
-            polygon(points='96.73 85.99 76.04 48.87 48 48.87 48 143.13 68.16 143.13 67.23 69.43 90.33 111.36 101.81 111.36 124.77 69.7 123.7 143.13 144 143.13 144 48.87 117.43 48.87 96.73 85.99')
+          img(src='max-segale-logo.svg' alt='Max Segale logo')
         h1.heading-2.title Portfolio
 
     section.hero
