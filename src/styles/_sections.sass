@@ -227,29 +227,36 @@ form[name='ask']
   max-width: $smWidth
   margin: 0 auto
 
-  &, > *
+  &, *
     text-align: center
+
+  label
+    display: block
+
+    .text
+      position: absolute
+      left: -100vw
 
   input[type='email'], textarea
     width: 100%
     display: block
     border: none
+    padding: .5rem 0
     color: $colorDark
     background-color: $colorLight
 
-  input[type='email']:focus, textarea:focus
-    background-color: $colorBox
-
-  input[type='email']
-    padding: .5rem 0
+    &:focus
+      background-color: $colorBox
 
   textarea
-    border-top: 2px solid $colorBox
-    padding: .5rem 0
     resize: none
 
+  hr
+    border: 0
+    border-top: 2px solid $colorBox
+
   button
-    margin: .5rem 0
+    margin: 1rem 0
 
   .status
     height: 0

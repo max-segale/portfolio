@@ -70,8 +70,13 @@ html(lang='en')
           p
             span Any questions? Please ask.
             span.emoji(role='img' aria-label='Message icon') &#x1F4AC;
-          input(type='email' name='email' placeholder='Your Email Address' maxlength='254' required)
-          textarea(name='question' placeholder='Your Question' maxlength='1000' rows='1' required)
+          label
+            .text Your Email Address
+            input(type='email' name='email' placeholder='Your Email Address' maxlength='254' required)
+          hr
+          label
+            .text Your Question
+            textarea(name='question' placeholder='Your Question' maxlength='1000' rows='1' required)
           button(type='submit' name='send') Send
           .status#msg-status
         .to-top
