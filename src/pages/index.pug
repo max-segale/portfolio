@@ -19,7 +19,7 @@ html(lang='en')
     title #{siteTitle}
     link(rel='icon' type='image/svg+xml' sizes='any' href='favicon.svg')
     link(rel='stylesheet' type='text/css' href='style.css')
-    script(type='text/javascript' src='main.js')
+    script(src='main.js')
 
   body
     header#top
@@ -71,11 +71,11 @@ html(lang='en')
             span Any questions? Please ask.
             span.emoji(role='img' aria-label='Message icon') &#x1F4AC;
           label
-            .text Your Email Address
+            span Your Email Address
             input(type='email' name='email' placeholder='Your Email Address' maxlength='254' required)
           hr
           label
-            .text Your Question
+            span Your Question
             textarea(name='question' placeholder='Your Question' maxlength='1000' rows='1' required)
           button(type='submit' name='send') Send
           .status#msg-status
