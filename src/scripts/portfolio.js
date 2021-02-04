@@ -110,7 +110,9 @@
   function newImg(imgParent, imgObj) {
     return max.newKid(imgParent, 'img', {
       src: imgObj.file,
-      alt: imgObj.caption
+      alt: imgObj.caption,
+      width: imgObj.width,
+      height: imgObj.height
     });
   }
 
