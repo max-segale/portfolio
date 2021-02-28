@@ -1,6 +1,8 @@
 - 
   const myName = 'Max Segale';
   const myEmail = 'info@maxsegale.com';
+  const siteURL = 'https://maxsegale.com';
+  const siteImage = `${siteURL}/instorama-3.png`;
   const siteTitle = `${myName} | Portfolio`;
   const siteDesc = `A collection of personal projects from ${myName}, web developer and designer.`;
   const heroMedia = locals.hero.media;
@@ -13,6 +15,13 @@ html(lang='en')
   head
     meta(charset='UTF-8')
     meta(name='description' content=siteDesc)
+    meta(property='og:title' content=siteTitle)
+    meta(property='og:description' content=siteDesc)
+    meta(property='og:image' content=siteImage)
+    meta(property='og:url' content=siteURL)
+    meta(property='og:site_name' content=siteTitle)
+    meta(name='twitter:card' content='summary_large_image')
+    meta(name='twitter:image:alt' content=siteTitle)
     meta(name='author' content=myName)
     meta(name='copyright' content=myName)
     meta(name='viewport' content='width=device-width, initial-scale=1')
