@@ -22,8 +22,8 @@
   },
   "homepage": "https://github.com/max-segale/portfolio#readme",
   "devDependencies": {
-    "@babel/core": "^7.12.10",
-    "@babel/preset-env": "^7.12.11",
+    "@babel/core": "^7.13.8",
+    "@babel/preset-env": "^7.13.8",
     "autoprefixer": "^9.8.6",
     "del": "^5.1.0",
     "gulp": "^4.0.2",
@@ -34,9 +34,9 @@
     "gulp-pug": "^4.0.1",
     "gulp-rename": "^1.4.0",
     "gulp-sass": "^4.1.0",
-    "image-size": "^0.9.3",
+    "image-size": "^0.9.4",
     "mysql": "^2.18.1",
-    "sass": "^1.32.2"
+    "sass": "^1.32.8"
   },
   "browserslist": [
     "defaults"
