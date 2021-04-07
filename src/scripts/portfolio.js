@@ -129,7 +129,7 @@
 
   // Add thumbnail to project modal
   function viewThumb(imgObj, imgNum) {
-    const thumbBox = max.newKid(project.thumbsBox, 'div', 'thumb');
+    const thumbBox = max.newKid(project.thumbsBox, 'button', 'thumb');
     const thumb = newImg(thumbBox, imgObj);
     thumbBox.title = imgObj.caption;
     thumbBox.addEventListener('click', (event) => {
@@ -145,7 +145,7 @@
       multiImg = false;
     }
     // Add X close button
-    project.closeBtn = max.newKid(document.body, 'div', 'modal-close');
+    project.closeBtn = max.newKid(document.body, 'button', 'modal-close');
     project.closeBtn.addEventListener('click', closeView);
     // Add project view
     project.box = max.newKid(document.body, 'div', 'modal-project', [
@@ -168,12 +168,12 @@
     // Add navigation controls
     project.navBox = max.newKid(project.box, 'div', 'ctrl-row');
     if (multiImg) {
-      project.prevBtn = max.newKid(project.navBox, 'div', 'prev');
+      project.prevBtn = max.newKid(project.navBox, 'button', 'prev');
       project.prevBtn.addEventListener('click', prevImg);
     }
     project.caption = max.newKid(project.navBox, 'div', 'caption', imgObj.caption);
     if (multiImg) {
-      project.nextBtn = max.newKid(project.navBox, 'div', 'next');
+      project.nextBtn = max.newKid(project.navBox, 'button', 'next');
       project.nextBtn.addEventListener('click', nextImg);
     }
     // Add thumbnails
@@ -217,9 +217,17 @@
         ]]
       ]);
     }
+    // Add link to source code, if available
+    if (pObj.source) {
+      max.newKid(infoBox, 'p', 'link-out', [
+        ['a', {href: pObj.source, target: '_blank', rel: 'noopener'}, [
+          ['span', false, 'View source code']
+        ]]
+      ]);
+    }
     // Add project images
     pObj.images.forEach((imgObj, imgNum) => {
-      const imgBox = max.newKid(pImages, 'div', 'image-box');
+      const imgBox = max.newKid(pImages, 'button', 'image-box');
       const img = newImg(imgBox, imgObj);
       const imgRatio = imgObj.width / imgObj.height;
       // Check image aspect ratio
