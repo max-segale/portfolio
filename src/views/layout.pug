@@ -34,45 +34,11 @@ html(lang='en')
   body
     header#top
       .container
-        .logo
+        a.logo(href='/')
           img(src='max-segale-logo.svg' alt='Max Segale logo' width='1' height='1')
         h1.heading-2.title Portfolio
 
-    section.hero
-      .container.headline
-        h2.heading-1 Hello, my name is Max
-        h3.heading-2 I am a front-end web developer and designer
-      +mediaRow('hero-images-1', 'left', heroMedia[0])
-      +mediaRow('hero-images-2', 'right', heroMedia[1])
-
-    section.intro
-      .container
-        h3.heading-2 About
-        .picture(title='Hello, World!')
-          img(src='me.jpg' alt='A photo of me')
-        p
-          span I specialize in front-end web development and UI/UX design.
-          span I have also worked as a full-stack web application engineer and as a graphic designer.
-        p
-          span This portfolio is only a collection of my personal projects from over the years.
-          span It does not include any of the recent work I have been doing for agencies, or my previous role developing web-based publishing software.
-          span More exciting projects are in development, so stay tuned!
-        p
-          span I built this site with Node, npm, Gulp, HTML5/Pug, CSS3/Sass, JavaScript, MySQL, and PHP.
-        p
-          a(href='https://github.com/max-segale/portfolio/tree/master' target='_blank' rel='noopener')
-            span View Source Code
-            span.emoji(role='img' aria-label='Source icon') &#x1F6E0;
-        p
-          span Please contact me if you would like to learn more about me or my work. I am always interested in new projects and job opportunities.
-        p
-          a(href='mailto:' + myEmail)
-            span #{myEmail}
-            span.emoji(role='img' aria-label='Email icon') &#x1F4E8;
-
-    section.gallery
-      h3.heading-2.title Projects
-      #gallery
+    block content
 
     footer
       .container

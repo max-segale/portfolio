@@ -71,8 +71,8 @@ function clean() {
 }
 
 // Create HTML pages from Pug, use .php ext
-function pages() {
-  return gulp.src('src/pages/index.pug')
+function views() {
+  return gulp.src('src/views/index.pug')
     .pipe(pug({
         locals: localData
       })
@@ -146,11 +146,11 @@ exports.default = gulp.series(
   sqlData,
   clean,
   gulp.parallel(
-    pages, styles, scripts, actions, assets, apache
+    views, styles, scripts, actions, assets, apache
   )
 );
 
 // Watch for file updates
-gulp.watch('src/**/*.pug', pages);
+gulp.watch('src/**/*.pug', views);
 gulp.watch('src/**/*.sass', styles);
 gulp.watch('src/**/*.js', scripts);
